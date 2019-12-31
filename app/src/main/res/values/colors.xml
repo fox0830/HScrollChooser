@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#d7542f</color>
+    <color name="colorAccent">#d7542f</color>
+    <color name="blue">#4A91FE</color>
+    <color name="green_line">#93EBED</color>
+    <color name="orange">#F5A623</color>
+    <color name="green">#61D3AD</color>
+    <color name="white">#FFFFFF</color>
+    <color name="red_bar">#e08465</color>
+    <color name="red">#d7542f</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="transparent30">#30000000</color>
+    <color name="black">#000000</color>
+    <color name="dialog_blue">#007AFF</color>
+    <color name="dialog_line">#d8d8d8</color>
+    <color name="color_66">#666666</color>
+    <color name="color_f4">#f4f4f4</color>
+    <color name="color_f2">#f2f2f2</color>
+    <color name="color_e4">#e4e4e4</color>
+    <color name="color_f6">#f6f6f6</color>
+    <color name="color_cc">#cccccc</color>
+    <color name="color_e9">#e9e9e9</color>
+    <color name="color_d8">#d8d8d8</color>
+    <color name="color_e8">#e8e8e8</color>
+    <color name="color_d2">#d2d2d2</color>
+    <color name="color_9b">#9B9B9B</color>
+    <color name="color_43">#434343</color>
+    <color name="color_4a">#4a4a4a</color>
+    <color name="color_3cf">#33CCFF</color>
+    <color name="c7c6c9">#c7c6c9</color>
+    <color name="color_gray">#918e8e</color>
+    <color name="color_fa">#fafafa</color>
+    <color name="color_bf">#bfbfbf</color>
+    <color name="color_gray_btn">#DCDBDB</color>
+</resources>

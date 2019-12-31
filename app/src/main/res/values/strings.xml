@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">adventrip</string>
+    <string name="google_maps_key" translatable="false">AIzaSyA2NxW0Etn3o8bw59BUrpBJHQ8XYLuN7nU</string>
+
+</resources>
