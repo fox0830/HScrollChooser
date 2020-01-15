@@ -4,13 +4,11 @@ import com.feibi.trade.NetWork.basic.BasicReq;
 
 import java.io.File;
 
-public class FileUploadReq extends BasicReq {
+public class FileUploadReq{
     File file;
-    String type;
 
-    public FileUploadReq(File file, String type) {
+    public FileUploadReq(File file) {
         this.file = file;
-        this.type = type;
     }
 
     public File getFile() {
@@ -21,11 +19,4 @@ public class FileUploadReq extends BasicReq {
         this.file = file;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 }

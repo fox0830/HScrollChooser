@@ -44,7 +44,7 @@ public class RequestManager {
     private final long mConnectTimeout = 10;// 秒
     private final long mReadTimeout = 10;// 秒
     private final long mWriteTimeout = 10;// 秒
-    private final long mFileUploadWriteTimeout = 50;// 秒
+    private final long mFileUploadWriteTimeout = 600;// 秒
 
     private final MediaType MEDIA_TYPE_FORM = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");//mdiatype 这个需要和服务端保持一致
     private final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");//mdiatype 这个需要和服务端保持一致

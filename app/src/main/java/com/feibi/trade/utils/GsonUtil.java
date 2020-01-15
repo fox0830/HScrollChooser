@@ -8,10 +8,9 @@ import java.lang.reflect.Type;
 import jh.app.android.basiclibrary.entity.BasicResponseBody;
 
 public class GsonUtil {
-    public static BasicResponseBody fromJson(String json, Class clazz) throws Exception {
+    public static Object fromJson(String json, Class clazz) throws Exception {
         Gson gson = new Gson();
-        Type objectType = type(BasicResponseBody.class, clazz);
-        return gson.fromJson(json, objectType);
+        return gson.fromJson(json, clazz);
     }
 
     static ParameterizedType type(final Class raw, final Type... args) {

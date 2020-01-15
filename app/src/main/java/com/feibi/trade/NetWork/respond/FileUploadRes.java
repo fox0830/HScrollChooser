@@ -1,13 +1,22 @@
 package com.feibi.trade.NetWork.respond;
 
 public class FileUploadRes {
-    String urls;
+    String status;
+    String key;
 
-    public String getUrls() {
-        return urls;
+    public String getStatus() {
+        return status;
     }
 
-    public void setUrls(String urls) {
-        this.urls = urls;
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

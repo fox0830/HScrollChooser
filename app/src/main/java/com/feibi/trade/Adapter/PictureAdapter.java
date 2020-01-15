@@ -46,6 +46,13 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 pictures.get(i).switchChoose();
+//                boolean isChoose = pictures.get(i).isChoose();
+//                for(Picture p : pictures){
+//                    p.setChoose(false);
+//                }
+//                if(!isChoose){
+//                    pictures.get(i).setChoose(true);
+//                }
                 notifyDataSetChanged();
             }
         });

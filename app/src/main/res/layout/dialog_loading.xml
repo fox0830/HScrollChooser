@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
+    android:background="@drawable/dialog_bg"
     tools:ignore="MissingDefaultResource">
-
 
     <ProgressBar
         android:id="@+id/progressBar2"
@@ -17,7 +17,8 @@
         android:layout_height="wrap_content" />
     <TextView
         android:id="@+id/tv_wait_tip"
-        android:layout_width="wrap_content"
+        android:text="loading..."
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:gravity="center"/>

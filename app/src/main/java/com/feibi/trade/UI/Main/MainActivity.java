@@ -13,35 +13,58 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.feibi.trade.NetWork.module.NetWork;
+import com.feibi.trade.NetWork.respond.AddTradeRes;
+import com.feibi.trade.NetWork.respond.FileUploadRes;
+import com.feibi.trade.NetWork.respond.GetTradeRes;
 import com.feibi.trade.R;
 import com.feibi.trade.UI.Basic.BasicActivity;
 import com.feibi.trade.UI.View.MyDialog;
+import com.feibi.trade.utils.Global;
 import com.feibi.trade.utils.ImageUtils;
 import com.feibi.trade.utils.LocationUtil;
+import com.feibi.trade.utils.PreferencesUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
+import com.google.android.gms.maps.StreetViewPanorama;
+import com.google.android.gms.maps.StreetViewPanoramaFragment;
+import com.google.android.gms.maps.StreetViewPanoramaOptions;
+import com.google.android.gms.maps.StreetViewPanoramaView;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
+import com.google.android.gms.maps.model.StreetViewPanoramaLink;
+import com.google.android.gms.maps.model.StreetViewPanoramaLocation;
+import com.google.android.gms.maps.model.StreetViewPanoramaOrientation;
+import com.google.android.gms.maps.model.StreetViewSource;
+import com.google.gson.Gson;
 
+import jh.app.android.basiclibrary.entity.BasicResponseBody;
+import jh.app.android.basiclibrary.network.ReqCallBack;
 import jh.app.android.basiclibrary.utils.PermissionsGetter;
+
+import static jh.app.android.basiclibrary.utils.ObjUtils.jsonToObject;
 
 public class MainActivity extends BasicActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        GoogleMap.OnMarkerClickListener, LocationListener {
+        GoogleMap.OnMarkerClickListener, LocationListener,OnStreetViewPanoramaReadyCallback {
 
 
     private GoogleMap mMap;
@@ -50,6 +73,8 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
     private TextView tv_title;
     private ImageView iv_add, iv_upload, iv_head, iv_360;
     private LinearLayout ll_360, ll_album, ll_bar;
+
+    boolean hasTripe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +96,6 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
         if (mGoogleApiClient == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -79,7 +103,24 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
                     .addApi(LocationServices.API)
                     .build();
         }
+        String tripInfo = PreferencesUtil.getTripInfo(this);
+        Global.TripInfo = jsonToObject(tripInfo, AddTradeRes.class);
+
+//        StreetViewPanoramaView streetViewPanoramaView = findViewById(R.id.svpv);
+//        streetViewPanoramaView.getStreetViewPanoramaAsync(this);
+
+//        StreetViewPanoramaFragment streetViewPanoramaFragment =(StreetViewPanoramaFragment) getFragmentManager().findFragmentById(R.id.map);
+//        streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
+//        StreetViewPanoramaOptions options = new StreetViewPanoramaOptions();
+//        LatLng latLng = new LatLng(24,121);
+//        options.position(latLng);
+////        options.panoramaId("1232435465768");
+////        String panoId =  options.getPanoramaId();
+//        StreetViewPanoramaView streetViewPanoramaView = new StreetViewPanoramaView(this,options);
+//        streetViewPanoramaView.getStreetViewPanoramaAsync(this);
     }
+
+
 
     @Override
     protected void onStart() {
@@ -98,6 +139,7 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
     @Override
     protected void onResume() {
         super.onResume();
+        changeUI();
     }
 
     @Override
@@ -178,23 +220,73 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_add:
-                new MyDialog(this).builder().setIcon(getDrawable(R.mipmap.danger)).setTitle("确认").setMsg("确认去是")
+                new MyDialog(this).builder().setIcon(getDrawable(R.mipmap.danger)).setTitle("確認").setMsg("重啓新旅程")
                         .setDoneButton(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
+                                addTrade();
                             }
                         })
                         .show();
                 break;
             case R.id.iv_upload:
+                if(hasTripe){
+                    Intent textIntent = new Intent(Intent.ACTION_SEND);
+                    textIntent.setType("text/plain");
+                    textIntent.putExtra(Intent.EXTRA_TEXT, Global.TripInfo.getUrl());
+                    startActivity(Intent.createChooser(textIntent, "分享"));
+                }
                 break;
             case R.id.ll_360:
+                if(!hasTripe){
+                    return;
+                }
+                startActivity(new Intent(this, Trade360Activity.class));
                 break;
             case R.id.ll_album:
-                startActivity(new Intent(this,ChoosePictureActivity.class));
+                if(!hasTripe){
+                    return;
+                }
+                startActivity(new Intent(this, ChoosePictureActivity.class));
                 break;
         }
+    }
+
+    private void changeUI(){
+        hasTripe = !(Global.TripInfo == null || TextUtils.isEmpty(Global.TripInfo.getId()) || TextUtils.isEmpty(Global.TripInfo.getToken()));
+        if(hasTripe){
+            ll_bar.setAlpha(1);
+            new NetWork(this).getTrade("trip/" + Global.TripInfo.getId() + "/detail", new ReqCallBack<GetTradeRes>() {
+                @Override
+                public void onReqSuccess(GetTradeRes result) {
+                        Global.GetTripInfo = result;
+                }
+
+                @Override
+                public void onReqFailed(Object result) {
+
+                }
+            });
+        }else {
+            ll_bar.setAlpha((float) 0.5);
+        }
+    }
+
+    private void addTrade() {
+        new NetWork(this).addTrade("trip/create/mc/05671f63-088d-489e-8c63-6f536d4a110d?qrcode=false", new ReqCallBack<AddTradeRes>() {
+            @Override
+            public void onReqSuccess(AddTradeRes result) {
+                Global.TripInfo = result;
+                changeUI();
+                String jsonString = new Gson().toJson(result);
+                PreferencesUtil.saveTripInfo(MainActivity.this, jsonString);
+            }
+
+            @Override
+            public void onReqFailed(Object result) {
+
+            }
+        });
     }
 
     @Override
@@ -289,5 +381,12 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
     private void addMarkers(Location location) {
         BitmapDescriptor bitmap = BitmapDescriptorFactory.fromBitmap(ImageUtils.drawable2Bitmap(getDrawable(R.mipmap.marker)));
         mMap.addMarker(new MarkerOptions().icon(bitmap).position(new LatLng(location.getLatitude(), location.getLongitude())).title("My Location"));
+    }
+
+    @Override
+    public void onStreetViewPanoramaReady(StreetViewPanorama streetViewPanorama) {
+//        streetViewPanorama.setPosition();
+        String panoId = streetViewPanorama.getLocation().panoId;
+        showToast(panoId);
     }
 }

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.feibi.trade.R;
@@ -24,7 +25,8 @@ import jh.app.android.basiclibrary.utils.ActivityUtils;
 
 public abstract class BasicActivity extends AppCompatActivity implements View.OnClickListener {
     LoadingDialog loadingDialog;
-
+    TextView tv_wait_tip;
+    String tips="";
     @Subscribe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +143,7 @@ public abstract class BasicActivity extends AppCompatActivity implements View.On
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_loading, null);
         loadingDialog = new LoadingDialog(this, view);
         loadingDialog.setCancelable(false);
+        tv_wait_tip = view.findViewById(R.id.tv_wait_tip);
     }
     protected void showLoading(){
         showLoading("Loading...");
@@ -152,6 +155,7 @@ public abstract class BasicActivity extends AppCompatActivity implements View.On
             public void run() {
                 if(loadingDialog!=null){
                     loadingDialog.setWaitText(text);
+                    tips = "";
                     loadingDialog.show();
                 }
             }
@@ -164,6 +168,28 @@ public abstract class BasicActivity extends AppCompatActivity implements View.On
             public void run() {
                 if(loadingDialog!=null){
                     loadingDialog.dismiss();
+                }
+            }
+        });
+    }
+
+    protected void setLoadingTxt(String txt){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(loadingDialog!=null){
+                    tv_wait_tip.setText(txt);
+                }
+            }
+        });
+    }
+    protected void appendLoadingTxt(String txt){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(loadingDialog!=null){
+                    tips+=txt;
+                    tv_wait_tip.setText(tips);
                 }
             }
         });

@@ -71,7 +71,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.Main.ChoosePictureActivity"
-            android:launchMode="singleTop"></activity>
+        <activity
+            android:name=".UI.Main.ChoosePictureActivity"
+            android:launchMode="singleTop" />
+        <activity android:name=".UI.Main.Trade360Activity"></activity>
     </application>
+
 </manifest>

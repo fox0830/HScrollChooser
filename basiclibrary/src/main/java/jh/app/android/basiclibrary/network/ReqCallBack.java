@@ -16,5 +16,5 @@ public interface ReqCallBack<T> {
     /**
      * 响应失败
      */
-    void onReqFailed(BasicResponseBody result);
+    void onReqFailed(Object result);
 }
