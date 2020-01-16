@@ -29,6 +29,12 @@ public class BasicModule {
         requestManager.requestAsyn(DO_MAIN + url, RequestManager.TYPE_GET, paramsMap, getHeaderMap(context), getReqCallBack(reqCallBack, entityClass));
     }
 
+    public <T> void delete(Context context, String url, BasicReq req, final ReqCallBack<T> reqCallBack, final Class<T> entityClass) {
+        RequestManager requestManager = RequestManager.getInstance(context);
+        HashMap<String, Object> paramsMap = ObjUtils.jsonToMap(new Gson().toJson(req));
+        requestManager.requestAsyn(DO_MAIN + url, RequestManager.TYPE_DELETE, paramsMap, getHeaderMap(context), getReqCallBack(reqCallBack, entityClass));
+    }
+
     public <T> void post(Context context, String url, BasicReq req, final ReqCallBack<T> reqCallBack, final Class<T> entityClass) {
         RequestManager requestManager = RequestManager.getInstance(context);
         HashMap<String, Object> paramsMap = ObjUtils.jsonToMap(new Gson().toJson(req));

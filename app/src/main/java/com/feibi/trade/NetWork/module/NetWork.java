@@ -29,6 +29,9 @@ public class NetWork extends BasicModule {
     public void getTrade(String url, final ReqCallBack<GetTradeRes> reqCallBack) {
         get(mContext, url,  new BasicReq(), reqCallBack, GetTradeRes.class);
     }
+    public void delSpot(String url, final ReqCallBack<UploadInfoRes> reqCallBack) {
+        delete(mContext, url,  new BasicReq(), reqCallBack, UploadInfoRes.class);
+    }
     public void uploadInfo(String url, UploadTradeReq req , final ReqCallBack<UploadInfoRes> reqCallBack) {
         postJsonObj(mContext, url, req, reqCallBack, UploadInfoRes.class);
     }

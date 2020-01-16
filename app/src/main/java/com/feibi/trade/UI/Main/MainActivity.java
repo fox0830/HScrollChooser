@@ -21,9 +21,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.feibi.trade.NetWork.module.NetWork;
 import com.feibi.trade.NetWork.respond.AddTradeRes;
-import com.feibi.trade.NetWork.respond.FileUploadRes;
 import com.feibi.trade.NetWork.respond.GetTradeRes;
 import com.feibi.trade.R;
 import com.feibi.trade.UI.Basic.BasicActivity;
@@ -40,23 +40,14 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
 import com.google.android.gms.maps.StreetViewPanorama;
-import com.google.android.gms.maps.StreetViewPanoramaFragment;
-import com.google.android.gms.maps.StreetViewPanoramaOptions;
-import com.google.android.gms.maps.StreetViewPanoramaView;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
-import com.google.android.gms.maps.model.StreetViewPanoramaLink;
-import com.google.android.gms.maps.model.StreetViewPanoramaLocation;
-import com.google.android.gms.maps.model.StreetViewPanoramaOrientation;
-import com.google.android.gms.maps.model.StreetViewSource;
 import com.google.gson.Gson;
 
-import jh.app.android.basiclibrary.entity.BasicResponseBody;
 import jh.app.android.basiclibrary.network.ReqCallBack;
 import jh.app.android.basiclibrary.utils.PermissionsGetter;
 
@@ -64,7 +55,7 @@ import static jh.app.android.basiclibrary.utils.ObjUtils.jsonToObject;
 
 public class MainActivity extends BasicActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        GoogleMap.OnMarkerClickListener, LocationListener,OnStreetViewPanoramaReadyCallback {
+        GoogleMap.OnMarkerClickListener, LocationListener, OnStreetViewPanoramaReadyCallback {
 
 
     private GoogleMap mMap;
@@ -74,7 +65,8 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
     private ImageView iv_add, iv_upload, iv_head, iv_360;
     private LinearLayout ll_360, ll_album, ll_bar;
 
-    boolean hasTripe;
+    boolean hasTripe = false;
+    boolean hasSpot = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +100,6 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
 
 //        StreetViewPanoramaView streetViewPanoramaView = findViewById(R.id.svpv);
 //        streetViewPanoramaView.getStreetViewPanoramaAsync(this);
-
 //        StreetViewPanoramaFragment streetViewPanoramaFragment =(StreetViewPanoramaFragment) getFragmentManager().findFragmentById(R.id.map);
 //        streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
 //        StreetViewPanoramaOptions options = new StreetViewPanoramaOptions();
@@ -118,8 +109,8 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
 ////        String panoId =  options.getPanoramaId();
 //        StreetViewPanoramaView streetViewPanoramaView = new StreetViewPanoramaView(this,options);
 //        streetViewPanoramaView.getStreetViewPanoramaAsync(this);
-    }
 
+    }
 
 
     @Override
@@ -139,6 +130,7 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
     @Override
     protected void onResume() {
         super.onResume();
+        dismissLoading();
         changeUI();
     }
 
@@ -230,7 +222,7 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
                         .show();
                 break;
             case R.id.iv_upload:
-                if(hasTripe){
+                if (hasTripe) {
                     Intent textIntent = new Intent(Intent.ACTION_SEND);
                     textIntent.setType("text/plain");
                     textIntent.putExtra(Intent.EXTRA_TEXT, Global.TripInfo.getUrl());
@@ -238,36 +230,49 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
                 }
                 break;
             case R.id.ll_360:
-                if(!hasTripe){
+                if (!hasTripe||!hasSpot) {
                     return;
                 }
                 startActivity(new Intent(this, Trade360Activity.class));
                 break;
             case R.id.ll_album:
-                if(!hasTripe){
+                if (!hasTripe) {
                     return;
                 }
+                showLoading();
                 startActivity(new Intent(this, ChoosePictureActivity.class));
                 break;
         }
     }
 
-    private void changeUI(){
+    private void changeUI() {
         hasTripe = !(Global.TripInfo == null || TextUtils.isEmpty(Global.TripInfo.getId()) || TextUtils.isEmpty(Global.TripInfo.getToken()));
-        if(hasTripe){
+        if (hasTripe) {
             ll_bar.setAlpha(1);
             new NetWork(this).getTrade("trip/" + Global.TripInfo.getId() + "/detail", new ReqCallBack<GetTradeRes>() {
                 @Override
                 public void onReqSuccess(GetTradeRes result) {
-                        Global.GetTripInfo = result;
+                    Global.GetTripInfo = result;
+                    if(Global.GetTripInfo.getSpots().size()>0){
+                        ll_360.setBackground(getDrawable(R.drawable.oval_red));
+                        iv_360.setImageDrawable(getDrawable(R.mipmap.degrees_360_red));
+                        hasSpot = true;
+//                        String headUrl = Global.GetTripInfo.getTheme().getHeadericon();
+//                        Glide.with(MainActivity.this).load(headUrl).into(iv_head);
+                    }else {
+                        ll_360.setBackground(getDrawable(R.drawable.oval_gray));
+                        iv_360.setImageDrawable(getDrawable(R.mipmap.degrees_360));
+                        hasSpot = false;
+                        Glide.with(MainActivity.this).load(R.mipmap.logo_allsetwhite).into(iv_head);
+                    }
                 }
 
                 @Override
                 public void onReqFailed(Object result) {
-
+                    showToast("error");
                 }
             });
-        }else {
+        } else {
             ll_bar.setAlpha((float) 0.5);
         }
     }
@@ -284,7 +289,7 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
 
             @Override
             public void onReqFailed(Object result) {
-
+                showToast("error");
             }
         });
     }

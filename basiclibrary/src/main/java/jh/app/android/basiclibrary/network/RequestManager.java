@@ -56,6 +56,7 @@ public class RequestManager {
     public static final int TYPE_POST_JSON = 1;//post请求参数为json
     public static final int TYPE_POST_FORM = 2;//post请求参数为表单
     public static final int TYPE_POST_JSON_OBJ = 3;//post请求参数为json
+    public static final int TYPE_DELETE = 4;//post请求参数为json
 
     private static volatile RequestManager mInstance;//单例引用
     private OkHttpClient mOkHttpClient;//okHttpClient 实例
@@ -272,6 +273,9 @@ public class RequestManager {
             case TYPE_POST_JSON_OBJ:
                 call = requestPostByAsynWithJson(actionUrl, paramsMap, headerMap, callBack);
                 break;
+            case TYPE_DELETE:
+                call = requestDeleteByAsyn(actionUrl, paramsMap, headerMap, callBack);
+                break;
         }
         return call;
     }
@@ -423,6 +427,54 @@ public class RequestManager {
             }
             final Request request = builder1.build();
 
+            final Call call = mOkHttpClient.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    failedCallBack(BasicBodyParse(FailureMsg), callBack);
+//                    Log.e(TAG, e.toString());
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if (response.isSuccessful()) {
+                        String string = response.body().string();
+//                        Log.e(TAG, "response ----->" + string);
+                        successCallBack((T) string, callBack);
+                    } else {
+                        failedCallBack(BasicBodyParse(ResponseMsg), callBack);
+                    }
+                }
+            });
+            return call;
+        } catch (Exception e) {
+            e.printStackTrace();
+            failedCallBack(BasicBodyParse(e.toString()), callBack);
+//            Log.e(TAG, e.toString());
+        }
+        return null;
+    }
+
+    /**
+     * okHttp delete
+     *
+     * @param actionUrl 接口地址
+     * @param paramsMap 请求参数
+     * @param callBack  请求返回数据回调
+     * @param <T>       数据泛型
+     * @return
+     */
+    private <T> Call requestDeleteByAsyn(String actionUrl, HashMap<String, Object> paramsMap, HashMap<String, Object> headerMap, final ReqCallBack<T> callBack) {
+        try {
+            RequestBody formBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), new Gson().toJson(paramsMap));
+            String requestUrl = String.format("%s", actionUrl);
+            Request.Builder builder1 = addHeaders().url(requestUrl).delete(formBody);
+            if (headerMap != null) {
+                for (String hKey : headerMap.keySet()) {
+                    builder1.addHeader(hKey, headerMap.get(hKey).toString());
+                }
+            }
+            final Request request = builder1.build();
             final Call call = mOkHttpClient.newCall(request);
             call.enqueue(new Callback() {
                 @Override

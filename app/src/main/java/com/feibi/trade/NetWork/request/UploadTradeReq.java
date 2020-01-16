@@ -54,7 +54,11 @@ public class UploadTradeReq extends BasicReq {
     public void setSpots(List<Spot> spots) {
         Spots = spots;
     }
+
     public void addSpot(Spot spot) {
         Spots.add(spot);
+    }
+    public void addSpots(List<Spot> spots) {
+        Spots.addAll(spots);
     }
 }
