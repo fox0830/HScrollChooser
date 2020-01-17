@@ -33,4 +33,5 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/done_white" />
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

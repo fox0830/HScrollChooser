@@ -1,6 +1,7 @@
 package com.feibi.trade.UI.Main;
 
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -21,6 +22,7 @@ import com.feibi.trade.NetWork.respond.UploadInfoRes;
 import com.feibi.trade.R;
 import com.feibi.trade.UI.Basic.BasicActivity;
 import com.feibi.trade.utils.Global;
+import com.feibi.trade.utils.PreferencesUtil;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -29,6 +31,7 @@ import java.util.Collections;
 import java.util.UUID;
 
 import jh.app.android.basiclibrary.network.ReqCallBack;
+
 
 public class ChoosePictureActivity extends BasicActivity {
 
@@ -72,7 +75,7 @@ public class ChoosePictureActivity extends BasicActivity {
             public void run() {
                 getPhotoLocation();
                 Collections.reverse(pictures); //倒序
-                adapter = new PictureAdapter(ChoosePictureActivity.this, pictures);
+                adapter = new PictureAdapter(ChoosePictureActivity.this, pictures,Global.hasUpload.getHasUploadPic());
                 rv_pictures.setAdapter(adapter);
             }
         });
@@ -89,7 +92,7 @@ public class ChoosePictureActivity extends BasicActivity {
                 selectPictures.addAll(adapter.getChoosePictures());
                 showLoading();
                 req = new UploadTradeReq();
-                req.addSpots(Global.GetTripInfo.getSpots());
+                req.addSpots(Global.GetTripInfo.getReqSpots());
                 uploadPic(0);
 //                try {
 //                    int picNum = pictures.size();
@@ -142,6 +145,8 @@ public class ChoosePictureActivity extends BasicActivity {
         if (index >= selectPictures.size()) {
             if (index > 0) {
                 uploadInfo();
+                String jsonString = new Gson().toJson(Global.hasUpload);
+                PreferencesUtil.saveUploadPicInfo(ChoosePictureActivity.this, jsonString);
             }else {
                 dismissLoading();
             }
@@ -171,6 +176,7 @@ public class ChoosePictureActivity extends BasicActivity {
                 spot.setId(id);
 //                spot.setPano();
                 req.addSpot(spot);
+                Global.hasUpload.add(selectPictures.get(index));
                 uploadPic(index + 1);
             }
 
@@ -194,7 +200,7 @@ public class ChoosePictureActivity extends BasicActivity {
             @Override
             public void onReqSuccess(UploadInfoRes result) {
                 dismissLoading();
-                finish();
+                startActivity(new Intent(ChoosePictureActivity.this,Trade360Activity.class));
             }
 
             @Override

@@ -2,6 +2,7 @@ package com.feibi.trade.UI.Main;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -12,11 +13,21 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -25,6 +36,8 @@ import com.bumptech.glide.Glide;
 import com.feibi.trade.NetWork.module.NetWork;
 import com.feibi.trade.NetWork.respond.AddTradeRes;
 import com.feibi.trade.NetWork.respond.GetTradeRes;
+import com.feibi.trade.NetWork.respond.Spot;
+import com.feibi.trade.NetWork.respond.UrlSpot;
 import com.feibi.trade.R;
 import com.feibi.trade.UI.Basic.BasicActivity;
 import com.feibi.trade.UI.View.MyDialog;
@@ -38,8 +51,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
-import com.google.android.gms.maps.StreetViewPanorama;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -47,7 +58,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
+import com.youth.banner.loader.ImageLoader;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jh.app.android.basiclibrary.entity.BasicResponseBody;
 import jh.app.android.basiclibrary.network.ReqCallBack;
 import jh.app.android.basiclibrary.utils.PermissionsGetter;
 
@@ -55,18 +71,23 @@ import static jh.app.android.basiclibrary.utils.ObjUtils.jsonToObject;
 
 public class MainActivity extends BasicActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        GoogleMap.OnMarkerClickListener, LocationListener, OnStreetViewPanoramaReadyCallback {
+        GoogleMap.OnMarkerClickListener, LocationListener {
 
-
+    Marker marker;
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
 
     private TextView tv_title;
-    private ImageView iv_add, iv_upload, iv_head, iv_360;
+    private ImageView iv_add, iv_upload, iv_360;
     private LinearLayout ll_360, ll_album, ll_bar;
+    ViewPager banner;
+    ImageView iv_head;
 
     boolean hasTripe = false;
     boolean hasSpot = false;
+    ImageView iv_left, iv_right;
+
+    private List<ItemFragment> mFragments = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +99,7 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
         iv_add.setOnClickListener(this);
         iv_upload = findViewById(R.id.iv_upload);
         iv_upload.setOnClickListener(this);
-        iv_head = findViewById(R.id.iv_head);
+//        iv_head = findViewById(R.id.iv_head);
         iv_360 = findViewById(R.id.iv_360);
         ll_360 = findViewById(R.id.ll_360);
         ll_360.setOnClickListener(this);
@@ -86,6 +107,11 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
         ll_album.setOnClickListener(this);
         ll_bar = findViewById(R.id.ll_bar);
 
+        iv_head = findViewById(R.id.iv_head);
+        iv_left = findViewById(R.id.iv_left);
+        iv_left.setOnClickListener(this);
+        iv_right = findViewById(R.id.iv_right);
+        iv_right.setOnClickListener(this);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         if (mGoogleApiClient == null) {
@@ -98,21 +124,52 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
         String tripInfo = PreferencesUtil.getTripInfo(this);
         Global.TripInfo = jsonToObject(tripInfo, AddTradeRes.class);
 
-//        StreetViewPanoramaView streetViewPanoramaView = findViewById(R.id.svpv);
-//        streetViewPanoramaView.getStreetViewPanoramaAsync(this);
-//        StreetViewPanoramaFragment streetViewPanoramaFragment =(StreetViewPanoramaFragment) getFragmentManager().findFragmentById(R.id.map);
-//        streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
-//        StreetViewPanoramaOptions options = new StreetViewPanoramaOptions();
-//        LatLng latLng = new LatLng(24,121);
-//        options.position(latLng);
-////        options.panoramaId("1232435465768");
-////        String panoId =  options.getPanoramaId();
-//        StreetViewPanoramaView streetViewPanoramaView = new StreetViewPanoramaView(this,options);
-//        streetViewPanoramaView.getStreetViewPanoramaAsync(this);
+        String uploadPicInfo = PreferencesUtil.getUploadPicInfo(this);
+        Global.hasUpload = jsonToObject(uploadPicInfo, Global.HasUpload.class);
+        if (Global.hasUpload == null) {
+            Global.hasUpload = new Global.HasUpload(new ArrayList<>());
+        }
 
+        banner = findViewById(R.id.banner);
+        banner.setOffscreenPageLimit(1);
+        banner.setAdapter(new ConversionFragmentAdapter(getSupportFragmentManager()));
+        banner.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+               setCurrentItem(i);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
     }
 
-
+    private void setCurrentItem(int i){
+        if (i == 0) {
+            iv_left.setAlpha((float) 0.5);
+        } else {
+            iv_left.setAlpha((float) 1);
+        }
+        if (i == mFragments.size() - 1) {
+            iv_right.setAlpha((float) 0.5);
+        } else {
+            iv_right.setAlpha((float) 1);
+        }
+        if (Global.GetTripInfo.getSpots().size() > i) {
+            if (Global.GetTripInfo.getSpots().get(i) != null && Global.GetTripInfo.getSpots().get(i).getPosition() != null) {
+                String lat = Global.GetTripInfo.getSpots().get(i).getPosition().getPictureLat();
+                String lng = Global.GetTripInfo.getSpots().get(i).getPosition().getPictureLng();
+                moveToLocation(new LatLng(Double.valueOf(lat),Double.valueOf(lng)));
+            }
+        }
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -230,7 +287,7 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
                 }
                 break;
             case R.id.ll_360:
-                if (!hasTripe||!hasSpot) {
+                if (!hasTripe || !hasSpot) {
                     return;
                 }
                 startActivity(new Intent(this, Trade360Activity.class));
@@ -241,6 +298,18 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
                 }
                 showLoading();
                 startActivity(new Intent(this, ChoosePictureActivity.class));
+                break;
+            case R.id.iv_left:
+                if (banner.getCurrentItem() == 0) {
+                    return;
+                }
+                banner.setCurrentItem(banner.getCurrentItem() - 1);
+                break;
+            case R.id.iv_right:
+                if (banner.getCurrentItem() == mFragments.size() - 1) {
+                    return;
+                }
+                banner.setCurrentItem(banner.getCurrentItem() + 1);
                 break;
         }
     }
@@ -253,18 +322,31 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
                 @Override
                 public void onReqSuccess(GetTradeRes result) {
                     Global.GetTripInfo = result;
-                    if(Global.GetTripInfo.getSpots().size()>0){
+                    if (Global.GetTripInfo.getSpots().size() > 0) {
                         ll_360.setBackground(getDrawable(R.drawable.oval_red));
                         iv_360.setImageDrawable(getDrawable(R.mipmap.degrees_360_red));
+                        banner.setVisibility(View.VISIBLE);
+                        iv_left.setVisibility(View.VISIBLE);
+                        iv_right.setVisibility(View.VISIBLE);
+                        iv_head.setVisibility(View.INVISIBLE);
                         hasSpot = true;
-//                        String headUrl = Global.GetTripInfo.getTheme().getHeadericon();
-//                        Glide.with(MainActivity.this).load(headUrl).into(iv_head);
-                    }else {
+                        mFragments.clear();
+                        for (UrlSpot spot : Global.GetTripInfo.getSpots()) {
+                            mFragments.add(ItemFragment.newInstance(spot));
+                        }
+                        if (banner.getAdapter() != null)
+                            banner.getAdapter().notifyDataSetChanged();
+                        setCurrentItem(banner.getCurrentItem());
+                    } else {
                         ll_360.setBackground(getDrawable(R.drawable.oval_gray));
                         iv_360.setImageDrawable(getDrawable(R.mipmap.degrees_360));
+                        banner.setVisibility(View.INVISIBLE);
+                        iv_left.setVisibility(View.INVISIBLE);
+                        iv_right.setVisibility(View.INVISIBLE);
+                        iv_head.setVisibility(View.VISIBLE);
                         hasSpot = false;
-                        Glide.with(MainActivity.this).load(R.mipmap.logo_allsetwhite).into(iv_head);
                     }
+
                 }
 
                 @Override
@@ -274,6 +356,7 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
             });
         } else {
             ll_bar.setAlpha((float) 0.5);
+            addTrade();
         }
     }
 
@@ -359,7 +442,6 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
                 Location myLocation = LocationUtil.getMyLocation(MainActivity.this);
                 if (myLocation != null) {
                     moveToLocation(myLocation);
-                    addMarkers(myLocation);
                 }
             }
         });
@@ -375,6 +457,7 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
     private void moveToLocation(LatLng latLng) {
         if (latLng != null) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14.0f));
+            addMarkers(latLng);
         }
     }
 
@@ -383,15 +466,73 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
      *
      * @param
      */
-    private void addMarkers(Location location) {
+    private void addMarkers(LatLng latLng) {
+        if(marker!=null)
+        marker.remove();
         BitmapDescriptor bitmap = BitmapDescriptorFactory.fromBitmap(ImageUtils.drawable2Bitmap(getDrawable(R.mipmap.marker)));
-        mMap.addMarker(new MarkerOptions().icon(bitmap).position(new LatLng(location.getLatitude(), location.getLongitude())).title("My Location"));
+        marker = mMap.addMarker(new MarkerOptions().icon(bitmap).position(latLng));
     }
 
-    @Override
-    public void onStreetViewPanoramaReady(StreetViewPanorama streetViewPanorama) {
-//        streetViewPanorama.setPosition();
-        String panoId = streetViewPanorama.getLocation().panoId;
-        showToast(panoId);
+    public class ConversionFragmentAdapter extends FragmentStatePagerAdapter {
+
+        public ConversionFragmentAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragments.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragments.size();
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
     }
+
+
+    public static class ItemFragment extends Fragment {
+        ImageView imageView;
+        UrlSpot spot;
+
+        public static ItemFragment newInstance(UrlSpot spot) {
+            Bundle args = new Bundle();
+            ItemFragment fragment = new ItemFragment();
+            fragment.setArguments(args);
+            fragment.setSpot(spot);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.fragment_img, container, false);
+            imageView = view.findViewById(R.id.imageView);
+            String url = spot.getImageUrl();
+            if (getContext() != null)
+                Glide.with(getContext()).load(url).into(imageView);
+            return view;
+        }
+
+        @Override
+        public void onCreate(@Nullable Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+        }
+
+        public void setSpot(UrlSpot spot) {
+            this.spot = spot;
+        }
+
+    }
+
+
 }

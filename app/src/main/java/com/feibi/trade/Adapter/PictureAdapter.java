@@ -18,10 +18,12 @@ import java.util.ArrayList;
 public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHolder> {
     Context context;
     ArrayList<Picture> pictures = new ArrayList<>();
+    ArrayList<Picture> hasSelectPictures = new ArrayList<>();
 
-    public PictureAdapter(Context context, ArrayList<Picture> pictures) {
+    public PictureAdapter(Context context, ArrayList<Picture> pictures, ArrayList<Picture> hasSelectPictures) {
         this.context = context;
         this.pictures = pictures;
+        this.hasSelectPictures = hasSelectPictures;
     }
 
     @NonNull
@@ -35,9 +37,18 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull PictureAdapter.ViewHolder viewHolder, final int i) {
         Glide.with(context).load(pictures.get(i).getPath()).into(viewHolder.iv_pic);
+        for(Picture p:hasSelectPictures){
+            if(p.getPath().equals(pictures.get(i).getPath())){
+                viewHolder.ll_check.setBackground(context.getDrawable(R.drawable.is_check));
+                viewHolder.iv_check.setVisibility(View.VISIBLE);
+                viewHolder.iv_check.setImageDrawable(context.getDrawable(R.mipmap.is_select));
+                return;
+            }
+        }
         if (pictures.get(i).isChoose()) {
             viewHolder.ll_check.setBackground(context.getDrawable(R.drawable.is_check));
             viewHolder.iv_check.setVisibility(View.VISIBLE);
+            viewHolder.iv_check.setImageDrawable(context.getDrawable(R.mipmap.done_white));
         } else {
             viewHolder.ll_check.setBackground(context.getDrawable(R.drawable.no_check));
             viewHolder.iv_check.setVisibility(View.INVISIBLE);

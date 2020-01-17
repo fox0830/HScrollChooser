@@ -19,6 +19,7 @@ public class Spot {
      * Time : string;
      * Title : string;
      * id : string;
+     * "ImageUrl": "https://d2cp8wxm17o8vv.cloudfront.net/Trips/aGPAUzkYC/9a5f92f5-4cf3-8047-6857-3460de062583.jpg"
      * BindingRawResourceId : string
      */
 
@@ -66,6 +67,7 @@ public class Spot {
     public MediaBean getMedia() {
         return Media;
     }
+
 
     public void setMedia(MediaBean Media) {
         this.Media = Media;

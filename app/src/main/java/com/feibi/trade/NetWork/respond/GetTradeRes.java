@@ -3,9 +3,11 @@ package com.feibi.trade.NetWork.respond;
 import com.feibi.trade.NetWork.basic.BasicReq;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GetTradeRes extends BasicReq {
+
 
     /**
      * PlanId : i_1rm35yX
@@ -32,7 +34,7 @@ public class GetTradeRes extends BasicReq {
     private ThemeBean Theme;
     private String ShareImage;
     private List<String> PanoSets;
-    private List<Spot> Spots;
+    private List<UrlSpot> Spots;
 
     public String getPlanId() {
         return PlanId;
@@ -106,15 +108,20 @@ public class GetTradeRes extends BasicReq {
         PanoSets = panoSets;
     }
 
-    public List<Spot> getSpots() {
+    public List<UrlSpot> getSpots() {
         return Spots;
     }
 
-    public void setSpots(List<Spot> spots) {
-        Spots = spots;
+    public ArrayList<Spot> getReqSpots() {
+        ArrayList<Spot> spots = new ArrayList<>();
+        for(UrlSpot spot:Spots){
+            spots.add(spot.toSpot());
+        }
+        return spots;
     }
-    public void addSpots(Spot spot) {
-        Spots.add(spot);
+
+    public void setSpots(List<UrlSpot> spots) {
+        Spots = spots;
     }
 
     public static class ThemeBean {
