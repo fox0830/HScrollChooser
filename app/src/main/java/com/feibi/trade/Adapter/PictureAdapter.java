@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.angel.view.SWImageView;
 import com.bumptech.glide.Glide;
 import com.feibi.trade.R;
 
@@ -91,8 +92,14 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
         this.pictures = pictures;
     }
 
+    public void initChoose() {
+        for(Picture p:pictures){
+            p.setChoose(false);
+        }
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView iv_pic;
+        SWImageView iv_pic;
         LinearLayout ll_check;
         ImageView iv_check;
 

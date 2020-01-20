@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#d7542f</color>
-    <color name="colorAccent">#d7542f</color>
+    <color name="colorPrimary">#e7481a</color>
+    <color name="colorAccent">#e7481a</color>
     <color name="blue">#4A91FE</color>
     <color name="green_line">#93EBED</color>
     <color name="orange">#F5A623</color>
@@ -33,4 +33,5 @@
     <color name="color_fa">#fafafa</color>
     <color name="color_bf">#bfbfbf</color>
     <color name="color_gray_btn">#DCDBDB</color>
+    <color name="color_d9">#d9d9d9</color>
 </resources>

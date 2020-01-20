@@ -5,16 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <com.angel.view.SWImageView
         android:id="@+id/iv_pic"
         android:layout_width="110dp"
         android:layout_height="110dp"
-        android:background="@color/color_e4"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/img_bg"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:type="round"
+        app:borderRadius="3dp"/>
 
     <LinearLayout
         android:id="@+id/ll_check"

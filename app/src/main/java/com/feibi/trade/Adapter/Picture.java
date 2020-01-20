@@ -27,6 +27,11 @@ public class Picture {
     public void setChoose(boolean choose) {
         isChoose = choose;
     }
+
+    public void initChoose() {
+        isChoose = false;
+    }
+
     public void switchChoose() {
         isChoose = !isChoose;
     }

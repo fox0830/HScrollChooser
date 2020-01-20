@@ -8,6 +8,7 @@ import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.feibi.trade.NetWork.module.NetWork;
@@ -32,6 +33,7 @@ public class Trade360Activity extends BasicActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trade360);
         findViewById(R.id.iv_back).setOnClickListener(this);
+        findViewById(R.id.ll_done).setOnClickListener(this);
         findViewById(R.id.iv_del).setOnClickListener(this);
         webview = findViewById(R.id.webview);
         webview.setInitialScale(100);
@@ -41,8 +43,8 @@ public class Trade360Activity extends BasicActivity {
         webSettings.setUseWideViewPort(true); //将图片调整到适合webview的大小
         webSettings.setLoadWithOverviewMode(true); // 缩放至屏幕的大小
         webSettings.setSupportZoom(false); //支持缩放，默认为true。是下面那个的前提。
-//        webSettings.setBuiltInZoomControls(false); //设置内置的缩放控件。若为false，则该WebView不可缩放
-//        webSettings.setDisplayZoomControls(false); //隐藏原生的缩放控件
+//      webSettings.setBuiltInZoomControls(false); //设置内置的缩放控件。若为false，则该WebView不可缩放
+//      webSettings.setDisplayZoomControls(false); //隐藏原生的缩放控件
         //其他细节操作
         webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE); //关闭webview中缓存
         webSettings.setSavePassword(false);
@@ -53,15 +55,14 @@ public class Trade360Activity extends BasicActivity {
 
         webSettings.setDefaultTextEncodingName("utf-8");//设置编码格式
         webview.loadUrl("http://61.222.197.34:10093/Map/trip/" + Global.TripInfo.getId());
-//        webview.loadUrl("https://www.google.com/intl/zh-CN/streetview/");
-
+//      webview.loadUrl("https://www.google.com/intl/zh-CN/streetview/");
     }
-
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_back:
+            case R.id.ll_done:
                 finish();
                 break;
             case R.id.iv_del:
@@ -85,6 +86,9 @@ public class Trade360Activity extends BasicActivity {
     }
 
     private void delSpot(int index) {
+        if(index==0){
+            return;
+        }
         int finalIndex = index-1;
         new NetWork(this).delSpot("trip/basic/" + Global.TripInfo.getId() + "/spot/" + finalIndex + "/" + Global.TripInfo.getToken(), new ReqCallBack<UploadInfoRes>() {
                     @Override

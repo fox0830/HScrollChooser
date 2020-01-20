@@ -17,8 +17,10 @@ import com.feibi.trade.NetWork.module.NetWork;
 import com.feibi.trade.NetWork.request.FileUploadReq;
 import com.feibi.trade.NetWork.request.UploadTradeReq;
 import com.feibi.trade.NetWork.respond.FileUploadRes;
+import com.feibi.trade.NetWork.respond.GetTradeRes;
 import com.feibi.trade.NetWork.respond.Spot;
 import com.feibi.trade.NetWork.respond.UploadInfoRes;
+import com.feibi.trade.NetWork.respond.UrlSpot;
 import com.feibi.trade.R;
 import com.feibi.trade.UI.Basic.BasicActivity;
 import com.feibi.trade.utils.Global;
@@ -90,6 +92,7 @@ public class ChoosePictureActivity extends BasicActivity {
             case R.id.ll_done:
                 selectPictures.clear();
                 selectPictures.addAll(adapter.getChoosePictures());
+                adapter.initChoose();
                 showLoading();
                 req = new UploadTradeReq();
                 req.addSpots(Global.GetTripInfo.getReqSpots());
@@ -201,6 +204,19 @@ public class ChoosePictureActivity extends BasicActivity {
             public void onReqSuccess(UploadInfoRes result) {
                 dismissLoading();
                 startActivity(new Intent(ChoosePictureActivity.this,Trade360Activity.class));
+                finish(); //或者更新旅程信息
+//                new NetWork(ChoosePictureActivity.this).getTrade("trip/" + Global.TripInfo.getId() + "/detail", new ReqCallBack<GetTradeRes>() {
+//                    @Override
+//                    public void onReqSuccess(GetTradeRes result) {
+//                        Global.GetTripInfo = result;
+//                    }
+//
+//                    @Override
+//                    public void onReqFailed(Object result) {
+//                        showToast("error");
+//                    }
+//                });
+
             }
 
             @Override

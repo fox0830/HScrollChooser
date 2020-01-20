@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -77,9 +78,13 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
 
-    private TextView tv_title;
+    View view;
+    ImageView iv_bottom_icon;
+
+    //    private TextView tv_title;
     private ImageView iv_add, iv_upload, iv_360;
     private LinearLayout ll_360, ll_album, ll_bar;
+    ConstraintLayout linearLayout;
     ViewPager banner;
     ImageView iv_head;
 
@@ -94,7 +99,11 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         checkPermission();
-        tv_title = findViewById(R.id.tv_title);
+//        tv_title = findViewById(R.id.tv_title);
+
+        view = findViewById(R.id.view);
+        iv_bottom_icon = findViewById(R.id.iv_bottom_icon);
+
         iv_add = findViewById(R.id.iv_add);
         iv_add.setOnClickListener(this);
         iv_upload = findViewById(R.id.iv_upload);
@@ -106,6 +115,7 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
         ll_album = findViewById(R.id.ll_album);
         ll_album.setOnClickListener(this);
         ll_bar = findViewById(R.id.ll_bar);
+        linearLayout = findViewById(R.id.linearLayout);
 
         iv_head = findViewById(R.id.iv_head);
         iv_left = findViewById(R.id.iv_left);
@@ -129,7 +139,15 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
         if (Global.hasUpload == null) {
             Global.hasUpload = new Global.HasUpload(new ArrayList<>());
         }
-
+        linearLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                int width = linearLayout.getMeasuredWidth();
+                ConstraintLayout.LayoutParams linearParams = (ConstraintLayout.LayoutParams) linearLayout.getLayoutParams();
+                linearParams.height = width*10/16;
+                linearLayout.setLayoutParams(linearParams);
+            }
+        });
         banner = findViewById(R.id.banner);
         banner.setOffscreenPageLimit(1);
         banner.setAdapter(new ConversionFragmentAdapter(getSupportFragmentManager()));
@@ -141,7 +159,7 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
 
             @Override
             public void onPageSelected(int i) {
-               setCurrentItem(i);
+                setCurrentItem(i);
             }
 
             @Override
@@ -151,7 +169,7 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
         });
     }
 
-    private void setCurrentItem(int i){
+    private void setCurrentItem(int i) {
         if (i == 0) {
             iv_left.setAlpha((float) 0.5);
         } else {
@@ -166,10 +184,11 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
             if (Global.GetTripInfo.getSpots().get(i) != null && Global.GetTripInfo.getSpots().get(i).getPosition() != null) {
                 String lat = Global.GetTripInfo.getSpots().get(i).getPosition().getPictureLat();
                 String lng = Global.GetTripInfo.getSpots().get(i).getPosition().getPictureLng();
-                moveToLocation(new LatLng(Double.valueOf(lat),Double.valueOf(lng)));
+                moveToLocation(new LatLng(Double.valueOf(lat), Double.valueOf(lng)));
             }
         }
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -325,6 +344,8 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
                     if (Global.GetTripInfo.getSpots().size() > 0) {
                         ll_360.setBackground(getDrawable(R.drawable.oval_red));
                         iv_360.setImageDrawable(getDrawable(R.mipmap.degrees_360_red));
+                        view.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                        iv_bottom_icon.setImageDrawable(getDrawable(R.mipmap.details_icon));
                         banner.setVisibility(View.VISIBLE);
                         iv_left.setVisibility(View.VISIBLE);
                         iv_right.setVisibility(View.VISIBLE);
@@ -340,6 +361,8 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
                     } else {
                         ll_360.setBackground(getDrawable(R.drawable.oval_gray));
                         iv_360.setImageDrawable(getDrawable(R.mipmap.degrees_360));
+                        view.setBackgroundColor(getResources().getColor(R.color.color_d9));
+                        iv_bottom_icon.setImageDrawable(getDrawable(R.mipmap.gray_icon));
                         banner.setVisibility(View.INVISIBLE);
                         iv_left.setVisibility(View.INVISIBLE);
                         iv_right.setVisibility(View.INVISIBLE);
@@ -368,6 +391,8 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
                 changeUI();
                 String jsonString = new Gson().toJson(result);
                 PreferencesUtil.saveTripInfo(MainActivity.this, jsonString);
+                Global.hasUpload = new Global.HasUpload(new ArrayList<>());
+                PreferencesUtil.saveUploadPicInfo(MainActivity.this, "");
             }
 
             @Override
@@ -467,8 +492,8 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
      * @param
      */
     private void addMarkers(LatLng latLng) {
-        if(marker!=null)
-        marker.remove();
+        if (marker != null)
+            marker.remove();
         BitmapDescriptor bitmap = BitmapDescriptorFactory.fromBitmap(ImageUtils.drawable2Bitmap(getDrawable(R.mipmap.marker)));
         marker = mMap.addMarker(new MarkerOptions().icon(bitmap).position(latLng));
     }
