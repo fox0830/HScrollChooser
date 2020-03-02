@@ -43,6 +43,7 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
                 viewHolder.ll_check.setBackground(context.getDrawable(R.drawable.is_check));
                 viewHolder.iv_check.setVisibility(View.VISIBLE);
                 viewHolder.iv_check.setImageDrawable(context.getDrawable(R.mipmap.is_select));
+                viewHolder.itemView.setClickable(false);
                 return;
             }
         }

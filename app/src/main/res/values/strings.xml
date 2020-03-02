@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">adventrip</string>
+    <string name="only_show_gps_photo">GPS Photo only\n僅顯示有GPS的照片\nGPS付きの写真のみを表示</string>
     <string name="google_maps_key" translatable="false">AIzaSyA2NxW0Etn3o8bw59BUrpBJHQ8XYLuN7nU</string>
 
 </resources>

@@ -4,12 +4,15 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.UiThread;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.feibi.trade.Adapter.Picture;
 import com.feibi.trade.Adapter.PictureAdapter;
@@ -37,6 +40,7 @@ import jh.app.android.basiclibrary.network.ReqCallBack;
 
 public class ChoosePictureActivity extends BasicActivity {
 
+    LinearLayout ll_tips;
     ImageView iv_back;
     RecyclerView rv_pictures;
     PictureAdapter adapter;
@@ -52,13 +56,16 @@ public class ChoosePictureActivity extends BasicActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_picture);
         iv_back = findViewById(R.id.iv_back);
+        ll_tips = findViewById(R.id.ll_tips);
         iv_back.setOnClickListener(this);
         findViewById(R.id.ll_done).setOnClickListener(this);
+        findViewById(R.id.iv_info).setOnClickListener(this);
         rv_pictures = findViewById(R.id.rv_pictures);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3);
         rv_pictures.setLayoutManager(gridLayoutManager);
         netWork = new NetWork(this);
         url = "trip/basic/" + Global.TripInfo.getId() + "/image/" + Global.TripInfo.getToken();
+        ll_tips.setVisibility(View.GONE);
     }
 
     @Override
@@ -88,6 +95,18 @@ public class ChoosePictureActivity extends BasicActivity {
         switch (v.getId()) {
             case R.id.iv_back:
                 finish();
+                break;
+            case R.id.iv_info:
+                if(ll_tips.getVisibility()==View.VISIBLE){
+                    return;
+                }
+                ll_tips.setVisibility(View.VISIBLE);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ll_tips.setVisibility(View.GONE);
+                    }
+                }, 2000);
                 break;
             case R.id.ll_done:
                 selectPictures.clear();
@@ -158,9 +177,9 @@ public class ChoosePictureActivity extends BasicActivity {
         String type;
         File oldFile = new File(selectPictures.get(index).getPath());
         String oldNameHaveFormat = getFileNameHaveFormat(selectPictures.get(index).getPath());
-        if (oldNameHaveFormat.endsWith("png")) {
+        if (oldNameHaveFormat.toLowerCase().endsWith("png")) {
             type = "image/png";
-        } else if (oldNameHaveFormat.endsWith("jpg")) {
+        } else if (oldNameHaveFormat.toLowerCase().endsWith("jpg")) {
             type = "image/jpg";
         } else {
             appendLoadingTxt("第" + (index + 1) + "張圖片格式不支持\n");

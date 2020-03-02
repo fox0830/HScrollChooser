@@ -2,7 +2,6 @@ package com.feibi.trade.UI.Main;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -16,13 +15,9 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -31,13 +26,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.feibi.trade.NetWork.module.NetWork;
 import com.feibi.trade.NetWork.respond.AddTradeRes;
 import com.feibi.trade.NetWork.respond.GetTradeRes;
-import com.feibi.trade.NetWork.respond.Spot;
 import com.feibi.trade.NetWork.respond.UrlSpot;
 import com.feibi.trade.R;
 import com.feibi.trade.UI.Basic.BasicActivity;
@@ -59,12 +52,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
-import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import jh.app.android.basiclibrary.entity.BasicResponseBody;
 import jh.app.android.basiclibrary.network.ReqCallBack;
 import jh.app.android.basiclibrary.utils.PermissionsGetter;
 
@@ -81,10 +72,11 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
     View view;
     ImageView iv_bottom_icon;
 
+    ConstraintLayout cl_head;
+
     //    private TextView tv_title;
     private ImageView iv_add, iv_upload, iv_360;
     private LinearLayout ll_360, ll_album, ll_bar;
-    ConstraintLayout linearLayout;
     ViewPager banner;
     ImageView iv_head;
 
@@ -104,6 +96,7 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
         view = findViewById(R.id.view);
         iv_bottom_icon = findViewById(R.id.iv_bottom_icon);
 
+        cl_head = findViewById(R.id.cl_head);
         iv_add = findViewById(R.id.iv_add);
         iv_add.setOnClickListener(this);
         iv_upload = findViewById(R.id.iv_upload);
@@ -115,7 +108,7 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
         ll_album = findViewById(R.id.ll_album);
         ll_album.setOnClickListener(this);
         ll_bar = findViewById(R.id.ll_bar);
-        linearLayout = findViewById(R.id.linearLayout);
+        cl_head = findViewById(R.id.cl_head);
 
         iv_head = findViewById(R.id.iv_head);
         iv_left = findViewById(R.id.iv_left);
@@ -139,13 +132,13 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
         if (Global.hasUpload == null) {
             Global.hasUpload = new Global.HasUpload(new ArrayList<>());
         }
-        linearLayout.post(new Runnable() {
+        cl_head.post(new Runnable() {
             @Override
             public void run() {
-                int width = linearLayout.getMeasuredWidth();
-                ConstraintLayout.LayoutParams linearParams = (ConstraintLayout.LayoutParams) linearLayout.getLayoutParams();
+                int width = cl_head.getMeasuredWidth();
+                ConstraintLayout.LayoutParams linearParams = (ConstraintLayout.LayoutParams) cl_head.getLayoutParams();
                 linearParams.height = width*10/16;
-                linearLayout.setLayoutParams(linearParams);
+                cl_head.setLayoutParams(linearParams);
             }
         });
         banner = findViewById(R.id.banner);
@@ -301,7 +294,8 @@ public class MainActivity extends BasicActivity implements OnMapReadyCallback, G
                 if (hasTripe) {
                     Intent textIntent = new Intent(Intent.ACTION_SEND);
                     textIntent.setType("text/plain");
-                    textIntent.putExtra(Intent.EXTRA_TEXT, Global.TripInfo.getUrl());
+//                    textIntent.putExtra(Intent.EXTRA_TEXT, Global.TripInfo.getUrl());
+                    textIntent.putExtra(Intent.EXTRA_TEXT, "http://61.222.197.34:10093/Map/trip/" + Global.TripInfo.getId()); //我們的web view地址
                     startActivity(Intent.createChooser(textIntent, "分享"));
                 }
                 break;
