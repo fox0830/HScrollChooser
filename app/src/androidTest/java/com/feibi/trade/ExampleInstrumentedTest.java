@@ -1,4 +1,4 @@
-package com.feibi.trade;
+package com.feibi.cinch;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

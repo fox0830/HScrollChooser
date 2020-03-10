@@ -1,4 +1,4 @@
-package com.feibi.trade;
+package com.feibi.cinch;
 
 import org.junit.Test;
 
