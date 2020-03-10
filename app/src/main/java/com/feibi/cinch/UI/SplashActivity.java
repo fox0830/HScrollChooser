@@ -1,9 +1,11 @@
 package com.feibi.cinch.UI;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.feibi.cinch.R;
+import com.feibi.cinch.UI.Account.LoginActivity;
 import com.feibi.cinch.UI.Basic.BasicActivity;
 
 public class SplashActivity extends BasicActivity {
@@ -34,10 +36,8 @@ public class SplashActivity extends BasicActivity {
     }
 
     private void jump() {
-
+        startActivity(new Intent(this, LoginActivity.class));
     }
-
-
 
 
 }

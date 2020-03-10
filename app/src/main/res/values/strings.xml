@@ -1,6 +1,26 @@
 <resources>
-    <string name="app_name">adventrip</string>
-    <string name="only_show_gps_photo">GPS Photo only\n僅顯示有GPS的照片\nGPS付きの写真のみを表示</string>
-    <string name="google_maps_key" translatable="false">AIzaSyA2NxW0Etn3o8bw59BUrpBJHQ8XYLuN7nU</string>
+    <string name="app_name">Cinch</string>
+    <string name="slogan">你今天cinch了嗎？</string>
+    <string name="add_friend">交朋友</string>
+    <string name="personal_data">個人資料</string>
+    <string name="group_thin">揪團瘦</string>
+    <string name="love_share">愛分享</string>
+    <string name="privacy_and_terms">隱私權與服務條款</string>
+
+    <string name="merchant">直銷商</string>
+    <string name="cinch_friend">Cinch友</string>
+    <string name="login">登  入</string>
+    <string name="logout">登出</string>
+    <string name="forget_psw">忘記密碼</string>
+    <string name="register">註冊</string>
+    <string name="register_account">註冊帳號</string>
+    <string name="write_data">填寫資料</string>
+    <string name="write_question">填寫問卷</string>
+    <string name="done">完成</string>
+    <string name="write_code">填寫驗證碼</string>
+    <string name="input_ing">正在輸入</string>
+    <string name="input_done">輸入完成</string>
+    <string name="write_ing">正在填寫</string>
+    <string name="ok">確定</string>
 
 </resources>

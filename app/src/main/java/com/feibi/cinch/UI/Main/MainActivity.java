@@ -1,9 +1,11 @@
 package com.feibi.cinch.UI.Main;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,18 +14,59 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.feibi.cinch.R;
 import com.feibi.cinch.UI.Basic.BasicActivity;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.listener.OnBannerListener;
+import com.youth.banner.loader.ImageLoader;
+
+import java.util.ArrayList;
 
 public class MainActivity extends BasicActivity implements View.OnClickListener {
 
+    Banner banner;
+    ArrayList<Drawable> images = new ArrayList<>();
 
+    TextView tv_slogan;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         checkPermission();
+        banner = findViewById(R.id.banner);
+        //设置图片加载器
+        banner.setImageLoader(new GlideImageLoader());
+        //设置banner样式
+        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        //设置图片集合
+        //设置banner动画效果
+//        banner.setBannerAnimation(Transformer.DepthPage);
+        //设置自动轮播，默认为true
+        banner.isAutoPlay(true);
+        //设置轮播时间
+        banner.setDelayTime(6000);
+        //设置指示器位置（当banner模式中有指示器时）
+        banner.setIndicatorGravity(BannerConfig.CENTER);
+        banner.setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+
+            }
+        });
+
+        //设置数据
+        images.add(getResources().getDrawable(R.mipmap.main_top_bg));
+        images.add(getResources().getDrawable(R.drawable.ic_main_top_bg2));
+        banner.setImages(images);
+        banner.start();
+
+        tv_slogan = findViewById(R.id.tv_slogan);
+        tv_slogan.setText(getString(R.string.slogan));
     }
 
     @Override
@@ -106,6 +149,11 @@ public class MainActivity extends BasicActivity implements View.OnClickListener 
 
         }
     }
-
+    public class GlideImageLoader extends ImageLoader {
+        @Override
+        public void displayImage(Context context, Object path, ImageView imageView) {
+            Glide.with(context).load(path).into(imageView);
+        }
+    }
 
 }

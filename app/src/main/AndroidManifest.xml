@@ -45,13 +45,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".UI.Account.RegisterActivity"
+            android:hardwareAccelerated="false" ></activity>
+        <activity android:name=".UI.Main.MainActivity" />
+        <activity
+            android:name=".UI.Account.LoginActivity"
+            android:hardwareAccelerated="false" />
         <activity android:name=".UI.CutPicture.ClipImageActivity" />
 
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <activity android:name=".UI.Main.MainActivity">
+        <activity android:name=".UI.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
