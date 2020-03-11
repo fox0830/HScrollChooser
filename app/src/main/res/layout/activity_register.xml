@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:fitsSystemWindows="true"
     tools:context=".UI.Account.RegisterActivity">
 
@@ -53,6 +54,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@color/low_green"
@@ -62,7 +64,7 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <TextView
-            android:id="@+id/imageView12"
+            android:id="@+id/tv_step_2"
             android:layout_width="80dp"
             android:layout_height="30dp"
             android:background="@drawable/ic_step"
@@ -74,7 +76,7 @@
             app:layout_constraintStart_toStartOf="@+id/view3" />
 
         <TextView
-            android:id="@+id/imageView13"
+            android:id="@+id/tv_step_3"
             android:layout_width="80dp"
             android:layout_height="30dp"
             android:background="@drawable/ic_step"
@@ -86,16 +88,16 @@
             app:layout_constraintStart_toStartOf="@+id/view6" />
 
         <View
-            android:id="@+id/view7"
+            android:id="@+id/view34"
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/oval_green_border"
-            app:layout_constraintBottom_toBottomOf="@+id/view2"
-            app:layout_constraintEnd_toStartOf="@+id/view5"
+            app:layout_constraintBottom_toBottomOf="@+id/v_step_line2"
+            app:layout_constraintEnd_toStartOf="@+id/v_step_line1"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/view2" />
+            app:layout_constraintTop_toTopOf="@+id/v_step_line2" />
 
         <View
             android:id="@+id/view8"
@@ -103,11 +105,11 @@
             android:layout_height="12dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/oval_green_border"
-            app:layout_constraintBottom_toBottomOf="@+id/view2"
+            app:layout_constraintBottom_toBottomOf="@+id/v_step_line2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/view4"
-            app:layout_constraintTop_toTopOf="@+id/view2" />
+            app:layout_constraintStart_toEndOf="@+id/v_step_line3"
+            app:layout_constraintTop_toTopOf="@+id/v_step_line2" />
 
         <View
             android:id="@+id/view6"
@@ -115,12 +117,12 @@
             android:layout_height="12dp"
             android:layout_marginStart="8dp"
             android:background="@drawable/oval_green_border"
-            app:layout_constraintBottom_toBottomOf="@+id/view2"
-            app:layout_constraintStart_toEndOf="@+id/view2"
-            app:layout_constraintTop_toTopOf="@+id/view2" />
+            app:layout_constraintBottom_toBottomOf="@+id/v_step_line2"
+            app:layout_constraintStart_toEndOf="@+id/v_step_line2"
+            app:layout_constraintTop_toTopOf="@+id/v_step_line2" />
 
         <View
-            android:id="@+id/view4"
+            android:id="@+id/v_step_line3"
             android:layout_width="76dp"
             android:layout_height="2dp"
             android:layout_marginStart="8dp"
@@ -131,9 +133,9 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
-            android:id="@+id/view5"
+            android:id="@+id/v_step_line1"
             android:layout_width="76dp"
-            android:layout_height="2dp"
+            android:layout_height="1.5dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:background="@color/high_green"
@@ -147,12 +149,12 @@
             android:layout_height="12dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/oval_green_border"
-            app:layout_constraintBottom_toBottomOf="@+id/view2"
-            app:layout_constraintEnd_toStartOf="@+id/view2"
-            app:layout_constraintTop_toTopOf="@+id/view2" />
+            app:layout_constraintBottom_toBottomOf="@+id/v_step_line2"
+            app:layout_constraintEnd_toStartOf="@+id/v_step_line2"
+            app:layout_constraintTop_toTopOf="@+id/v_step_line2" />
 
         <View
-            android:id="@+id/view2"
+            android:id="@+id/v_step_line2"
             android:layout_width="76dp"
             android:layout_height="2dp"
             android:layout_marginTop="8dp"
@@ -163,19 +165,19 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/imageView11"
+            android:id="@+id/tv_step_1"
             android:layout_width="80dp"
             android:layout_height="30dp"
-            android:text="@string/write_code"
+            android:background="@drawable/ic_step"
             android:gravity="center|top"
             android:paddingTop="4dp"
+            android:text="@string/write_code"
             android:textColor="@color/high_green"
-            app:layout_constraintBottom_toTopOf="@+id/view7"
-            app:layout_constraintStart_toStartOf="@+id/view7"
-            android:background="@drawable/ic_step" />
+            app:layout_constraintBottom_toTopOf="@+id/view34"
+            app:layout_constraintStart_toStartOf="@+id/view34" />
 
         <View
-            android:id="@+id/view9"
+            android:id="@+id/v_step_2"
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:background="@drawable/oval_green"
@@ -183,17 +185,19 @@
             app:layout_constraintEnd_toEndOf="@+id/view3"
             app:layout_constraintStart_toStartOf="@+id/view3"
             app:layout_constraintTop_toTopOf="@+id/view3" />
+
         <View
-            android:id="@+id/view10"
+            android:id="@+id/v_step_1"
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:background="@drawable/oval_green"
-            app:layout_constraintBottom_toBottomOf="@+id/view7"
-            app:layout_constraintEnd_toEndOf="@+id/view7"
-            app:layout_constraintStart_toStartOf="@+id/view7"
-            app:layout_constraintTop_toTopOf="@+id/view7" />
+            app:layout_constraintBottom_toBottomOf="@+id/view34"
+            app:layout_constraintEnd_toEndOf="@+id/view34"
+            app:layout_constraintStart_toStartOf="@+id/view34"
+            app:layout_constraintTop_toTopOf="@+id/view34" />
+
         <View
-            android:id="@+id/view11"
+            android:id="@+id/v_step_3"
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:background="@drawable/oval_green"
@@ -201,8 +205,9 @@
             app:layout_constraintEnd_toEndOf="@+id/view6"
             app:layout_constraintStart_toStartOf="@+id/view6"
             app:layout_constraintTop_toTopOf="@+id/view6" />
+
         <View
-            android:id="@+id/view12"
+            android:id="@+id/v_step_4"
             android:layout_width="8dp"
             android:layout_height="8dp"
             android:background="@drawable/oval_green"
@@ -211,4 +216,45 @@
             app:layout_constraintStart_toStartOf="@+id/view8"
             app:layout_constraintTop_toTopOf="@+id/view8" />
     </android.support.constraint.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_step1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="24dp">
+
+                <include layout="@layout/view_register1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_step2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="24dp">
+
+                <include layout="@layout/view_register2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_step3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include layout="@layout/view_register3" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>

@@ -78,6 +78,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_add_friend"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -101,6 +102,7 @@
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_personal_data"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -125,6 +127,7 @@
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_group_thin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -149,6 +152,7 @@
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_love_share"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -197,8 +201,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="16dp"
-            android:text="@string/login" />
+            android:paddingLeft="8dp"
+            android:text="@string/logout" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

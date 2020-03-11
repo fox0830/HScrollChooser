@@ -1,10 +1,8 @@
 package com.feibi.cinch.utils;
 
-import com.feibi.cinch.NetWork.respond.AddTradeRes;
-import com.feibi.cinch.NetWork.respond.GetTradeRes;
-
-import java.util.ArrayList;
+import com.feibi.cinch.NetWork.respond.CinchData;
 
 public class Global {
-
+   public static CinchData cinchData = new CinchData();
+   public static boolean isMerchant = false;
 }

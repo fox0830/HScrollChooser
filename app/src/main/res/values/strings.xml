@@ -5,6 +5,9 @@
     <string name="personal_data">個人資料</string>
     <string name="group_thin">揪團瘦</string>
     <string name="love_share">愛分享</string>
+    <string name="hint_cinch">請輸入Cinch友會員編號</string>
+    <string name="hint_pwd">請輸入密碼</string>
+    <string name="hint_merchant">請輸入直銷商會員編號</string>
     <string name="privacy_and_terms">隱私權與服務條款</string>
 
     <string name="merchant">直銷商</string>
@@ -21,6 +24,53 @@
     <string name="input_ing">正在輸入</string>
     <string name="input_done">輸入完成</string>
     <string name="write_ing">正在填寫</string>
-    <string name="ok">確定</string>
+    <string name="confirm">確定</string>
+    <string name="pls_login">註冊成功，請登陸</string>
+    <string name="pls_login2">修改密碼成功，請登陸</string>
+
+    <!--    register1-->
+    <string name="id_or_tel">ID/手機</string>
+    <string name="ver_code">驗證碼</string>
+    <string name="ver_code_err">驗證碼錯誤</string>
+    <string name="psw_two_err">兩次輸入密碼不一致</string>
+    <string name="password">密碼</string>
+    <string name="confirm_password">確認密碼</string>
+    <string name="merchant_num">直銷商會員編號</string>
+    <string name="get_ver_code">獲取驗證碼</string>
+
+    <!--    register2-->
+    <string name="big_head">大頭貼</string>
+    <string name="name">姓名</string>
+    <string name="age">年龄</string>
+    <string name="sex">性別</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="tel">聯絡電話</string>
+    <string name="height">身高</string>
+    <string name="weight">體重</string>
+    <string name="fat">體脂</string>
+    <string name="bmi">BMI</string>
+    <string name="target">目標</string>
+    <string name="remark">備註</string>
+    <string name="next_step">下一步</string>
+
+    <!--    register3-->
+    <string name="question_answer">日常狀況問答</string>
+    <string name="often">常常</string>
+    <string name="sometime">偶爾</string>
+    <string name="little">很少</string>
+    <string name="question1">1、一周超過3次超時工作或超過12點睡</string>
+    <string name="question2">2、能搭車就不會走路,或每週至少吃2次以上甜點或喝含糖飮料</string>
+    <string name="question3">3、一週超過3次需應酬吃大餐或喝酒,或餐餐一定要吃到飽</string>
+    <string name="question4">4、一遇排便次數少於2次,或即使有排便還是覺得解不乾淨</string>
+    <string name="question5">5、容易水腫及手腳冰冷,尤其到下午下半身更明顯</string>
+    <string name="question6">6、臉上易泛紅,常覺得燥熱,或喜愛吃高熱量宵夜,且肥胖部位集中在腰、臀、大腿</string>
+
+    <!--    忘記密碼-->
+    <string name="new_pwd">新密碼</string>
+
+    <!--    個人資料-->
+    <string name="task">任務</string>
+    <string name="change_pwd">修改密碼</string>
 
 </resources>

@@ -11,6 +11,14 @@ public class BasicResponseBody<T> extends BasicEntity {
     //    private T[] data;
     private T data;
 
+    public BasicResponseBody(String code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
+    public BasicResponseBody() {
+    }
+
     public String getCode() {
         return code;
     }

@@ -45,8 +45,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".UI.Account.RegisterActivity"
-            android:hardwareAccelerated="false" ></activity>
+        <activity android:name=".UI.Account.PersonalDataActivity"></activity>
+        <activity android:name=".UI.Account.ForgetPwdActivity" />
+        <activity
+            android:name=".UI.Account.RegisterActivity"
+            android:hardwareAccelerated="false" />
         <activity android:name=".UI.Main.MainActivity" />
         <activity
             android:name=".UI.Account.LoginActivity"

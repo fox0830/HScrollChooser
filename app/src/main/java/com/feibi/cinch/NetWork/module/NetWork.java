@@ -3,13 +3,13 @@ package com.feibi.cinch.NetWork.module;
 import android.content.Context;
 
 import com.feibi.cinch.NetWork.basic.BasicModule;
-import com.feibi.cinch.NetWork.basic.BasicReq;
-import com.feibi.cinch.NetWork.request.FileUploadReq;
-import com.feibi.cinch.NetWork.request.UploadTradeReq;
-import com.feibi.cinch.NetWork.respond.AddTradeRes;
-import com.feibi.cinch.NetWork.respond.FileUploadRes;
-import com.feibi.cinch.NetWork.respond.GetTradeRes;
-import com.feibi.cinch.NetWork.respond.UploadInfoRes;
+import com.feibi.cinch.NetWork.request.CinchLoginReq;
+import com.feibi.cinch.NetWork.request.ForgetPwdReq;
+import com.feibi.cinch.NetWork.request.GetBmiReq;
+import com.feibi.cinch.NetWork.request.GetVerCodeReq;
+import com.feibi.cinch.NetWork.request.RegisterReq;
+import com.feibi.cinch.NetWork.request.WriteAnswerReq;
+import com.feibi.cinch.NetWork.respond.CinchData;
 
 import jh.app.android.basiclibrary.entity.BasicResponseBody;
 import jh.app.android.basiclibrary.network.ReqCallBack;
@@ -20,19 +20,27 @@ public class NetWork extends BasicModule {
         mContext = context;
     }
 
-    public void addTrade(String url, final ReqCallBack<AddTradeRes> reqCallBack) {
-        get(mContext, url, new BasicReq(), reqCallBack, AddTradeRes.class);
+
+    public void getVerCode(GetVerCodeReq req, final ReqCallBack<BasicResponseBody<Object>> reqCallBack) {
+        get(mContext, "member.php",req, reqCallBack, Object.class);
     }
-    public void uploadPic(String url, FileUploadReq req ,final ReqCallBack<FileUploadRes> reqCallBack) {
-        fileUpload(mContext, url, req, reqCallBack, FileUploadRes.class);
+    public void register(RegisterReq req, final ReqCallBack<BasicResponseBody<Object>> reqCallBack) {
+        get(mContext, "member.php",req, reqCallBack, Object.class);
     }
-    public void getTrade(String url, final ReqCallBack<GetTradeRes> reqCallBack) {
-        get(mContext, url,  new BasicReq(), reqCallBack, GetTradeRes.class);
+
+    public void getBmi(GetBmiReq req, final ReqCallBack<BasicResponseBody<Object>> reqCallBack) {
+        get(mContext, "member.php",req, reqCallBack, Object.class);
     }
-    public void delSpot(String url, final ReqCallBack<UploadInfoRes> reqCallBack) {
-        delete(mContext, url,  new BasicReq(), reqCallBack, UploadInfoRes.class);
+
+    public void writeAnswer(WriteAnswerReq req, final ReqCallBack<BasicResponseBody<Object>> reqCallBack) {
+        get(mContext, "member.php",req, reqCallBack, Object.class);
     }
-    public void uploadInfo(String url, UploadTradeReq req , final ReqCallBack<UploadInfoRes> reqCallBack) {
-        postJsonObj(mContext, url, req, reqCallBack, UploadInfoRes.class);
+
+    public void cinchLogin(CinchLoginReq req, final ReqCallBack<BasicResponseBody<CinchData>> reqCallBack) {
+        get(mContext, "member.php",req, reqCallBack, CinchData.class);
     }
+    public void ForgetPwd(ForgetPwdReq req, final ReqCallBack<BasicResponseBody<Object>> reqCallBack) {
+        get(mContext, "member.php",req, reqCallBack, Object.class);
+    }
+
 }

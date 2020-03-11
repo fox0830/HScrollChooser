@@ -9,17 +9,23 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.feibi.cinch.NetWork.respond.CinchData;
 import com.feibi.cinch.R;
+import com.feibi.cinch.UI.Account.LoginActivity;
 import com.feibi.cinch.UI.Basic.BasicActivity;
+import com.feibi.cinch.utils.Global;
+import com.feibi.cinch.utils.PreferencesUtil;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -33,6 +39,8 @@ public class MainActivity extends BasicActivity implements View.OnClickListener 
     ArrayList<Drawable> images = new ArrayList<>();
 
     TextView tv_slogan;
+    ConstraintLayout cl_add_friend,cl_personal_data;
+    LinearLayout ll_logout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +72,16 @@ public class MainActivity extends BasicActivity implements View.OnClickListener 
         images.add(getResources().getDrawable(R.drawable.ic_main_top_bg2));
         banner.setImages(images);
         banner.start();
+
+        ll_logout = findViewById(R.id.ll_logout);ll_logout.setOnClickListener(this);
+        cl_add_friend = findViewById(R.id.cl_add_friend);cl_add_friend.setOnClickListener(this);
+        cl_personal_data = findViewById(R.id.cl_personal_data);cl_personal_data.setOnClickListener(this);
+        findViewById(R.id.cl_group_thin).setOnClickListener(this);
+        findViewById(R.id.cl_love_share).setOnClickListener(this);
+
+        cl_add_friend.setVisibility(Global.isMerchant?View.VISIBLE:View.GONE);
+        cl_personal_data.setVisibility(Global.isMerchant?View.GONE:View.VISIBLE);
+        ll_logout.setVisibility(Global.isMerchant?View.VISIBLE:View.GONE);
 
         tv_slogan = findViewById(R.id.tv_slogan);
         tv_slogan.setText(getString(R.string.slogan));
@@ -146,7 +164,19 @@ public class MainActivity extends BasicActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
+            case R.id.ll_logout:
+                PreferencesUtil.saveCinchData(this,"");
+                Global.cinchData = new CinchData();
+                startActivity(new Intent(this, LoginActivity.class));
+                break;
+            case R.id.cl_add_friend:
+                break;
+            case R.id.cl_personal_data:
+                break;
+            case R.id.cl_group_thin:
+                break;
+            case R.id.cl_love_share:
+                break;
         }
     }
     public class GlideImageLoader extends ImageLoader {
