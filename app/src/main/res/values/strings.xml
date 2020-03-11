@@ -72,5 +72,6 @@
     <!--    個人資料-->
     <string name="task">任務</string>
     <string name="change_pwd">修改密碼</string>
+    <string name="see_detail">體態詳情一覽</string>
 
 </resources>

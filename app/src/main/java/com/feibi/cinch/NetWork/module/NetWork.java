@@ -8,6 +8,7 @@ import com.feibi.cinch.NetWork.request.ForgetPwdReq;
 import com.feibi.cinch.NetWork.request.GetBmiReq;
 import com.feibi.cinch.NetWork.request.GetVerCodeReq;
 import com.feibi.cinch.NetWork.request.RegisterReq;
+import com.feibi.cinch.NetWork.request.UploadPicReq;
 import com.feibi.cinch.NetWork.request.WriteAnswerReq;
 import com.feibi.cinch.NetWork.respond.CinchData;
 
@@ -40,6 +41,9 @@ public class NetWork extends BasicModule {
         get(mContext, "member.php",req, reqCallBack, CinchData.class);
     }
     public void ForgetPwd(ForgetPwdReq req, final ReqCallBack<BasicResponseBody<Object>> reqCallBack) {
+        get(mContext, "member.php",req, reqCallBack, Object.class);
+    }
+    public void UploadPic(UploadPicReq req, final ReqCallBack<BasicResponseBody<Object>> reqCallBack) {
         get(mContext, "member.php",req, reqCallBack, Object.class);
     }
 

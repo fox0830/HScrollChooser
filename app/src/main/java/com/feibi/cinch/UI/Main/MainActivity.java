@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.feibi.cinch.NetWork.respond.CinchData;
 import com.feibi.cinch.R;
 import com.feibi.cinch.UI.Account.LoginActivity;
+import com.feibi.cinch.UI.Account.PersonalDataActivity;
 import com.feibi.cinch.UI.Basic.BasicActivity;
 import com.feibi.cinch.utils.Global;
 import com.feibi.cinch.utils.PreferencesUtil;
@@ -172,6 +173,7 @@ public class MainActivity extends BasicActivity implements View.OnClickListener 
             case R.id.cl_add_friend:
                 break;
             case R.id.cl_personal_data:
+                startActivity(new Intent(this, PersonalDataActivity.class));
                 break;
             case R.id.cl_group_thin:
                 break;

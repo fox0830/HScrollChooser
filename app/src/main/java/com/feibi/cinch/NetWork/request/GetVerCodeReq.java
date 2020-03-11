@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 public class GetVerCodeReq extends BasicReq {
 
 
-    public GetVerCodeReq(String token, FormData formData) {
+    public GetVerCodeReq(FormData formData) {
         this.partnerID ="173";
         this.invoke = "checkTel";
         this.formData = new Gson().toJson(formData);

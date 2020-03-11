@@ -216,7 +216,7 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
                 break;
             case R.id.tv_get_ver_code:
                 showLoading();
-                GetVerCodeReq req = new GetVerCodeReq("", new GetVerCodeReq.FormData(et_id.getText().toString()));
+                GetVerCodeReq req = new GetVerCodeReq( new GetVerCodeReq.FormData(et_id.getText().toString()));
                 new NetWork(this).getVerCode(req, new ReqCallBack<BasicResponseBody<Object>>() {
                     @Override
                     public void onReqSuccess(BasicResponseBody<Object> result) {
