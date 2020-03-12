@@ -25,6 +25,7 @@
     <string name="input_done">輸入完成</string>
     <string name="write_ing">正在填寫</string>
     <string name="confirm">確定</string>
+    <string name="cancel">取消</string>
     <string name="pls_login">註冊成功，請登陸</string>
     <string name="pls_login2">修改密碼成功，請登陸</string>
     <string name="change_pwd_success">修改密碼成功</string>
@@ -78,10 +79,25 @@
     <string name="change_data">修改資料</string>
     <string name="change_pwd">修改密碼</string>
     <string name="see_detail">體態詳情一覽</string>
+    <string name="personal_head">個人大頭貼</string>
+    <string name="album_choose">相簿選擇</string>
+    <string name="camera">相機</string>
+    <string name="get_data_err">獲取用戶最新資料失敗</string>
 
     <!--    揪團瘦-->
     <string name="search_activity">搜尋想參加的揪團活動</string>
     <string name="no_search_task">查無此任務</string>
+    <string name="scan_to_join_task">掃碼加入任務</string>
+    <string name="confirm_join_task">確認加入任務</string>
+    <string name="task_list">任務列表</string>
+    <string name="see_task">查看任務</string>
+    <string name="join_success">加入成功</string>
+    <string name="join_success_info">任務已成功加入，請返回Cinch揪團瘦列表查看</string>
+    <string name="join_err">加入失敗</string>
+    <string name="join_err_info">任務加入失敗，原因可能為人數已達上限、活動已開始或逾期，建議洽直銷商處理</string>
+
+    <string name="join_time">參加時間</string>
+    <string name="no_join_task">尚未參加任何任務</string>
 
 
 </resources>

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.feibi.cinch.NetWork.module.NetWork;
+import com.feibi.cinch.NetWork.request.GetCinchUserDataReq;
 import com.feibi.cinch.NetWork.request.UploadPicReq;
 import com.feibi.cinch.NetWork.request.UploadRecordReq;
 import com.feibi.cinch.NetWork.respond.CinchData;
@@ -48,6 +49,7 @@ public class PersonalDataActivity extends BasicActivity {
         findViewById(R.id.ll_change_pwd).setOnClickListener(this);
         findViewById(R.id.ll_logout).setOnClickListener(this);
         findViewById(R.id.ll_change_data).setOnClickListener(this);
+        findViewById(R.id.ll_task).setOnClickListener(this);
         iv_user_head = findViewById(R.id.iv_user_head);
         iv_user_head.setOnClickListener(this);
 
@@ -73,12 +75,35 @@ public class PersonalDataActivity extends BasicActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        showLoading();
+        new NetWork(this).GetCinchUserData(new GetCinchUserDataReq(new GetCinchUserDataReq.FormData("", Global.cinchData.getLc_id())), new ReqCallBack<BasicResponseBody<CinchData>>() {
+            @Override
+            public void onReqSuccess(BasicResponseBody<CinchData> result) {
+                    Global.cinchData = result.getData();
+                    dismissLoading();
+            }
+
+            @Override
+            public void onReqFailed(BasicResponseBody result) {
+                showToast(getString(R.string.get_data_err));
+                dismissLoading();
+            }
+        });
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
                 break;
+            case R.id.ll_task:
+                startActivity(new Intent(this,JoinTaskActivity.class));
+                break;
             case R.id.ll_logout:
+                PreferencesUtil.saveUseType(this, "");
                 PreferencesUtil.saveCinchData(this, "");
                 Global.cinchData = new CinchData();
                 startActivity(new Intent(this, LoginActivity.class));

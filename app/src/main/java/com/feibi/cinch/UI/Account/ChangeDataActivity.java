@@ -38,7 +38,7 @@ import static jh.app.android.basiclibrary.Constants.MAIN_PATH;
 import static jh.app.android.basiclibrary.Constants.getPhotoName;
 
 public class ChangeDataActivity extends BasicActivity {
-    String cut_picture_path;
+
     ImageView iv_head;
     EditText et_name, et_age, et_tel, et_target, et_remark;
     RadioButton rb_male, rb_female;
@@ -89,7 +89,7 @@ public class ChangeDataActivity extends BasicActivity {
                 finish();
                 break;
             case R.id.ll_head:
-//                ChoosePictureUtils.openAlbum(this);
+                startActivity(new Intent(this, SeeHeadActivity.class));
                 break;
             case R.id.ll_data1:
             case R.id.ll_data2:
@@ -100,7 +100,6 @@ public class ChangeDataActivity extends BasicActivity {
                 String lc_tel = et_tel.getText().toString();
                 String lc_age = et_age.getText().toString();
                 String lc_sex = rb_male.isChecked() ? "1" : "0";
-                String lc_pwd = "";
                 String lc_tall = tv_height.getText().toString();
                 String lc_weight = tv_weight.getText().toString();
                 String lc_bmi = tv_bmi.getText().toString();
@@ -113,11 +112,13 @@ public class ChangeDataActivity extends BasicActivity {
                     return;
                 }
                 showLoading();
+                //自己修改自己，mb_no 傳空
                 new NetWork(this).ChangeData(new ChangeDataReq(new ChangeDataReq.FormData("", Global.cinchData.getLc_id(),
-                        lc_name, lc_tel, lc_age, lc_sex, lc_pwd, lc_tall, lc_weight, lc_bmi, lc_fat, lc_target, lc_remark)), new ReqCallBack<BasicResponseBody<Object>>() {
+                        lc_name, lc_tel, lc_age, lc_sex, lc_tall, lc_weight, lc_bmi, lc_fat, lc_target, lc_remark)), new ReqCallBack<BasicResponseBody<Object>>() {
                     @Override
                     public void onReqSuccess(BasicResponseBody<Object> result) {
                         showToast(result.getMsg());
+                        finish();
                         dismissLoading();
                     }
 
@@ -131,93 +132,4 @@ public class ChangeDataActivity extends BasicActivity {
         }
     }
 
-
-    /**
-     * 从相册、相机拍照、裁減的回调
-     *
-     * @param requestCode 根据值判断是从相册还是相机调用的回调.
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != Activity.RESULT_OK) {
-            return;
-        }
-        if (requestCode == ALBUM) {
-            if (data == null) {
-                return;
-            }
-            Uri selectedImage = data.getData();
-            if (selectedImage == null) {
-                return;
-            }
-            String[] filePathColumns = {MediaStore.Images.Media.DATA};
-            Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
-            if (c == null) {
-                return;
-            }
-            c.moveToFirst();
-            int columnIndex = c.getColumnIndex(filePathColumns[0]);
-            String imagePath = c.getString(columnIndex);
-            c.close();
-            cutImg(ImageTool.getUriByPath(this, imagePath));
-        } else if (requestCode == CAMERA) {
-            Uri uri = ChoosePictureUtils.imageUri;
-        } else if (requestCode == CUT_PHOTO) {
-            showLoading();
-            File file = new File(cut_picture_path);
-            uploadPic(file);
-        }
-    }
-
-    /**
-     * 剪切图片
-     */
-    private void cutImg(Uri uri) {
-        if (uri == null) {
-            return;
-        }
-        cut_picture_path = MAIN_PATH + "/" + getPhotoName();
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        intent.putExtra("crop", "true");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(cut_picture_path)));
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG);
-        intent.putExtra("outputX", 480);
-        intent.putExtra("outputY", 480);
-        intent.putExtra("scale", true);
-        intent.putExtra("scaleUpIfNeeded", true);
-        intent.putExtra("return-data", false);
-        startActivityForResult(intent, CUT_PHOTO);
-    }
-
-    private void uploadPic(File file) {
-        File[] lc_pic = {file};
-//        new NetWork(this).UploadPic(new UploadPicReq(new UploadPicReq.FormData(Global.cinchData.getLc_id(), lc_pic)), new ReqCallBack<BasicResponseBody<Object>>() {
-//            @Override
-//            public void onReqSuccess(BasicResponseBody<Object> result) {
-//                dismissLoading();
-//            }
-//
-//            @Override
-//            public void onReqFailed(BasicResponseBody result) {
-//                dismissLoading();
-//            }
-//        });
-        new NetWork(this).UploadRecordPic(new UploadRecordReq(new UploadRecordReq.FormData(Global.cinchData.getLc_id(), "2"), lc_pic), new ReqCallBack<BasicResponseBody<Object>>() {
-            @Override
-            public void onReqSuccess(BasicResponseBody<Object> result) {
-                dismissLoading();
-            }
-
-            @Override
-            public void onReqFailed(BasicResponseBody result) {
-                dismissLoading();
-            }
-        });
-    }
 }

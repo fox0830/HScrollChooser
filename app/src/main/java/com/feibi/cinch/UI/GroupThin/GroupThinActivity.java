@@ -1,5 +1,6 @@
 package com.feibi.cinch.UI.GroupThin;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -58,7 +59,7 @@ public class GroupThinActivity extends BasicActivity {
                 finish();
                 break;
             case R.id.iv_scan:
-
+                startActivity(new Intent(this, ScanQRActivity.class));
                 break;
             case R.id.iv_clear_input:
                 et_input.setText("");

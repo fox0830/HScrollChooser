@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,10 +13,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.feibi.cinch.NetWork.module.NetWork;
 import com.feibi.cinch.NetWork.request.CinchLoginReq;
+import com.feibi.cinch.NetWork.request.MbLoginReq;
 import com.feibi.cinch.NetWork.respond.CinchData;
 import com.feibi.cinch.R;
 import com.feibi.cinch.UI.Basic.BasicActivity;
 import com.feibi.cinch.UI.Main.MainActivity;
+import com.feibi.cinch.utils.Global;
 import com.feibi.cinch.utils.PreferencesUtil;
 import com.google.gson.Gson;
 import com.youth.banner.Banner;
@@ -88,7 +91,7 @@ public class LoginActivity extends BasicActivity implements View.OnClickListener
         tv_cinch.setTextColor(isMerchant ? getResources().getColor(R.color.yellow) : getResources().getColor(R.color.white));
         tv_forget_psw.setVisibility(!isMerchant ? View.VISIBLE : View.GONE);
         tv_register.setVisibility(!isMerchant ? View.VISIBLE : View.GONE);
-        et_account.setHint(isMerchant?getString(R.string.hint_merchant):getString(R.string.hint_cinch));
+        et_account.setHint(isMerchant ? getString(R.string.hint_merchant) : getString(R.string.hint_cinch));
     }
 
     @Override
@@ -103,15 +106,37 @@ public class LoginActivity extends BasicActivity implements View.OnClickListener
                 refreshUI();
                 break;
             case R.id.tv_login:
+                String account = et_account.getText().toString();
+                String pwd = et_password.getText().toString();
+                if(TextUtils.isEmpty(account)||TextUtils.isEmpty(pwd)){
+                    return;
+                }
+                showLoading();
                 if (isMerchant) {
+                    netWork.mbLogin(new MbLoginReq(new MbLoginReq.FormData(account, pwd)), new ReqCallBack<BasicResponseBody<Object>>() {
+                        @Override
+                        public void onReqSuccess(BasicResponseBody<Object> result) {
+                            Global.useType=Global.MERCHANT;
+                            PreferencesUtil.saveUseType(LoginActivity.this, Global.MERCHANT);
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
+                            dismissLoading();
+                        }
 
+                        @Override
+                        public void onReqFailed(BasicResponseBody result) {
+                            showToast(result.getMsg());
+                            dismissLoading();
+                        }
+                    });
                 } else {
-                    showLoading();
-                    netWork.cinchLogin(new CinchLoginReq(new CinchLoginReq.FormData(et_account.getText().toString(), et_password.getText().toString())), new ReqCallBack<BasicResponseBody<CinchData>>() {
+                    netWork.cinchLogin(new CinchLoginReq(new CinchLoginReq.FormData(account, pwd)), new ReqCallBack<BasicResponseBody<CinchData>>() {
                         @Override
                         public void onReqSuccess(BasicResponseBody<CinchData> result) {
+                            Global.cinchData = result.getData();
                             PreferencesUtil.saveCinchData(LoginActivity.this, new Gson().toJson(result.getData()));
-                            PreferencesUtil.saveIsMerchant(LoginActivity.this,false);
+                            Global.useType=Global.CINCH;
+                            PreferencesUtil.saveUseType(LoginActivity.this, Global.CINCH);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                             dismissLoading();

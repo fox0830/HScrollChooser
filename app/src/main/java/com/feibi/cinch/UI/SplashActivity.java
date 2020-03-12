@@ -13,7 +13,6 @@ import com.feibi.cinch.utils.Global;
 import com.feibi.cinch.utils.GsonUtil;
 import com.feibi.cinch.utils.PreferencesUtil;
 
-import static com.feibi.cinch.utils.Global.isMerchant;
 
 public class SplashActivity extends BasicActivity {
     //    wifiSmartDeviceReceiver receiver;
@@ -43,24 +42,25 @@ public class SplashActivity extends BasicActivity {
     }
 
     private void jump() {
-        Global.isMerchant = PreferencesUtil.getIsMerchant(this);
-        if(Global.isMerchant){
-
-        }else {
+        Global.useType = PreferencesUtil.getUseType(this);
+        if (Global.MERCHANT.equals(Global.useType)) {
+            startActivity(new Intent(this, MainActivity.class));
+            return;
+        } else if (Global.CINCH.equals(Global.useType)) {
             try {
                 String jsonStr = PreferencesUtil.getCinchData(this);
                 Global.cinchData = (CinchData) GsonUtil.str2Obj(jsonStr, CinchData.class);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            if(Global.cinchData !=null&&Global.cinchData.getLc_id()!=null){
+            if (Global.cinchData != null && Global.cinchData.getLc_id() != null) {
                 startActivity(new Intent(this, MainActivity.class));
                 return;
             }
         }
         startActivity(new Intent(this, LoginActivity.class));
-    }
 
+    }
 
 
 }

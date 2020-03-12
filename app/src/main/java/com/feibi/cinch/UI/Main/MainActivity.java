@@ -94,9 +94,9 @@ public class MainActivity extends BasicActivity implements View.OnClickListener 
         findViewById(R.id.cl_group_thin).setOnClickListener(this);
         findViewById(R.id.cl_love_share).setOnClickListener(this);
 
-        cl_add_friend.setVisibility(Global.isMerchant ? View.VISIBLE : View.GONE);
-        cl_personal_data.setVisibility(Global.isMerchant ? View.GONE : View.VISIBLE);
-        ll_logout.setVisibility(Global.isMerchant ? View.VISIBLE : View.GONE);
+        cl_add_friend.setVisibility(Global.MERCHANT.equals(Global.useType) ? View.VISIBLE : View.GONE);
+        cl_personal_data.setVisibility(Global.MERCHANT.equals(Global.useType) ? View.GONE : View.VISIBLE);
+        ll_logout.setVisibility(Global.MERCHANT.equals(Global.useType) ? View.VISIBLE : View.GONE);
 
         tv_slogan = findViewById(R.id.tv_slogan);
         tv_slogan.setText(getString(R.string.slogan));
@@ -222,6 +222,7 @@ public class MainActivity extends BasicActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_logout:
+                PreferencesUtil.saveUseType(this, "");
                 PreferencesUtil.saveCinchData(this, "");
                 Global.cinchData = new CinchData();
                 startActivity(new Intent(this, LoginActivity.class));

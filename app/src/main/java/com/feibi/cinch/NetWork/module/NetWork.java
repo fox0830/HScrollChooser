@@ -8,7 +8,9 @@ import com.feibi.cinch.NetWork.request.ChangePwdReq;
 import com.feibi.cinch.NetWork.request.CinchLoginReq;
 import com.feibi.cinch.NetWork.request.ForgetPwdReq;
 import com.feibi.cinch.NetWork.request.GetBmiReq;
+import com.feibi.cinch.NetWork.request.GetCinchUserDataReq;
 import com.feibi.cinch.NetWork.request.GetVerCodeReq;
+import com.feibi.cinch.NetWork.request.MbLoginReq;
 import com.feibi.cinch.NetWork.request.RegisterReq;
 import com.feibi.cinch.NetWork.request.SloganReq;
 import com.feibi.cinch.NetWork.request.UploadPicReq;
@@ -49,6 +51,12 @@ public class NetWork extends BasicModule {
 
     public void cinchLogin(CinchLoginReq req, final ReqCallBack<BasicResponseBody<CinchData>> reqCallBack) {
         get(mContext, "member.php",req, reqCallBack, CinchData.class);
+    }
+    public void GetCinchUserData(GetCinchUserDataReq req, final ReqCallBack<BasicResponseBody<CinchData>> reqCallBack) {
+        get(mContext, "member.php",req, reqCallBack, CinchData.class);
+    }
+    public void mbLogin(MbLoginReq req, final ReqCallBack<BasicResponseBody<Object>> reqCallBack) {
+        get(mContext, "member.php",req, reqCallBack, Object.class);
     }
     public void ForgetPwd(ForgetPwdReq req, final ReqCallBack<BasicResponseBody<Object>> reqCallBack) {
         get(mContext, "member.php",req, reqCallBack, Object.class);

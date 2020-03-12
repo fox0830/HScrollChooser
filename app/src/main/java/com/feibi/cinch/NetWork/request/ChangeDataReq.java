@@ -19,7 +19,6 @@ public class ChangeDataReq extends BasicReq {
         String lc_tel;
         String lc_age;
         String lc_sex;
-        String lc_pwd;
         String lc_tall;
         String lc_weight;
         String lc_bmi;
@@ -27,14 +26,13 @@ public class ChangeDataReq extends BasicReq {
         String lc_target;
         String lc_remark;
 
-        public FormData(String mb_no, String lc_id, String lc_name, String lc_tel, String lc_age, String lc_sex, String lc_pwd, String lc_tall, String lc_weight, String lc_bmi, String lc_fat, String lc_target, String lc_remark) {
+        public FormData(String mb_no, String lc_id, String lc_name, String lc_tel, String lc_age, String lc_sex, String lc_tall, String lc_weight, String lc_bmi, String lc_fat, String lc_target, String lc_remark) {
             this.mb_no = mb_no;
             this.lc_id = lc_id;
             this.lc_name = lc_name;
             this.lc_tel = lc_tel;
             this.lc_age = lc_age;
             this.lc_sex = lc_sex;
-            this.lc_pwd = lc_pwd;
             this.lc_tall = lc_tall;
             this.lc_weight = lc_weight;
             this.lc_bmi = lc_bmi;

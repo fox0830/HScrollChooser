@@ -115,14 +115,14 @@ public abstract class BasicActivity extends AppCompatActivity implements View.On
         });
     }
 
-//    protected void setSystemBarHeight() {
-//        View systemBar = findViewById(R.id.system_bar);
-//        if (systemBar != null) {
-//            ConstraintLayout.LayoutParams linearParams = (ConstraintLayout.LayoutParams) systemBar.getLayoutParams(); //取控件textView当前的布局参数
-//            linearParams.height = SyatemUtils.getStatusBarHeight(this);//獲取系統狀態欄高度
-//            systemBar.setLayoutParams(linearParams);////将系統狀態欄高度设置给View==》R.id.system_bar
-//        }
-//    }
+    protected void setSystemBarHeight() {
+        View systemBar = findViewById(R.id.system_bar);
+        if (systemBar != null) {
+            LinearLayout.LayoutParams linearParams = (LinearLayout.LayoutParams) systemBar.getLayoutParams(); //取控件textView当前的布局参数
+            linearParams.height = SyatemUtils.getStatusBarHeight(this);//獲取系統狀態欄高度
+            systemBar.setLayoutParams(linearParams);////将系統狀態欄高度设置给View==》R.id.system_bar
+        }
+    }
 
 //    protected void setNoSystemBar() {
 //        View systemBar = findViewById(R.id.system_bar);

@@ -7,18 +7,20 @@ import jh.app.android.basiclibrary.utils.PreferencesUtils;
 
 public class PreferencesUtil extends PreferencesUtils {
 
-    private static String isMerchant = "isMerchant";
+    private static String useType = "useType";
     private static String lc_id = "lc_id";
     private static String cinchData = "CinchData";
 
 
-    public static boolean saveIsMerchant(Context context, Boolean val) {
-        return putBoolean(context, isMerchant, val);
+
+    public static boolean saveUseType(Context context, String val) {
+        return putString(context, useType, val);
     }
 
-    public static boolean getIsMerchant(Context context) {
-        return getBoolean(context, isMerchant);
+    public static String getUseType(Context context) {
+        return getString(context, useType);
     }
+
 
 
     public static boolean saveLcId(Context context, String val) {
