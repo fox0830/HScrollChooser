@@ -43,6 +43,7 @@
     <string name="big_head">大頭貼</string>
     <string name="name">姓名</string>
     <string name="age">年龄</string>
+    <string name="age_unit">歲</string>
     <string name="sex">性別</string>
     <string name="male">男</string>
     <string name="female">女</string>
@@ -54,6 +55,7 @@
     <string name="target">目標</string>
     <string name="remark">備註</string>
     <string name="next_step">下一步</string>
+    <string name="save">儲存</string>
 
     <!--    register3-->
     <string name="question_answer">日常狀況問答</string>
@@ -73,7 +75,13 @@
 
     <!--    個人資料-->
     <string name="task">任務</string>
+    <string name="change_data">修改資料</string>
     <string name="change_pwd">修改密碼</string>
     <string name="see_detail">體態詳情一覽</string>
+
+    <!--    揪團瘦-->
+    <string name="search_activity">搜尋想參加的揪團活動</string>
+    <string name="no_search_task">查無此任務</string>
+
 
 </resources>

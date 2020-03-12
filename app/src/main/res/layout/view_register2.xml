@@ -50,6 +50,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:text="@string/name"
+            android:lines="1"
             android:textColor="@color/color_6b"
             android:textSize="14sp" />
 
@@ -60,6 +61,7 @@
             android:layout_weight="1"
             android:background="@color/transparent"
             android:ems="10"
+            android:lines="1"
             android:gravity="right|center"
             android:padding="8dp"
             android:textColor="@color/color_6b"
@@ -80,6 +82,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:text="@string/age"
+            android:lines="1"
             android:textColor="@color/color_6b"
             android:textSize="14sp" />
 
@@ -90,6 +93,7 @@
             android:layout_weight="1"
             android:background="@color/transparent"
             android:ems="10"
+            android:lines="1"
             android:gravity="right|center"
             android:inputType="number"
             android:padding="8dp"
@@ -167,6 +171,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:text="@string/tel"
+            android:lines="1"
             android:textColor="@color/color_6b"
             android:textSize="14sp" />
 
@@ -177,6 +182,7 @@
             android:layout_weight="1"
             android:background="@color/transparent"
             android:ems="10"
+            android:lines="1"
             android:gravity="right|center"
             android:inputType="phone"
             android:padding="8dp"
@@ -214,6 +220,7 @@
             android:background="@color/transparent"
             android:ems="10"
             android:gravity="right|center"
+            android:lines="1"
             android:inputType="number"
             android:padding="8dp"
             android:textColor="@color/color_6b"
@@ -251,6 +258,7 @@
             android:layout_weight="1"
             android:background="@color/transparent"
             android:ems="10"
+            android:lines="1"
             android:gravity="right|center"
             android:inputType="number"
             android:padding="8dp"
@@ -289,6 +297,7 @@
             android:layout_weight="1"
             android:background="@color/transparent"
             android:ems="10"
+            android:lines="1"
             android:gravity="right|center"
             android:inputType="number"
             android:padding="8dp"
@@ -327,6 +336,7 @@
             android:layout_weight="1"
             android:background="@color/transparent"
             android:ems="10"
+            android:lines="1"
             android:gravity="right|center"
             android:padding="8dp"
             android:textColor="@color/color_6b"
@@ -342,7 +352,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
         android:layout_marginTop="24dp"
         android:background="@color/white"
         android:gravity="center_vertical"
@@ -360,8 +371,9 @@
         <EditText
             android:id="@+id/et_target"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:maxLines="3"
             android:background="@color/transparent"
             android:ems="10"
             android:gravity="right|center"
@@ -372,7 +384,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
+        android:minHeight="45dp"
         android:layout_marginTop="24dp"
         android:background="@color/white"
         android:gravity="center_vertical"
@@ -390,8 +403,9 @@
         <EditText
             android:id="@+id/et_remark"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:maxLines="3"
             android:background="@color/transparent"
             android:ems="10"
             android:gravity="right|center"

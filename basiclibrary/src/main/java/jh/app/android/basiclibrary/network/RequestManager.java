@@ -579,13 +579,13 @@ public class RequestManager {
                 } else {
                     File file = (File) object;
 //                    builder.addFormDataPart(key, file.getName(), RequestBody.create(null, file));
-                    String path_key = "";
-                    if (key.contains(Constants.SEPARATOR)) {
-                        path_key = key.split(Constants.SEPARATOR)[0];
-                    } else {
-                        path_key = key;
-                    }
-                    builder.addFormDataPart(path_key, URLEncoder.encode(file.getName()), RequestBody.create(MediaType.parse("image/jpeg"), file));
+//                    String path_key = "";
+//                    if (key.contains(Constants.SEPARATOR)) {
+//                        path_key = key.split(Constants.SEPARATOR)[0];
+//                    } else {
+//                        path_key = key;
+//                    }
+                    builder.addFormDataPart("filename", URLEncoder.encode(file.getName()), RequestBody.create(MediaType.parse("image/png"), file));
                 }
             }
             //创建RequestBody

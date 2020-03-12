@@ -6,10 +6,12 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.feibi.cinch.NetWork.request.FileUploadReq;
+import com.feibi.cinch.NetWork.request.UploadRecordReq;
 import com.feibi.cinch.utils.GsonUtil;
 import com.feibi.cinch.utils.PreferencesUtil;
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.util.HashMap;
 
 import jh.app.android.basiclibrary.entity.BasicResponseBody;
@@ -38,20 +40,26 @@ public class BasicModule {
         requestManager.requestAsyn(DO_MAIN + url, RequestManager.TYPE_POST_FORM, paramsMap, getHeaderMap(context), getReqCallBack(reqCallBack, entityClass));
     }
 
-    public <T> void fileUpload(Context context, String url, FileUploadReq req, final ReqCallBack<BasicResponseBody<T>> reqCallBack, final Class<T> entityClass) {
+    public <T> void fileUpload(Context context, String url, UploadRecordReq req, final ReqCallBack<BasicResponseBody<T>> reqCallBack, final Class<T> entityClass) {
         RequestManager requestManager = RequestManager.getInstance(context);
 
         HashMap<String, Object> paramsMap = new HashMap<>();
-        if (req.getFile() == null) {
+        if (req.getFiles() == null) {
             if (reqCallBack != null) {
                 BasicResponseBody<T> response = new BasicResponseBody<T>();
-                response.setCode("666");
+                response.setCode("401");
                 response.setMsg("no files");
                 reqCallBack.onReqFailed(response);
             }
             return;
         }
-        paramsMap.put("file", req.getFile());
+        paramsMap.put("invoke", req.getInvoke());
+        paramsMap.put("partnerID", req.getPartnerID());
+        paramsMap.put("token", req.getToken());
+        paramsMap.put("formData", req.getFormData());
+        for(File file:req.getFiles()){
+            paramsMap.put("file",file );
+        }
         requestManager.upLoadFile(DO_MAIN + url, paramsMap, getHeaderMap(context), getReqCallBack(reqCallBack, entityClass));
     }
 

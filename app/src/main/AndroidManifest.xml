@@ -45,7 +45,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".UI.Account.ChangePwdActivity"></activity>
+        <activity android:name=".UI.Account.ChangeDataActivity"></activity>
+        <activity android:name=".UI.GroupThin.ScanQRActivity" />
+        <activity android:name=".UI.GroupThin.GroupThinActivity" />
+        <activity android:name=".UI.Account.ChangePwdActivity" />
         <activity android:name=".UI.Account.PersonalDataActivity" />
         <activity android:name=".UI.Account.ForgetPwdActivity" />
         <activity

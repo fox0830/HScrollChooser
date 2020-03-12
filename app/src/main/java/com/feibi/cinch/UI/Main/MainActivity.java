@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
@@ -20,13 +21,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.feibi.cinch.NetWork.module.NetWork;
+import com.feibi.cinch.NetWork.request.SloganReq;
 import com.feibi.cinch.NetWork.respond.CinchData;
+import com.feibi.cinch.NetWork.respond.SloganData;
 import com.feibi.cinch.R;
 import com.feibi.cinch.UI.Account.LoginActivity;
 import com.feibi.cinch.UI.Account.PersonalDataActivity;
 import com.feibi.cinch.UI.Basic.BasicActivity;
+import com.feibi.cinch.UI.GroupThin.GroupThinActivity;
 import com.feibi.cinch.utils.Global;
+import com.feibi.cinch.utils.GsonUtil;
 import com.feibi.cinch.utils.PreferencesUtil;
+import com.google.gson.Gson;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -34,14 +41,18 @@ import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
 
+import jh.app.android.basiclibrary.entity.BasicResponseBody;
+import jh.app.android.basiclibrary.network.ReqCallBack;
+
 public class MainActivity extends BasicActivity implements View.OnClickListener {
 
     Banner banner;
     ArrayList<Drawable> images = new ArrayList<>();
 
     TextView tv_slogan;
-    ConstraintLayout cl_add_friend,cl_personal_data;
+    ConstraintLayout cl_add_friend, cl_personal_data;
     LinearLayout ll_logout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,19 +85,64 @@ public class MainActivity extends BasicActivity implements View.OnClickListener 
         banner.setImages(images);
         banner.start();
 
-        ll_logout = findViewById(R.id.ll_logout);ll_logout.setOnClickListener(this);
-        cl_add_friend = findViewById(R.id.cl_add_friend);cl_add_friend.setOnClickListener(this);
-        cl_personal_data = findViewById(R.id.cl_personal_data);cl_personal_data.setOnClickListener(this);
+        ll_logout = findViewById(R.id.ll_logout);
+        ll_logout.setOnClickListener(this);
+        cl_add_friend = findViewById(R.id.cl_add_friend);
+        cl_add_friend.setOnClickListener(this);
+        cl_personal_data = findViewById(R.id.cl_personal_data);
+        cl_personal_data.setOnClickListener(this);
         findViewById(R.id.cl_group_thin).setOnClickListener(this);
         findViewById(R.id.cl_love_share).setOnClickListener(this);
 
-        cl_add_friend.setVisibility(Global.isMerchant?View.VISIBLE:View.GONE);
-        cl_personal_data.setVisibility(Global.isMerchant?View.GONE:View.VISIBLE);
-        ll_logout.setVisibility(Global.isMerchant?View.VISIBLE:View.GONE);
+        cl_add_friend.setVisibility(Global.isMerchant ? View.VISIBLE : View.GONE);
+        cl_personal_data.setVisibility(Global.isMerchant ? View.GONE : View.VISIBLE);
+        ll_logout.setVisibility(Global.isMerchant ? View.VISIBLE : View.GONE);
 
         tv_slogan = findViewById(R.id.tv_slogan);
         tv_slogan.setText(getString(R.string.slogan));
+        getSlogan();
     }
+
+    public void getSlogan() {
+        new NetWork(this).getSlogan(new SloganReq(new SloganReq.FormData("1")), new ReqCallBack<BasicResponseBody<ArrayList>>() {
+            @Override
+            public void onReqSuccess(BasicResponseBody<ArrayList> result) {
+                ArrayList<SloganData> slogans = new ArrayList<>();
+                for (int i = 0; i < result.getData().size(); i++) {
+                    String json = new Gson().toJson(result.getData().get(i));
+                    try {
+                        SloganData sloganData = (SloganData) GsonUtil.str2Obj(json, SloganData.class);
+                        slogans.add(sloganData);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                if (slogans.size() > 0) {
+                    final int[] pos = {0};
+                    Handler handler = new Handler();
+                    Runnable runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            tv_slogan.setText(slogans.get(pos[0]).getSlogan());
+                            pos[0] += 1;
+                            if (pos[0] >= slogans.size()) {
+                                pos[0] = 0;
+                            }
+                            handler.postDelayed(this, 5000);
+                        }
+                    };
+                    handler.post(runnable);
+                }
+            }
+
+            @Override
+            public void onReqFailed(BasicResponseBody result) {
+
+            }
+        });
+    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -166,7 +222,7 @@ public class MainActivity extends BasicActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_logout:
-                PreferencesUtil.saveCinchData(this,"");
+                PreferencesUtil.saveCinchData(this, "");
                 Global.cinchData = new CinchData();
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
@@ -176,11 +232,13 @@ public class MainActivity extends BasicActivity implements View.OnClickListener 
                 startActivity(new Intent(this, PersonalDataActivity.class));
                 break;
             case R.id.cl_group_thin:
+                startActivity(new Intent(this, GroupThinActivity.class));
                 break;
             case R.id.cl_love_share:
                 break;
         }
     }
+
     public class GlideImageLoader extends ImageLoader {
         @Override
         public void displayImage(Context context, Object path, ImageView imageView) {

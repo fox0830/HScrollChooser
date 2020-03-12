@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.feibi.cinch.NetWork.module.NetWork;
 import com.feibi.cinch.NetWork.request.UploadPicReq;
@@ -36,7 +37,8 @@ import static jh.app.android.basiclibrary.Constants.getPhotoName;
 public class PersonalDataActivity extends BasicActivity {
 
     ImageView iv_user_head;
-    String cut_picture_path;
+
+    TextView tv_name, tv_age, tv_tel, tv_height, tv_weight, tv_fat, tv_bmi, tv_target, tv_remark;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +47,29 @@ public class PersonalDataActivity extends BasicActivity {
         findViewById(R.id.iv_back).setOnClickListener(this);
         findViewById(R.id.ll_change_pwd).setOnClickListener(this);
         findViewById(R.id.ll_logout).setOnClickListener(this);
+        findViewById(R.id.ll_change_data).setOnClickListener(this);
         iv_user_head = findViewById(R.id.iv_user_head);
         iv_user_head.setOnClickListener(this);
+
+        tv_name = findViewById(R.id.tv_name);
+        tv_age = findViewById(R.id.tv_age);
+        tv_tel = findViewById(R.id.tv_tel);
+        tv_height = findViewById(R.id.tv_height);
+        tv_weight = findViewById(R.id.tv_weight);
+        tv_fat = findViewById(R.id.tv_fat);
+        tv_bmi = findViewById(R.id.tv_bmi);
+        tv_target = findViewById(R.id.tv_target);
+        tv_remark = findViewById(R.id.tv_remark);
+
+        tv_name.setText(Global.cinchData.getLc_name());
+        tv_age.setText(Global.cinchData.getLc_age()+getString(R.string.age_unit));
+        tv_tel.setText(Global.cinchData.getLc_tel());
+        tv_height.setText(Global.cinchData.getLc_tall());
+        tv_weight.setText(Global.cinchData.getLc_weight());
+        tv_fat.setText(Global.cinchData.getLc_fat());
+        tv_bmi.setText(Global.cinchData.getLc_bmi());
+        tv_target.setText(Global.cinchData.getLc_target());
+        tv_remark.setText(Global.cinchData.getLc_remark());
     }
 
     @Override
@@ -54,9 +77,6 @@ public class PersonalDataActivity extends BasicActivity {
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
-                break;
-            case R.id.iv_user_head:
-                ChoosePictureUtils.openAlbum(this);
                 break;
             case R.id.ll_logout:
                 PreferencesUtil.saveCinchData(this, "");
@@ -66,95 +86,10 @@ public class PersonalDataActivity extends BasicActivity {
             case R.id.ll_change_pwd:
                 startActivity(new Intent(this, ChangePwdActivity.class));
                 break;
+            case R.id.ll_change_data:
+                startActivity(new Intent(this, ChangeDataActivity.class));
+                break;
         }
     }
 
-    /**
-     * 从相册、相机拍照、裁減的回调
-     *
-     * @param requestCode 根据值判断是从相册还是相机调用的回调.
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != Activity.RESULT_OK) {
-            return;
-        }
-        if (requestCode == ALBUM) {
-            if (data == null) {
-                return;
-            }
-            Uri selectedImage = data.getData();
-            if (selectedImage == null) {
-                return;
-            }
-            String[] filePathColumns = {MediaStore.Images.Media.DATA};
-            Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
-            if (c == null) {
-                return;
-            }
-            c.moveToFirst();
-            int columnIndex = c.getColumnIndex(filePathColumns[0]);
-            String imagePath = c.getString(columnIndex);
-            c.close();
-            cutImg(ImageTool.getUriByPath(this, imagePath));
-        } else if (requestCode == CAMERA) {
-            Uri uri = ChoosePictureUtils.imageUri;
-        } else if (requestCode == CUT_PHOTO) {
-            showLoading();
-            File file = new File(cut_picture_path);
-            uploadPic(file);
-        }
-    }
-
-    /**
-     * 剪切图片
-     */
-    private void cutImg(Uri uri) {
-        if (uri == null) {
-            return;
-        }
-        cut_picture_path = MAIN_PATH + "/" + getPhotoName();
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-        intent.putExtra("crop", "true");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(cut_picture_path)));
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG);
-        intent.putExtra("outputX", 480);
-        intent.putExtra("outputY", 480);
-        intent.putExtra("scale", true);
-        intent.putExtra("scaleUpIfNeeded", true);
-        intent.putExtra("return-data", false);
-        startActivityForResult(intent, CUT_PHOTO);
-    }
-
-    private void uploadPic(File file) {
-        File[] lc_pic = {file};
-//        new NetWork(this).UploadPic(new UploadPicReq(new UploadPicReq.FormData(Global.cinchData.getLc_id(), lc_pic)), new ReqCallBack<BasicResponseBody<Object>>() {
-//            @Override
-//            public void onReqSuccess(BasicResponseBody<Object> result) {
-//                dismissLoading();
-//            }
-//
-//            @Override
-//            public void onReqFailed(BasicResponseBody result) {
-//                dismissLoading();
-//            }
-//        });
-        new NetWork(this).UploadRecordPic(new UploadRecordReq(new UploadRecordReq.FormData(Global.cinchData.getLc_id(), "2",lc_pic)), new ReqCallBack<BasicResponseBody<Object>>() {
-            @Override
-            public void onReqSuccess(BasicResponseBody<Object> result) {
-                dismissLoading();
-            }
-
-            @Override
-            public void onReqFailed(BasicResponseBody result) {
-                dismissLoading();
-            }
-        });
-    }
 }
