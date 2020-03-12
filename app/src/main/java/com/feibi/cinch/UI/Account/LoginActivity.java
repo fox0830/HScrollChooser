@@ -108,7 +108,7 @@ public class LoginActivity extends BasicActivity implements View.OnClickListener
             case R.id.tv_login:
                 String account = et_account.getText().toString();
                 String pwd = et_password.getText().toString();
-                if(TextUtils.isEmpty(account)||TextUtils.isEmpty(pwd)){
+                if (TextUtils.isEmpty(account) || TextUtils.isEmpty(pwd)) {
                     return;
                 }
                 showLoading();
@@ -116,8 +116,10 @@ public class LoginActivity extends BasicActivity implements View.OnClickListener
                     netWork.mbLogin(new MbLoginReq(new MbLoginReq.FormData(account, pwd)), new ReqCallBack<BasicResponseBody<Object>>() {
                         @Override
                         public void onReqSuccess(BasicResponseBody<Object> result) {
-                            Global.useType=Global.MERCHANT;
+                            Global.useType = Global.MERCHANT;
                             PreferencesUtil.saveUseType(LoginActivity.this, Global.MERCHANT);
+                            Global.MbNo = account;
+                            PreferencesUtil.saveMbNo(LoginActivity.this, account);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                             dismissLoading();
@@ -135,7 +137,7 @@ public class LoginActivity extends BasicActivity implements View.OnClickListener
                         public void onReqSuccess(BasicResponseBody<CinchData> result) {
                             Global.cinchData = result.getData();
                             PreferencesUtil.saveCinchData(LoginActivity.this, new Gson().toJson(result.getData()));
-                            Global.useType=Global.CINCH;
+                            Global.useType = Global.CINCH;
                             PreferencesUtil.saveUseType(LoginActivity.this, Global.CINCH);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();

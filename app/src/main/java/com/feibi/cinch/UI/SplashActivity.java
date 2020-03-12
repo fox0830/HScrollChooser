@@ -2,6 +2,7 @@ package com.feibi.cinch.UI;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.feibi.cinch.NetWork.respond.CinchData;
@@ -44,8 +45,11 @@ public class SplashActivity extends BasicActivity {
     private void jump() {
         Global.useType = PreferencesUtil.getUseType(this);
         if (Global.MERCHANT.equals(Global.useType)) {
-            startActivity(new Intent(this, MainActivity.class));
-            return;
+            Global.MbNo = PreferencesUtil.getMbNo(this);
+            if (!TextUtils.isEmpty(Global.MbNo)) {
+                startActivity(new Intent(this, MainActivity.class));
+                return;
+            }
         } else if (Global.CINCH.equals(Global.useType)) {
             try {
                 String jsonStr = PreferencesUtil.getCinchData(this);

@@ -28,8 +28,10 @@ import com.feibi.cinch.NetWork.respond.SloganData;
 import com.feibi.cinch.R;
 import com.feibi.cinch.UI.Account.LoginActivity;
 import com.feibi.cinch.UI.Account.PersonalDataActivity;
+import com.feibi.cinch.UI.AddFriend.MyFriendActivity;
 import com.feibi.cinch.UI.Basic.BasicActivity;
 import com.feibi.cinch.UI.GroupThin.GroupThinActivity;
+import com.feibi.cinch.UI.GroupThin.MbGroupThinActivity;
 import com.feibi.cinch.utils.Global;
 import com.feibi.cinch.utils.GsonUtil;
 import com.feibi.cinch.utils.PreferencesUtil;
@@ -228,12 +230,17 @@ public class MainActivity extends BasicActivity implements View.OnClickListener 
                 startActivity(new Intent(this, LoginActivity.class));
                 break;
             case R.id.cl_add_friend:
+                startActivity(new Intent(this, MyFriendActivity.class));
                 break;
             case R.id.cl_personal_data:
                 startActivity(new Intent(this, PersonalDataActivity.class));
                 break;
             case R.id.cl_group_thin:
-                startActivity(new Intent(this, GroupThinActivity.class));
+                if(Global.MERCHANT.equals(Global.useType)){
+                    startActivity(new Intent(this, MbGroupThinActivity.class));
+                }else {
+                    startActivity(new Intent(this, GroupThinActivity.class));
+                }
                 break;
             case R.id.cl_love_share:
                 break;

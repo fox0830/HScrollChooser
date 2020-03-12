@@ -1,5 +1,6 @@
 package com.feibi.cinch.UI.Account;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,6 +20,7 @@ import com.feibi.cinch.NetWork.request.RegisterReq;
 import com.feibi.cinch.NetWork.request.WriteAnswerReq;
 import com.feibi.cinch.R;
 import com.feibi.cinch.UI.Basic.BasicActivity;
+import com.feibi.cinch.utils.Global;
 
 import jh.app.android.basiclibrary.entity.BasicResponseBody;
 import jh.app.android.basiclibrary.network.ReqCallBack;
@@ -53,7 +55,6 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
     TextView tv_step_1, tv_step_2, tv_step_3;
     View v_step_1, v_step_2, v_step_3, v_step_line1, v_step_line2, v_step_line3;
 
-    boolean isLoading = false;
     String code;
 
     //input
@@ -78,6 +79,10 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
     String ans4;
     String ans5;
     String ans6;
+
+    //page type
+    boolean isRegister = true;
+    TextView tv_title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,6 +162,11 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
         rb6_sometime = findViewById(R.id.rb6_sometime);
         rb6_little = findViewById(R.id.rb6_little);
         findViewById(R.id.tv_confirm3).setOnClickListener(this);
+
+        tv_title = findViewById(R.id.tv_title);
+        isRegister = getIntent().getBooleanExtra("register", true);
+        tv_title.setText(isRegister ? getString(R.string.register) : getString(R.string.add_cinch));
+        et_merchant.setVisibility(isRegister ? View.VISIBLE : View.GONE);
         refreshBtn();
         refreshStep();
         netWork = new NetWork(this);
@@ -216,7 +226,7 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
                 break;
             case R.id.tv_get_ver_code:
                 showLoading();
-                GetVerCodeReq req = new GetVerCodeReq( new GetVerCodeReq.FormData(et_id.getText().toString()));
+                GetVerCodeReq req = new GetVerCodeReq(new GetVerCodeReq.FormData(et_id.getText().toString()));
                 new NetWork(this).getVerCode(req, new ReqCallBack<BasicResponseBody<Object>>() {
                     @Override
                     public void onReqSuccess(BasicResponseBody<Object> result) {
@@ -238,7 +248,11 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
                 lc_id = et_id.getText().toString();
                 lc_pwd = et_psw.getText().toString();
                 lc_pwd_confirm = et_confirm_psw.getText().toString();
-                mb_no = et_merchant.getText().toString();
+                if (isRegister) {
+                    mb_no = et_merchant.getText().toString();
+                } else {
+                    mb_no = Global.MbNo;
+                }
                 if (TextUtils.isEmpty(inputCode) || TextUtils.isEmpty(lc_id) || TextUtils.isEmpty(lc_pwd) || TextUtils.isEmpty(lc_pwd_confirm) || TextUtils.isEmpty(mb_no)) {
                     return;
                 }
@@ -305,7 +319,7 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
                 netWork.writeAnswer(new WriteAnswerReq(new WriteAnswerReq.FormData(lc_id, ans1, ans2, ans3, ans4, ans5, ans6)), new ReqCallBack<BasicResponseBody<Object>>() {
                     @Override
                     public void onReqSuccess(BasicResponseBody<Object> result) {
-                        showToast(getString(R.string.pls_login));
+                        showToast(isRegister?getString(R.string.pls_login):getString(R.string.add_cinch_success));
                         finish();
                         dismissLoading();
                     }
@@ -343,6 +357,7 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
             public void onReqSuccess(BasicResponseBody<Object> result) {
                 tv_bmi.setText(result.getData().toString());
             }
+
             @Override
             public void onReqFailed(BasicResponseBody result) {
                 showToast("BMI計算出錯：" + result.getMsg());

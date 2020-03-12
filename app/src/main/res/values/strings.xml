@@ -99,5 +99,25 @@
     <string name="join_time">參加時間</string>
     <string name="no_join_task">尚未參加任何任務</string>
 
+    <!--    交朋友-->
+    <string name="search_name">搜尋名字</string>
+    <string name="old_friend">老朋友</string>
+    <string name="new_friend">新朋友</string>
+    <string name="add_time">加入時間</string>
+    <string name="find_no_old_friend">查無此潛在客戶</string>
+    <string name="find_no_new_friend">尚無新朋友</string>
+    <string name="add_cinch">新增客戶</string>
+    <string name="add_cinch_success">新增客戶成功</string>
+
+    <string name="see_friend_data">查看客戶資料</string>
+    <string name="delete_data">刪除該資料</string>
+
+    <string name="see_task_data">查看任務詳情</string>
+
+    <string name="ing">進行中</string>
+    <string name="over">已結束</string>
+    <string name="delete_task">確定刪除該任務</string>
+    <string name="confirm_delete">確定刪除</string>
+    <string name="task_ranking">任務排名</string>
 
 </resources>

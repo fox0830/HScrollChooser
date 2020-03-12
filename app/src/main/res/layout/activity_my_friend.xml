@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:fitsSystemWindows="true"
-    tools:context=".UI.GroupThin.GroupThinActivity">
+    tools:context=".UI.Account.ForgetPwdActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -59,17 +59,15 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:ems="10"
-            android:imeOptions="actionSearch"
-            android:textColorHint="@color/b2"
-            android:inputType="textPersonName"
             android:background="@drawable/fb_40dp_bg"
-            android:hint="@string/search_activity"
+            android:ems="10"
+            android:hint="@string/search_name"
+            android:imeOptions="actionSearch"
+            android:inputType="textPersonName"
             android:paddingLeft="20dp"
             android:paddingRight="40dp"
+            android:textColorHint="@color/b2"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_back" />
@@ -83,6 +81,38 @@
             app:layout_constraintEnd_toEndOf="@+id/et_input"
             app:layout_constraintTop_toTopOf="@+id/et_input"
             app:srcCompat="@drawable/ic_clear_input" />
+        <TextView
+            android:id="@+id/tv_new_friend"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:text="@string/new_friend"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_old_friend"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.76"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_old_friend" />
+
+        <TextView
+            android:id="@+id/tv_old_friend"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/ic_check_btn"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:text="@string/old_friend"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.21"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_input" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
@@ -95,7 +125,7 @@
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_activity"
+            android:id="@+id/rv_friend"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -112,7 +142,7 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/rv_activity">
+            app:layout_constraintTop_toTopOf="@+id/rv_friend">
 
             <ImageView
                 android:id="@+id/imageView20"
@@ -122,22 +152,21 @@
                 app:srcCompat="@mipmap/no_search" />
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/tv_no_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/no_search_task"
                 android:textColor="@color/color_9b" />
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/iv_scan"
+            android:id="@+id/iv_add_friend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="32dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_scan" />
+            app:srcCompat="@drawable/ic_add" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -63,16 +63,9 @@ public class PersonalDataActivity extends BasicActivity {
         tv_target = findViewById(R.id.tv_target);
         tv_remark = findViewById(R.id.tv_remark);
 
-        tv_name.setText(Global.cinchData.getLc_name());
-        tv_age.setText(Global.cinchData.getLc_age()+getString(R.string.age_unit));
-        tv_tel.setText(Global.cinchData.getLc_tel());
-        tv_height.setText(Global.cinchData.getLc_tall());
-        tv_weight.setText(Global.cinchData.getLc_weight());
-        tv_fat.setText(Global.cinchData.getLc_fat());
-        tv_bmi.setText(Global.cinchData.getLc_bmi());
-        tv_target.setText(Global.cinchData.getLc_target());
-        tv_remark.setText(Global.cinchData.getLc_remark());
+        refreshDataUI();
     }
+
 
     @Override
     protected void onResume() {
@@ -81,8 +74,9 @@ public class PersonalDataActivity extends BasicActivity {
         new NetWork(this).GetCinchUserData(new GetCinchUserDataReq(new GetCinchUserDataReq.FormData("", Global.cinchData.getLc_id())), new ReqCallBack<BasicResponseBody<CinchData>>() {
             @Override
             public void onReqSuccess(BasicResponseBody<CinchData> result) {
-                    Global.cinchData = result.getData();
-                    dismissLoading();
+                Global.cinchData = result.getData();
+                dismissLoading();
+                refreshDataUI();
             }
 
             @Override
@@ -93,6 +87,18 @@ public class PersonalDataActivity extends BasicActivity {
         });
     }
 
+    protected void refreshDataUI() {
+        tv_name.setText(Global.cinchData.getLc_name());
+        tv_age.setText(Global.cinchData.getLc_age() + getString(R.string.age_unit));
+        tv_tel.setText(Global.cinchData.getLc_tel());
+        tv_height.setText(Global.cinchData.getLc_tall());
+        tv_weight.setText(Global.cinchData.getLc_weight());
+        tv_fat.setText(Global.cinchData.getLc_fat());
+        tv_bmi.setText(Global.cinchData.getLc_bmi());
+        tv_target.setText(Global.cinchData.getLc_target());
+        tv_remark.setText(Global.cinchData.getLc_remark());
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -100,7 +106,7 @@ public class PersonalDataActivity extends BasicActivity {
                 finish();
                 break;
             case R.id.ll_task:
-                startActivity(new Intent(this,JoinTaskActivity.class));
+                startActivity(new Intent(this, JoinTaskActivity.class));
                 break;
             case R.id.ll_logout:
                 PreferencesUtil.saveUseType(this, "");

@@ -8,7 +8,7 @@ import jh.app.android.basiclibrary.utils.PreferencesUtils;
 public class PreferencesUtil extends PreferencesUtils {
 
     private static String useType = "useType";
-    private static String lc_id = "lc_id";
+    private static String mb_no= "mb_no";
     private static String cinchData = "CinchData";
 
 
@@ -23,12 +23,12 @@ public class PreferencesUtil extends PreferencesUtils {
 
 
 
-    public static boolean saveLcId(Context context, String val) {
-        return putString(context, lc_id, val);
+    public static boolean saveMbNo(Context context, String val) {
+        return putString(context, mb_no, val);
     }
 
-    public static String getLcId(Context context) {
-        return getString(context, lc_id);
+    public static String getMbNo(Context context) {
+        return getString(context, mb_no);
     }
 
     public static boolean saveCinchData(Context context, String val) {

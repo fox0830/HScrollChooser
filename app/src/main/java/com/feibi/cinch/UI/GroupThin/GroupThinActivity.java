@@ -81,8 +81,8 @@ public class GroupThinActivity extends BasicActivity {
         data.add("1");
         gropActAdapter = new GropActAdapter(this, data, new GropActAdapter.OnItemClickListener() {
             @Override
-            public void onClick(int pos) {
-                showToast(pos + "");
+            public void onClick(int pos, View view) {
+
             }
         });
     }
