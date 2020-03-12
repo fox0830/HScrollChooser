@@ -43,16 +43,20 @@ public class SplashActivity extends BasicActivity {
     }
 
     private void jump() {
-        try {
-            String jsonStr = PreferencesUtil.getCinchData(this);
-            Global.cinchData = (CinchData) GsonUtil.str2Obj(jsonStr, CinchData.class);
-            isMerchant = false;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if(Global.cinchData !=null&&Global.cinchData.getLc_id()!=null){
-            startActivity(new Intent(this, MainActivity.class));
-            return;
+        Global.isMerchant = PreferencesUtil.getIsMerchant(this);
+        if(Global.isMerchant){
+
+        }else {
+            try {
+                String jsonStr = PreferencesUtil.getCinchData(this);
+                Global.cinchData = (CinchData) GsonUtil.str2Obj(jsonStr, CinchData.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if(Global.cinchData !=null&&Global.cinchData.getLc_id()!=null){
+                startActivity(new Intent(this, MainActivity.class));
+                return;
+            }
         }
         startActivity(new Intent(this, LoginActivity.class));
     }

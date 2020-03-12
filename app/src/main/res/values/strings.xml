@@ -27,6 +27,7 @@
     <string name="confirm">確定</string>
     <string name="pls_login">註冊成功，請登陸</string>
     <string name="pls_login2">修改密碼成功，請登陸</string>
+    <string name="change_pwd_success">修改密碼成功</string>
 
     <!--    register1-->
     <string name="id_or_tel">ID/手機</string>
@@ -67,6 +68,7 @@
     <string name="question6">6、臉上易泛紅,常覺得燥熱,或喜愛吃高熱量宵夜,且肥胖部位集中在腰、臀、大腿</string>
 
     <!--    忘記密碼-->
+    <string name="old_pwd">舊密碼</string>
     <string name="new_pwd">新密碼</string>
 
     <!--    個人資料-->

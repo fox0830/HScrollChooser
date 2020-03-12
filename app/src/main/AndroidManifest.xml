@@ -45,7 +45,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".UI.Account.PersonalDataActivity"></activity>
+        <activity android:name=".UI.Account.ChangePwdActivity"></activity>
+        <activity android:name=".UI.Account.PersonalDataActivity" />
         <activity android:name=".UI.Account.ForgetPwdActivity" />
         <activity
             android:name=".UI.Account.RegisterActivity"

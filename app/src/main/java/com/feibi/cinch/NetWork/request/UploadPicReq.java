@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import java.io.File;
 
 public class UploadPicReq extends BasicReq {
-
     public UploadPicReq(FormData formData) {
         this.partnerID = "173";
         this.invoke = "upimg";
@@ -17,10 +16,26 @@ public class UploadPicReq extends BasicReq {
 
     public static class FormData {
         String lc_id;
-        File lc_pic;
+        File[] lc_pic;
 
-        public FormData(String lc_id, File lc_pic) {
+        public FormData(String lc_id, File[] lc_pic) {
             this.lc_id = lc_id;
+            this.lc_pic = lc_pic;
+        }
+
+        public String getLc_id() {
+            return lc_id;
+        }
+
+        public void setLc_id(String lc_id) {
+            this.lc_id = lc_id;
+        }
+
+        public File[] getLc_pic() {
+            return lc_pic;
+        }
+
+        public void setLc_pic(File[] lc_pic) {
             this.lc_pic = lc_pic;
         }
     }

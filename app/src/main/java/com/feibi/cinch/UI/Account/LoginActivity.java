@@ -111,6 +111,7 @@ public class LoginActivity extends BasicActivity implements View.OnClickListener
                         @Override
                         public void onReqSuccess(BasicResponseBody<CinchData> result) {
                             PreferencesUtil.saveCinchData(LoginActivity.this, new Gson().toJson(result.getData()));
+                            PreferencesUtil.saveIsMerchant(LoginActivity.this,false);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                             dismissLoading();
