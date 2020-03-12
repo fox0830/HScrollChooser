@@ -30,6 +30,7 @@
             android:background="@color/transparent"
             android:ems="10"
             android:lines="1"
+            android:hint="@string/hint_id_or_tel"
             android:inputType="number"
             android:textColor="@color/color_6b"
             android:textSize="14sp" />
@@ -60,6 +61,7 @@
             android:lines="1"
             android:background="@color/transparent"
             android:ems="10"
+            android:hint="@string/hint_ver_code"
             android:inputType="numberSigned"
             android:textColor="@color/color_6b"
             android:textSize="14sp" />
@@ -98,6 +100,7 @@
             android:layout_weight="1"
             android:lines="1"
             android:background="@color/transparent"
+            android:hint="@string/hint_pwd"
             android:ems="10"
             android:inputType="textWebPassword"
             android:textColor="@color/color_6b"
@@ -128,6 +131,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:lines="1"
+            android:hint="@string/hint_confirm_password"
             android:background="@color/transparent"
             android:ems="10"
             android:inputType="textWebPassword"
@@ -136,6 +140,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_merchant"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="24dp"
@@ -159,6 +164,7 @@
             android:layout_weight="1"
             android:lines="1"
             android:background="@color/transparent"
+            android:hint="@string/hint_merchant"
             android:ems="10"
             android:inputType="textEmailSubject"
             android:textColor="@color/color_6b"

@@ -26,16 +26,19 @@
         app:layout_constraintStart_toEndOf="@+id/iv_rank"
         app:layout_constraintTop_toTopOf="@+id/iv_rank" />
 
-    <TextView
-        android:id="@+id/tv_user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <EditText
+        android:id="@+id/et_name_or_prize"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="24dp"
         android:text="TextView"
+        android:background="@color/transparent"
+        android:gravity="right|center"
         android:textColor="@color/color_66"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_rank"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_rank_txt"
         app:layout_constraintTop_toTopOf="@+id/iv_rank" />
 
     <View

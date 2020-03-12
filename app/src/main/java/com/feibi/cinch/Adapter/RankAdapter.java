@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,9 +18,11 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.ViewHolder> {
     Context context;
     ArrayList<String> pictures = new ArrayList<>();
     RankAdapter.OnItemClickListener onItemClickListener;
-    public RankAdapter(Context context, ArrayList<String> pictures) {
+    boolean isEdit = false;
+    public RankAdapter(Context context, ArrayList<String> pictures,boolean isEdit) {
         this.context = context;
         this.pictures = pictures;
+        this.isEdit = isEdit;
     }
 
     @NonNull
@@ -48,7 +51,12 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.ViewHolder> {
                 viewHolder.tv_rank.setText((i+1)+"");
             }
             viewHolder.tv_rank_txt.setText("第"+(i+1)+"名");
-            viewHolder.tv_user_name.setText("test");
+            viewHolder.et_name_or_prize.setText("test");
+            if(isEdit){
+                viewHolder.et_name_or_prize.setEnabled(true);
+            }else {
+                viewHolder.et_name_or_prize.setEnabled(false);
+            }
     }
 
     @Override
@@ -57,14 +65,15 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_rank_txt,tv_rank,tv_user_name;
+        TextView tv_rank_txt,tv_rank;
+        EditText et_name_or_prize;
         ImageView iv_rank;
         public ViewHolder(View view) {
             super(view);
             tv_rank_txt = view.findViewById(R.id.tv_rank_txt);
             tv_rank = view.findViewById(R.id.tv_rank);
             iv_rank = view.findViewById(R.id.iv_rank);
-            tv_user_name = view.findViewById(R.id.tv_user_name);
+            et_name_or_prize = view.findViewById(R.id.et_name_or_prize);
         }
     }
 

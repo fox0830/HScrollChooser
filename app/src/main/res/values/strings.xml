@@ -32,29 +32,42 @@
 
     <!--    register1-->
     <string name="id_or_tel">ID/手機</string>
+    <string name="hint_id_or_tel">請輸入ID/手機</string>
     <string name="ver_code">驗證碼</string>
+    <string name="hint_ver_code">請輸入驗證碼</string>
     <string name="ver_code_err">驗證碼錯誤</string>
     <string name="psw_two_err">兩次輸入密碼不一致</string>
     <string name="password">密碼</string>
+    <string name="hint_password">請輸入密碼</string>
     <string name="confirm_password">確認密碼</string>
+    <string name="hint_confirm_password">請再次輸入密碼</string>
     <string name="merchant_num">直銷商會員編號</string>
+    <string name="hint_merchant_num">請輸入直銷商會員編號</string>
     <string name="get_ver_code">獲取驗證碼</string>
 
     <!--    register2-->
     <string name="big_head">大頭貼</string>
     <string name="name">姓名</string>
+    <string name="hint_name">請輸入姓名</string>
     <string name="age">年龄</string>
+    <string name="hint_age">請輸入年龄</string>
     <string name="age_unit">歲</string>
     <string name="sex">性別</string>
     <string name="male">男</string>
     <string name="female">女</string>
     <string name="tel">聯絡電話</string>
+    <string name="hint_tel">請輸入聯絡電話</string>
     <string name="height">身高</string>
+    <string name="hint_height">請輸入身高</string>
     <string name="weight">體重</string>
+    <string name="hint_weight">請輸入體重</string>
     <string name="fat">體脂</string>
+    <string name="hint_fat">請輸入體脂</string>
     <string name="bmi">BMI</string>
     <string name="target">目標</string>
+    <string name="hint_target">請輸入目標</string>
     <string name="remark">備註</string>
+    <string name="hint_remark">請輸入備註</string>
     <string name="next_step">下一步</string>
     <string name="save">儲存</string>
 
@@ -120,6 +133,25 @@
     <string name="confirm_delete">確定刪除</string>
     <string name="task_ranking">任務排名</string>
 
-<!--    新增任務-->
+    <!--    新增任務-->
+    <string name="add_task">新建任務 </string>
+    <string name="task_name">活動名稱</string>
+    <string name="hint_task_name">請輸入活動名稱</string>
+    <string name="task_info">活動簡介</string>
+    <string name="hint_task_info">請輸入活動簡介</string>
+    <string name="task_time">活動期間</string>
+    <string name="hint_task_time">請選擇活動期間</string>
+    <string name="task_people_num">組隊人數</string>
+    <string name="hint_task_people_num">請輸入組隊人數</string>
+    <string name="task_target">目\t\t\t\t標</string>
+    <string name="hint_task_target">請輸入活動目標</string>
+    <string name="scoring_method">計分方式</string>
+    <string name="hint_scoring_method">請選擇計分方式</string>
+    <string name="task_reward">任務獎項</string>
+    <string name="add">新增</string>
+    <string name="confirm_add">確認新增</string>
+    <string name="add_ing">新增中</string>
+    <string name="add_done">新增完成</string>
+
 
 </resources>

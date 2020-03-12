@@ -30,7 +30,7 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
     EditText et_id, et_vercode, et_psw, et_confirm_psw, et_merchant, et_name, et_age, et_tel, et_height, et_weight, et_fat, et_target, et_remark;
     TextView tv_bmi, tv_get_ver_code;
     ImageView iv_head;
-    LinearLayout ll_step1, ll_step2, ll_step3;
+    LinearLayout ll_step1, ll_step2, ll_step3,ll_merchant;
     int currentStep = 1;
     NetWork netWork;
     int count = 0;
@@ -65,7 +65,6 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
     String lc_name;
     String lc_tel;
     String lc_age;
-    String lc_sex;
     String lc_tall;
     String lc_weight;
     String lc_bmi;
@@ -107,6 +106,7 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
         /**
          * step1
          */
+        ll_merchant = findViewById(R.id.ll_merchant);
         et_id = findViewById(R.id.et_id);
 //        et_id.addTextChangedListener(this);
         et_vercode = findViewById(R.id.et_vercode);
@@ -166,7 +166,7 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
         tv_title = findViewById(R.id.tv_title);
         isRegister = getIntent().getBooleanExtra("register", true);
         tv_title.setText(isRegister ? getString(R.string.register) : getString(R.string.add_cinch));
-        et_merchant.setVisibility(isRegister ? View.VISIBLE : View.GONE);
+        ll_merchant.setVisibility(isRegister ? View.VISIBLE : View.GONE);
         refreshBtn();
         refreshStep();
         netWork = new NetWork(this);
@@ -319,7 +319,7 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
                 netWork.writeAnswer(new WriteAnswerReq(new WriteAnswerReq.FormData(lc_id, ans1, ans2, ans3, ans4, ans5, ans6)), new ReqCallBack<BasicResponseBody<Object>>() {
                     @Override
                     public void onReqSuccess(BasicResponseBody<Object> result) {
-                        showToast(isRegister?getString(R.string.pls_login):getString(R.string.add_cinch_success));
+                        showToast(isRegister ? getString(R.string.pls_login) : getString(R.string.add_cinch_success));
                         finish();
                         dismissLoading();
                     }

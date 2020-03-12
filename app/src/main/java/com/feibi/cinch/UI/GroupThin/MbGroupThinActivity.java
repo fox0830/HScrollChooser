@@ -43,7 +43,7 @@ public class MbGroupThinActivity extends BasicActivity {
         setContentView(R.layout.activity_mb_group_thin);
         findViewById(R.id.iv_back).setOnClickListener(this);
         findViewById(R.id.iv_clear_input).setOnClickListener(this);
-        findViewById(R.id.iv_add_friend).setOnClickListener(this);
+        findViewById(R.id.iv_add_group).setOnClickListener(this);
         tv_ing = findViewById(R.id.tv_ing);
         tv_ing.setOnClickListener(this);
         tv_over = findViewById(R.id.tv_over);
@@ -94,8 +94,8 @@ public class MbGroupThinActivity extends BasicActivity {
             case R.id.iv_clear_input:
                 et_input.setText("");
                 break;
-            case R.id.iv_add_friend:
-                startActivity(new Intent(this, RegisterActivity.class).putExtra("register", false));
+            case R.id.iv_add_group:
+                startActivity(new Intent(this, AddGroupThinActivity.class));
                 break;
         }
     }

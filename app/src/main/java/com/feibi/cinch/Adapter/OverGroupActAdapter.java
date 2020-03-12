@@ -51,7 +51,7 @@ public class OverGroupActAdapter extends RecyclerView.Adapter<OverGroupActAdapte
         data.add("1");
         data.add("1");
         data.add("1");
-        RankAdapter rankAdapter = new RankAdapter(context,data);
+        RankAdapter rankAdapter = new RankAdapter(context,data,false);
         viewHolder.rv_ranking.setLayoutManager(new LinearLayoutManager(context));
         viewHolder.rv_ranking.setAdapter(rankAdapter);
     }
