@@ -68,6 +68,9 @@
     <string name="hint_target">請輸入目標</string>
     <string name="remark">備註</string>
     <string name="hint_remark">請輸入備註</string>
+    <string name="suggest">建議產品</string>
+    <string name="hint_suggest">請輸入建議產品</string>
+
     <string name="next_step">下一步</string>
     <string name="save">儲存</string>
 
@@ -158,6 +161,16 @@
     <string name="task_people">任務成員</string>
     <string name="task_detail">任务详情</string>
     <string name="web_url">網址：</string>
+
+    <string name="upload_data">上傳資料</string>
+    <string name="share_content">分享內容</string>
+    <string name="no_upload">當日未上傳</string>
+    <string name="last">上一筆</string>
+    <string name="next">下一筆</string>
+    <string name="local_data_err">本地數據錯誤，請嘗試重啓App</string>
+
+    <!--    客戶資料-->
+    <string name="friend_data">客戶資料</string>
 
 
 </resources>

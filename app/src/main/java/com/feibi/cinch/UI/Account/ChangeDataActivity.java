@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -40,9 +41,10 @@ import static jh.app.android.basiclibrary.Constants.getPhotoName;
 public class ChangeDataActivity extends BasicActivity {
 
     ImageView iv_head;
-    EditText et_name, et_age, et_tel, et_target, et_remark;
+    EditText et_name, et_age, et_tel, et_target, et_remark, et_suggest;
     RadioButton rb_male, rb_female;
     TextView tv_height, tv_weight, tv_fat, tv_bmi;
+    LinearLayout ll_suggest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,8 @@ public class ChangeDataActivity extends BasicActivity {
 
         et_target = findViewById(R.id.et_target);
         et_remark = findViewById(R.id.et_remark);
+        et_suggest = findViewById(R.id.et_suggest);
+        ll_suggest = findViewById(R.id.ll_suggest);
 
         et_name.setText(Global.cinchData.getLc_name());
         et_age.setText(Global.cinchData.getLc_age());
@@ -80,6 +84,19 @@ public class ChangeDataActivity extends BasicActivity {
         et_remark.setText(Global.cinchData.getLc_remark());
         rb_male.setChecked(Global.cinchData.getLc_sex().equals("1"));
         rb_female.setChecked(Global.cinchData.getLc_sex().equals("0"));
+        /**
+         * 判斷用戶類型
+         */
+        Global.useType = PreferencesUtil.getUseType(this);
+        if (Global.MERCHANT.equals(Global.useType)) {
+            ll_suggest.setVisibility(View.GONE);
+        } else if (Global.CINCH.equals(Global.useType)) {
+            ll_suggest.setVisibility(View.VISIBLE);
+        } else {
+            showToast(getString(R.string.local_data_err));
+            finish();
+        }
+
     }
 
     @Override

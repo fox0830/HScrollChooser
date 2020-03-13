@@ -34,6 +34,12 @@ public class TaskPeopleAdapter  extends RecyclerView.Adapter<TaskPeopleAdapter.V
 
     @Override
     public void onBindViewHolder(@NonNull TaskPeopleAdapter.ViewHolder viewHolder, final int i) {
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onClick(i,view);
+            }
+        });
         viewHolder.tv_no.setText(""+(i+1));
         viewHolder.tv_user_name.setText("test");
     }

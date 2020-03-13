@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:fitsSystemWindows="true"
-    tools:context=".UI.Account.RegisterActivity">
+    tools:context=".UI.Account.ChangeDataActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -125,6 +125,7 @@
                     android:background="@color/transparent"
                     android:ems="10"
                     android:lines="1"
+                    android:hint="@string/hint_name"
                     android:gravity="right|center"
                     android:layout_marginRight="24dp"
                     android:padding="8dp"
@@ -159,6 +160,7 @@
                     android:lines="1"
                     android:layout_marginRight="24dp"
                     android:gravity="right|center"
+                    android:hint="@string/hint_age"
                     android:inputType="number"
                     android:padding="8dp"
                     android:textColor="@color/color_6b"
@@ -249,6 +251,7 @@
                     android:lines="1"
                     android:layout_marginRight="24dp"
                     android:gravity="right|center"
+                    android:hint="@string/hint_tel"
                     android:inputType="phone"
                     android:padding="8dp"
                     android:textColor="@color/color_6b"
@@ -500,6 +503,7 @@
                     android:ems="10"
                     android:maxLines="3"
                     android:layout_marginRight="24dp"
+                    android:hint="@string/hint_target"
                     android:gravity="right|center"
                     android:padding="8dp"
                     android:textColor="@color/color_6b"
@@ -509,6 +513,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="45dp"
                 android:layout_marginTop="24dp"
                 android:background="@color/white"
                 android:gravity="center_vertical"
@@ -533,6 +538,41 @@
                     android:ems="10"
                     android:maxLines="3"
                     android:gravity="right|center"
+                    android:hint="@string/hint_remark"
+                    android:padding="8dp"
+                    android:textColor="@color/color_6b"
+                    android:textSize="14sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_suggest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="45dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="15dp"
+                    android:text="@string/suggest"
+                    android:textColor="@color/color_6b"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/et_suggest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginRight="24dp"
+                    android:background="@color/transparent"
+                    android:ems="10"
+                    android:maxLines="3"
+                    android:gravity="right|center"
+                    android:hint="@string/hint_suggest"
                     android:padding="8dp"
                     android:textColor="@color/color_6b"
                     android:textSize="14sp" />

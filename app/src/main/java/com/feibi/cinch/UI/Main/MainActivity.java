@@ -102,6 +102,7 @@ public class MainActivity extends BasicActivity implements View.OnClickListener 
             cl_personal_data.setVisibility(Global.MERCHANT.equals(Global.useType) ? View.GONE : View.VISIBLE);
             ll_logout.setVisibility(Global.MERCHANT.equals(Global.useType) ? View.VISIBLE : View.GONE);
         }else {
+            showToast(getString(R.string.local_data_err));
             finish();
         }
 
