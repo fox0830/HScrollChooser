@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.feibi.cinch.Adapter.FriendAdapter;
 import com.feibi.cinch.R;
 import com.feibi.cinch.UI.Account.RegisterActivity;
 import com.feibi.cinch.UI.Basic.BasicActivity;
+import com.feibi.cinch.UI.View.CustomDialog;
 
 import java.util.ArrayList;
 
@@ -33,7 +35,7 @@ public class MyFriendActivity extends BasicActivity {
     LinearLayout ll_no_result;
     TextView tv_old_friend, tv_new_friend;
     boolean isOldFriend = true;
-
+    CustomDialog deleteDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +65,8 @@ public class MyFriendActivity extends BasicActivity {
                 return false;
             }
         });
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_delete, null);
+        deleteDialog = new CustomDialog(this, dialogView);
     }
 
     @Override
@@ -122,6 +126,7 @@ public class MyFriendActivity extends BasicActivity {
                             case R.id.see_friend:
                                 break;
                             case R.id.delete_friend:
+                                deleteDialog.show();
                                 break;
                         }
                         return true;

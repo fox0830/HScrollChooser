@@ -129,7 +129,8 @@
 
     <string name="ing">進行中</string>
     <string name="over">已結束</string>
-    <string name="delete_task">確定刪除該任務</string>
+    <string name="confirm_delete_task">確定刪除該任務</string>
+    <string name="confirm_delete_data">確定刪除該資料</string>
     <string name="confirm_delete">確定刪除</string>
     <string name="task_ranking">任務排名</string>
 
@@ -152,6 +153,11 @@
     <string name="confirm_add">確認新增</string>
     <string name="add_ing">新增中</string>
     <string name="add_done">新增完成</string>
+
+    <!--    任務詳情-->
+    <string name="task_people">任務成員</string>
+    <string name="task_detail">任务详情</string>
+    <string name="web_url">網址：</string>
 
 
 </resources>

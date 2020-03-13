@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.feibi.cinch.Adapter.RankAdapter;
 import com.feibi.cinch.R;
 import com.feibi.cinch.UI.Basic.BasicActivity;
+import com.feibi.cinch.UI.View.CustomDialog;
 
 import java.util.ArrayList;
 
@@ -19,7 +21,7 @@ public class AddGroupThinActivity extends BasicActivity {
     EditText et_task_name, et_task_info, et_task_time, et_task_people_num, et_target, et_scoring_method;
     RecyclerView rv_ranking;
     TextView tv_confirm_add;
-
+    CustomDialog customDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +34,7 @@ public class AddGroupThinActivity extends BasicActivity {
         et_target = findViewById(R.id.et_target);
         et_scoring_method = findViewById(R.id.et_scoring_method);
         rv_ranking = findViewById(R.id.rv_ranking);
-        tv_confirm_add = findViewById(R.id.tv_confirm_add);
+        tv_confirm_add = findViewById(R.id.tv_confirm_add);tv_confirm_add.setOnClickListener(this);
         findViewById(R.id.tv_add).setOnClickListener(this);
 
         ArrayList<String> data = new ArrayList<>();
@@ -43,6 +45,9 @@ public class AddGroupThinActivity extends BasicActivity {
         RankAdapter rankAdapter = new RankAdapter(this,data,true);
         rv_ranking.setLayoutManager(new LinearLayoutManager(this));
         rv_ranking.setAdapter(rankAdapter);
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_done, null);
+        customDialog = new CustomDialog(this, dialogView);
     }
 
     @Override
@@ -50,6 +55,9 @@ public class AddGroupThinActivity extends BasicActivity {
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
+                break;
+            case R.id.tv_confirm_add:
+                customDialog.show();
                 break;
         }
     }

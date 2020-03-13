@@ -45,7 +45,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".UI.GroupThin.AddGroupThinActivity"></activity>
+        <activity android:name=".UI.GroupThin.PersonalTaskDetailActivity"></activity>
+        <activity android:name=".UI.GroupThin.GroupDetailActivity" />
+        <activity android:name=".UI.GroupThin.AddGroupThinActivity" />
         <activity android:name=".UI.GroupThin.MbGroupThinActivity" />
         <activity android:name=".UI.AddFriend.MyFriendActivity" />
         <activity android:name=".UI.GroupThin.ScanTaskResultActivity" />

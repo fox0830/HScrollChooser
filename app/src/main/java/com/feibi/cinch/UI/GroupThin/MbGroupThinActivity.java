@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.feibi.cinch.R;
 import com.feibi.cinch.UI.Account.RegisterActivity;
 import com.feibi.cinch.UI.AddFriend.MyFriendActivity;
 import com.feibi.cinch.UI.Basic.BasicActivity;
+import com.feibi.cinch.UI.View.CustomDialog;
 
 import java.util.ArrayList;
 
@@ -37,6 +39,7 @@ public class MbGroupThinActivity extends BasicActivity {
     LinearLayout ll_no_result;
     TextView tv_ing, tv_over;
     boolean isIng = true;
+    CustomDialog deleteDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +76,9 @@ public class MbGroupThinActivity extends BasicActivity {
                 return false;
             }
         });
+
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_delete, null);
+        deleteDialog = new CustomDialog(this, dialogView);
     }
 
     @Override
@@ -128,13 +134,15 @@ public class MbGroupThinActivity extends BasicActivity {
             public void onClick(int pos, View view) {
                 PopupMenu popup = new PopupMenu(MbGroupThinActivity.this, view);
                 MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.control_friend, popup.getMenu());
+                inflater.inflate(R.menu.control_group_thin, popup.getMenu());
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.see_task:
+                                startActivity(new Intent(MbGroupThinActivity.this,GroupDetailActivity.class));
                                 break;
                             case R.id.delete_task:
+                                deleteDialog.show();
                                 break;
                         }
                         return true;
