@@ -7,7 +7,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "andra非要我打包版"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -47,6 +47,9 @@ android {
     lintOptions {
         abortOnError false
     }
+    packagingOptions {
+        exclude 'META-INF/proguard/androidx-annotations.pro'
+    }
 }
 repositories {
     jcenter()
@@ -65,6 +68,7 @@ dependencies {
     implementation 'com.angel:SWImageView:1.0.0'
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.youth.banner:banner:1.4.10'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
 
     //google地圖

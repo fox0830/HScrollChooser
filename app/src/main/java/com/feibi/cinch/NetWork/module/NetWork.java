@@ -5,10 +5,13 @@ import android.content.Context;
 import com.feibi.cinch.NetWork.basic.BasicModule;
 import com.feibi.cinch.NetWork.request.ChangeDataReq;
 import com.feibi.cinch.NetWork.request.ChangePwdReq;
+import com.feibi.cinch.NetWork.request.CheckIdReq;
 import com.feibi.cinch.NetWork.request.CinchLoginReq;
 import com.feibi.cinch.NetWork.request.ForgetPwdReq;
 import com.feibi.cinch.NetWork.request.GetBmiReq;
 import com.feibi.cinch.NetWork.request.GetCinchUserDataReq;
+import com.feibi.cinch.NetWork.request.GetFriendListReq;
+import com.feibi.cinch.NetWork.request.GetFriendReq;
 import com.feibi.cinch.NetWork.request.GetVerCodeReq;
 import com.feibi.cinch.NetWork.request.MbLoginReq;
 import com.feibi.cinch.NetWork.request.RegisterReq;
@@ -65,6 +68,15 @@ public class NetWork extends BasicModule {
         get(mContext, "member.php",req, reqCallBack, Object.class);
     }
     public void ChangeData(ChangeDataReq req, final ReqCallBack<BasicResponseBody<Object>> reqCallBack) {
+        get(mContext, "member.php",req, reqCallBack, Object.class);
+    }
+    public void CheckId(CheckIdReq req, final ReqCallBack<BasicResponseBody<Object>> reqCallBack) {
+        get(mContext, "member.php",req, reqCallBack, Object.class);
+    }
+    public void GetFriendList(GetFriendListReq req, final ReqCallBack<BasicResponseBody<ArrayList>> reqCallBack) {
+        get(mContext, "member.php",req, reqCallBack, ArrayList.class);
+    }
+    public void GetFriend(GetFriendReq req, final ReqCallBack<BasicResponseBody<Object>> reqCallBack) {
         get(mContext, "member.php",req, reqCallBack, Object.class);
     }
 

@@ -9,18 +9,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.feibi.cinch.NetWork.respond.FriendData;
 import com.feibi.cinch.R;
 
 import java.util.ArrayList;
 
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder> {
     Context context;
-    ArrayList<String> pictures = new ArrayList<>();
+    ArrayList<FriendData> datas = new ArrayList<>();
     FriendAdapter.OnItemClickListener onItemClickListener;
 
-    public FriendAdapter(Context context, ArrayList<String> pictures, FriendAdapter.OnItemClickListener onItemClickListener) {
+    public FriendAdapter(Context context, ArrayList<FriendData> datas, FriendAdapter.OnItemClickListener onItemClickListener) {
         this.context = context;
-        this.pictures = pictures;
+        this.datas = datas;
         this.onItemClickListener = onItemClickListener;
     }
 
@@ -37,14 +39,17 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onItemClickListener.onClick(i,view);
+                onItemClickListener.onClick(i, view);
             }
         });
+        viewHolder.tv_user_name.setText(datas.get(i).getLc_name());
+        viewHolder.tv_join_time.setText(datas.get(i).getJoin_date());
+        Glide.with(context).load(datas.get(i).getLc_pic()).into(viewHolder.iv_user_head);
     }
 
     @Override
     public int getItemCount() {
-        return pictures.size();
+        return datas.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -60,7 +65,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
     }
 
     public interface OnItemClickListener {
-        void onClick(int pos,View v);
+        void onClick(int pos, View v);
     }
 
 }

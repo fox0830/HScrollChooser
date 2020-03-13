@@ -171,6 +171,47 @@
 
     <!--    客戶資料-->
     <string name="friend_data">客戶資料</string>
-
+    <string name="answer">答案</string>
+    <string name="data_analysis">資料分析</string>
+    <string name="personal_suggest">個人專屬營養建議</string>
+    <string name="more_standard">超標</string>
+    <string name="normal">正常</string>
+    <string name="standard">標準</string>
+    <string name="fat_more_data">體脂肪超標數據</string>
+    <string name="little30age">30歲以下</string>
+    <string name="more30age">30歲以上</string>
+    <string name="m">男生</string>
+    <string name="f">女生</string>
+    <string name="more20">大於20%</string>
+    <string name="more25">大於25%</string>
+    <string name="more30">大於30%</string>
+    <string name="target_set">目標設定</string>
+    <string name="fat_target">體脂目標</string>
+    <string name="weight_target">體重目標</string>
+    <string name="fat_type">肥胖類型</string>
+    <string name="usual_answer">日常狀況答案</string>
+    <string name="will_change_table">體重預估變化圖</string>
+    <string name="start">開始</string>
+    <string name="month1">第一個月</string>
+    <string name="month2">第二個月</string>
+    <string name="month3">第三個月</string>
+    <string name="month4">第四個月</string>
+    <string name="month5">第五個月</string>
+    <string name="change">修改</string>
+    <string name="share">分享</string>
+    <string name="judg">判斷為</string>
+    <!--    肥胖類型-->
+    <string name="fat1">健康族</string>
+    <string name="fat1_info">體重正常，請繼續維持。</string>
+    <string name="fat2">糖切族</string>
+    <string name="fat2_info">中廣型肥胖，建議減少精緻醣類攝取及搭配產品維持良好體態。</string>
+    <string name="fat3">油切族</string>
+    <string name="fat3_info">下半身肥胖，建議減少高熱量或肉類食物攝取，並搭配產品讓自己達到理想目標。</string>
+    <string name="fat4">代謝厭力族</string>
+    <string name="fat4_info">壓力造成整體身形看起來偏壯，建議多增加活動量，同時搭配紓壓產品。</string>
+    <string name="fat5">消化不良族</string>
+    <string name="fat5_info">外觀不胖，但小腹凸出且有消化不好的情況，要多補充好菌，維持消化道健康。</string>
+    <string name="fat6">特殊族群</string>
+    <string name="fat6_info">BMI小於18.5，判斷為體重過輕，請依需求建議產品。</string>
 
 </resources>

@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.feibi.cinch.NetWork.module.NetWork;
+import com.feibi.cinch.NetWork.request.CheckIdReq;
 import com.feibi.cinch.NetWork.request.GetBmiReq;
 import com.feibi.cinch.NetWork.request.GetVerCodeReq;
 import com.feibi.cinch.NetWork.request.RegisterReq;
@@ -30,7 +31,7 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
     EditText et_id, et_vercode, et_psw, et_confirm_psw, et_merchant, et_name, et_age, et_tel, et_height, et_weight, et_fat, et_target, et_remark;
     TextView tv_bmi, tv_get_ver_code;
     ImageView iv_head;
-    LinearLayout ll_step1, ll_step2, ll_step3,ll_merchant;
+    LinearLayout ll_step1, ll_step2, ll_step3, ll_merchant;
     int currentStep = 1;
     NetWork netWork;
     int count = 0;
@@ -226,22 +227,34 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
                 break;
             case R.id.tv_get_ver_code:
                 showLoading();
-                GetVerCodeReq req = new GetVerCodeReq(new GetVerCodeReq.FormData(et_id.getText().toString()));
-                new NetWork(this).getVerCode(req, new ReqCallBack<BasicResponseBody<Object>>() {
+                new NetWork(this).CheckId(new CheckIdReq(new CheckIdReq.FormData(et_id.getText().toString())), new ReqCallBack<BasicResponseBody<Object>>() {
                     @Override
                     public void onReqSuccess(BasicResponseBody<Object> result) {
-                        code = result.getData().toString();
-                        sendSuccess();
-                        dismissLoading();
+                        GetVerCodeReq req = new GetVerCodeReq(new GetVerCodeReq.FormData(et_id.getText().toString()));
+                        new NetWork(RegisterActivity.this).getVerCode(req, new ReqCallBack<BasicResponseBody<Object>>() {
+                            @Override
+                            public void onReqSuccess(BasicResponseBody<Object> result) {
+                                code = result.getData().toString();
+                                sendSuccess();
+                                dismissLoading();
+                            }
+
+                            @Override
+                            public void onReqFailed(BasicResponseBody result) {
+                                code = "";
+                                showToast(result.getMsg());
+                                dismissLoading();
+                            }
+                        });
                     }
 
                     @Override
                     public void onReqFailed(BasicResponseBody result) {
                         code = "";
                         showToast(result.getMsg());
-                        dismissLoading();
                     }
                 });
+
                 break;
             case R.id.tv_confirm:
                 String inputCode = et_vercode.getText().toString();

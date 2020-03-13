@@ -18,24 +18,37 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.feibi.cinch.Adapter.FriendAdapter;
+import com.feibi.cinch.NetWork.module.NetWork;
+import com.feibi.cinch.NetWork.request.GetFriendListReq;
+import com.feibi.cinch.NetWork.respond.FriendData;
 import com.feibi.cinch.R;
 import com.feibi.cinch.UI.Account.RegisterActivity;
 import com.feibi.cinch.UI.Basic.BasicActivity;
 import com.feibi.cinch.UI.View.CustomDialog;
+import com.feibi.cinch.utils.Global;
+import com.feibi.cinch.utils.GsonUtil;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+
+import jh.app.android.basiclibrary.entity.BasicResponseBody;
+import jh.app.android.basiclibrary.network.ReqCallBack;
 
 public class MyFriendActivity extends BasicActivity {
 
     TextView tv_no_info;
-    RecyclerView rv_friend;
-    FriendAdapter friendAdapter;
-    ArrayList<String> data = new ArrayList<>();
+    RecyclerView rv_new_friend;
+    RecyclerView rv_old_friend;
+    FriendAdapter oldFriendAdapter;
+    FriendAdapter newFriendAdapter;
+    ArrayList<FriendData> oldFriendDataArrayList = new ArrayList<>();
+    ArrayList<FriendData> newFriendDataArrayList = new ArrayList<>();
     EditText et_input;
     LinearLayout ll_no_result;
     TextView tv_old_friend, tv_new_friend;
     boolean isOldFriend = true;
     CustomDialog deleteDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,10 +63,13 @@ public class MyFriendActivity extends BasicActivity {
         tv_no_info = findViewById(R.id.tv_no_info);
         et_input = findViewById(R.id.et_input);
         ll_no_result = findViewById(R.id.ll_no_result);
-        rv_friend = findViewById(R.id.rv_friend);
-        rv_friend.setLayoutManager(new LinearLayoutManager(this));
+        rv_old_friend = findViewById(R.id.rv_old_friend);
+        rv_new_friend = findViewById(R.id.rv_new_friend);
+        rv_old_friend.setLayoutManager(new LinearLayoutManager(this));
+        rv_new_friend.setLayoutManager(new LinearLayoutManager(this));
         initAdapter();
-        rv_friend.setAdapter(friendAdapter);
+        rv_old_friend.setAdapter(oldFriendAdapter);
+        rv_new_friend.setAdapter(newFriendAdapter);
         refreshUI();
         et_input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -67,6 +83,7 @@ public class MyFriendActivity extends BasicActivity {
         });
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_delete, null);
         deleteDialog = new CustomDialog(this, dialogView);
+        getFriends();
     }
 
     @Override
@@ -77,12 +94,10 @@ public class MyFriendActivity extends BasicActivity {
                 break;
             case R.id.tv_old_friend:
                 isOldFriend = true;
-                tv_no_info.setText(getString(R.string.find_no_old_friend));
                 refreshUI();
                 break;
             case R.id.tv_new_friend:
                 isOldFriend = false;
-                tv_no_info.setText(getString(R.string.find_no_new_friend));
                 refreshUI();
                 break;
             case R.id.iv_clear_input:
@@ -94,27 +109,72 @@ public class MyFriendActivity extends BasicActivity {
         }
     }
 
+    private void getFriends() {
+        new NetWork(this).GetFriendList(new GetFriendListReq(new GetFriendListReq.FormData("o", Global.MbNo)), new ReqCallBack<BasicResponseBody<ArrayList>>() {
+            @Override
+            public void onReqSuccess(BasicResponseBody<ArrayList> result) {
+                oldFriendDataArrayList.clear();
+                for (int i = 0; i < result.getData().size(); i++) {
+                    String json = new Gson().toJson(result.getData().get(i));
+                    try {
+                        FriendData friendData = (FriendData) GsonUtil.str2Obj(json, FriendData.class);
+                        if ("o".equals(friendData.getOn_status()))
+                            oldFriendDataArrayList.add(friendData);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                oldFriendAdapter.notifyDataSetChanged();
+                refreshUI();
+            }
+
+            @Override
+            public void onReqFailed(BasicResponseBody result) {
+                showToast(result.getMsg());
+            }
+        });
+        new NetWork(this).GetFriendList(new GetFriendListReq(new GetFriendListReq.FormData("n", Global.MbNo)), new ReqCallBack<BasicResponseBody<ArrayList>>() {
+            @Override
+            public void onReqSuccess(BasicResponseBody<ArrayList> result) {
+                newFriendDataArrayList.clear();
+                for (int i = 0; i < result.getData().size(); i++) {
+                    String json = new Gson().toJson(result.getData().get(i));
+                    try {
+                        FriendData friendData = (FriendData) GsonUtil.str2Obj(json, FriendData.class);
+                        if ("n".equals(friendData.getOn_status()))
+                            newFriendDataArrayList.add(friendData);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                newFriendAdapter.notifyDataSetChanged();
+                refreshUI();
+            }
+
+            @Override
+            public void onReqFailed(BasicResponseBody result) {
+                showToast(result.getMsg());
+            }
+        });
+    }
+
     private void refreshUI() {
+        tv_no_info.setText(isOldFriend ? getString(R.string.find_no_old_friend) : getString(R.string.find_no_new_friend));
         tv_old_friend.setBackground(isOldFriend ? getDrawable(R.drawable.ic_check_btn) : null);
         tv_old_friend.setTextColor(isOldFriend ? getResources().getColor(R.color.white) : getResources().getColor(R.color.yellow));
         tv_new_friend.setBackground(isOldFriend ? null : getDrawable(R.drawable.ic_check_btn));
         tv_new_friend.setTextColor(isOldFriend ? getResources().getColor(R.color.yellow) : getResources().getColor(R.color.white));
-
+        rv_new_friend.setVisibility(isOldFriend ? View.INVISIBLE : View.VISIBLE);
+        rv_old_friend.setVisibility(isOldFriend ? View.VISIBLE : View.INVISIBLE);
+        if (isOldFriend) {
+            ll_no_result.setVisibility(oldFriendAdapter.getItemCount() > 0 ? View.INVISIBLE : View.VISIBLE);
+        } else {
+            ll_no_result.setVisibility(newFriendAdapter.getItemCount() > 0 ? View.INVISIBLE : View.VISIBLE);
+        }
     }
 
     private void initAdapter() {
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        friendAdapter = new FriendAdapter(this, data, new FriendAdapter.OnItemClickListener() {
+        oldFriendAdapter = new FriendAdapter(this, oldFriendDataArrayList, new FriendAdapter.OnItemClickListener() {
             @Override
             public void onClick(int pos, View view) {
                 PopupMenu popup = new PopupMenu(MyFriendActivity.this, view);
@@ -124,7 +184,29 @@ public class MyFriendActivity extends BasicActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.see_friend:
-                                startActivity(new Intent(MyFriendActivity.this,FriendDataActivity.class));
+                                startActivity(new Intent(MyFriendActivity.this, FriendDataActivity.class));
+                                break;
+                            case R.id.delete_friend:
+                                deleteDialog.show();
+                                break;
+                        }
+                        return true;
+                    }
+                });
+                popup.show();
+            }
+        });
+        newFriendAdapter = new FriendAdapter(this, newFriendDataArrayList, new FriendAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(int pos, View view) {
+                PopupMenu popup = new PopupMenu(MyFriendActivity.this, view);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.control_friend, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.see_friend:
+                                startActivity(new Intent(MyFriendActivity.this, FriendDataActivity.class));
                                 break;
                             case R.id.delete_friend:
                                 deleteDialog.show();
