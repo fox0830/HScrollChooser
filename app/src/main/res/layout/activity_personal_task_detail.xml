@@ -67,15 +67,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <com.angel.view.SWImageView
                 android:id="@+id/imageView30"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="24dp"
+                app:type="circle"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@mipmap/female_head" />
+                android:background="@mipmap/female_head"/>
 
             <TextView
                 android:id="@+id/textView31"

@@ -99,6 +99,7 @@
     <string name="album_choose">相簿選擇</string>
     <string name="camera">相機</string>
     <string name="get_data_err">獲取用戶最新資料失敗</string>
+    <string name="get_useid_err">獲取用戶ID失敗</string>
 
     <!--    揪團瘦-->
     <string name="search_activity">搜尋想參加的揪團活動</string>

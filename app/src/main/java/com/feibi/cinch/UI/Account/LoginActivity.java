@@ -11,7 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.feibi.cinch.NetWork.module.NetWork;
+import com.feibi.cinch.NetWork.basic.BasicReq;
+import com.feibi.cinch.NetWork.module.Member;
 import com.feibi.cinch.NetWork.request.CinchLoginReq;
 import com.feibi.cinch.NetWork.request.MbLoginReq;
 import com.feibi.cinch.NetWork.respond.CinchData;
@@ -38,7 +39,7 @@ public class LoginActivity extends BasicActivity implements View.OnClickListener
     TextView tv_merchant, tv_cinch, tv_forget_psw, tv_register;
 
     boolean isMerchant = true;
-    NetWork netWork;
+    Member member;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +80,7 @@ public class LoginActivity extends BasicActivity implements View.OnClickListener
         tv_register.setOnClickListener(this);
         et_account = findViewById(R.id.et_account);
         et_password = findViewById(R.id.et_password);
-        netWork = new NetWork(this);
+        member = new Member(this);
         refreshUI();
 
     }
@@ -113,7 +114,7 @@ public class LoginActivity extends BasicActivity implements View.OnClickListener
                 }
                 showLoading();
                 if (isMerchant) {
-                    netWork.mbLogin(new MbLoginReq(new MbLoginReq.FormData(account, pwd)), new ReqCallBack<BasicResponseBody<Object>>() {
+                    member.GetObject(new BasicReq("mblogin",new MbLoginReq(account, pwd)), new ReqCallBack<BasicResponseBody<Object>>() {
                         @Override
                         public void onReqSuccess(BasicResponseBody<Object> result) {
                             Global.useType = Global.MERCHANT;
@@ -132,7 +133,7 @@ public class LoginActivity extends BasicActivity implements View.OnClickListener
                         }
                     });
                 } else {
-                    netWork.cinchLogin(new CinchLoginReq(new CinchLoginReq.FormData(account, pwd)), new ReqCallBack<BasicResponseBody<CinchData>>() {
+                    member.GetCinchData(new BasicReq("lclogin",new CinchLoginReq(account, pwd)), new ReqCallBack<BasicResponseBody<CinchData>>() {
                         @Override
                         public void onReqSuccess(BasicResponseBody<CinchData> result) {
                             Global.cinchData = result.getData();

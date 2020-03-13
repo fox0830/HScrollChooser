@@ -44,22 +44,22 @@ public class BasicModule {
         RequestManager requestManager = RequestManager.getInstance(context);
 
         HashMap<String, Object> paramsMap = new HashMap<>();
-        if (req.getFiles() == null) {
-            if (reqCallBack != null) {
-                BasicResponseBody<T> response = new BasicResponseBody<T>();
-                response.setCode("401");
-                response.setMsg("no files");
-                reqCallBack.onReqFailed(response);
-            }
-            return;
-        }
-        paramsMap.put("invoke", req.getInvoke());
-        paramsMap.put("partnerID", req.getPartnerID());
-        paramsMap.put("token", req.getToken());
-        paramsMap.put("formData", req.getFormData());
-        for(File file:req.getFiles()){
-            paramsMap.put("file",file );
-        }
+//        if (req.getFiles() == null) {
+//            if (reqCallBack != null) {
+//                BasicResponseBody<T> response = new BasicResponseBody<T>();
+//                response.setCode("401");
+//                response.setMsg("no files");
+//                reqCallBack.onReqFailed(response);
+//            }
+//            return;
+//        }
+//        paramsMap.put("invoke", req.getInvoke());
+//        paramsMap.put("partnerID", req.getPartnerID());
+//        paramsMap.put("token", req.getToken());
+//        paramsMap.put("formData", req.getFormData());
+//        for(File file:req.getFiles()){
+//            paramsMap.put("file",file );
+//        }
         requestManager.upLoadFile(DO_MAIN + url, paramsMap, getHeaderMap(context), getReqCallBack(reqCallBack, entityClass));
     }
 

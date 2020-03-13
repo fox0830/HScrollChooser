@@ -52,7 +52,7 @@
             android:layout_height="60dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:src="@mipmap/female_head"
+            android:background="@mipmap/female_head"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:type="circle" />

@@ -28,7 +28,7 @@
             android:id="@+id/iv_head"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:src="@mipmap/female_head"></ImageView>
+            android:background="@mipmap/female_head"></ImageView>
 
         <ImageView
             android:layout_width="wrap_content"

@@ -68,6 +68,7 @@
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:layout_margin="48dp"
+            app:type="circle"
             android:background="@mipmap/female_head" />
 
     </LinearLayout>

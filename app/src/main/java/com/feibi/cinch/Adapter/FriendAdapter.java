@@ -52,6 +52,11 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
         return datas.size();
     }
 
+    public FriendData getItem(int pos) {
+        return datas.get(pos);
+    }
+
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_user_name, tv_join_time;
         ImageView iv_user_head;

@@ -1,12 +1,12 @@
 package com.feibi.cinch.UI.Account;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
-import com.feibi.cinch.NetWork.module.NetWork;
+import com.feibi.cinch.NetWork.basic.BasicReq;
+import com.feibi.cinch.NetWork.module.Member;
 import com.feibi.cinch.NetWork.request.ChangePwdReq;
 import com.feibi.cinch.R;
 import com.feibi.cinch.UI.Basic.BasicActivity;
@@ -43,7 +43,7 @@ public class ChangePwdActivity extends BasicActivity {
                     return;
                 }
                 showLoading();
-                new NetWork(this).ChangePwd(new ChangePwdReq(new ChangePwdReq.FormData(Global.cinchData.getLc_id(), old_pwd, pwd, confirm_pwd)), new ReqCallBack<BasicResponseBody<Object>>() {
+                new Member(this).GetObject(new BasicReq("modifypwd",new ChangePwdReq(Global.cinchData.getLc_id(), old_pwd, pwd, confirm_pwd)), new ReqCallBack<BasicResponseBody<Object>>() {
                     @Override
                     public void onReqSuccess(BasicResponseBody<Object> result) {
                         dismissLoading();

@@ -1,6 +1,5 @@
 package com.feibi.cinch.UI.Account;
 
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,10 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.feibi.cinch.NetWork.module.NetWork;
-import com.feibi.cinch.NetWork.request.CheckIdReq;
+import com.feibi.cinch.NetWork.basic.BasicReq;
+import com.feibi.cinch.NetWork.module.Member;
 import com.feibi.cinch.NetWork.request.GetBmiReq;
-import com.feibi.cinch.NetWork.request.GetVerCodeReq;
+import com.feibi.cinch.NetWork.request.OnlyLcIdReq;
 import com.feibi.cinch.NetWork.request.RegisterReq;
 import com.feibi.cinch.NetWork.request.WriteAnswerReq;
 import com.feibi.cinch.R;
@@ -33,7 +32,7 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
     ImageView iv_head;
     LinearLayout ll_step1, ll_step2, ll_step3, ll_merchant;
     int currentStep = 1;
-    NetWork netWork;
+    Member member;
     int count = 0;
     RadioButton rb_male, rb1_often,
             rb1_sometime,
@@ -170,7 +169,7 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
         ll_merchant.setVisibility(isRegister ? View.VISIBLE : View.GONE);
         refreshBtn();
         refreshStep();
-        netWork = new NetWork(this);
+        member = new Member(this);
     }
 
     private void sendSuccess() {
@@ -227,11 +226,10 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
                 break;
             case R.id.tv_get_ver_code:
                 showLoading();
-                new NetWork(this).CheckId(new CheckIdReq(new CheckIdReq.FormData(et_id.getText().toString())), new ReqCallBack<BasicResponseBody<Object>>() {
+                new Member(this).GetObject(new BasicReq("checkid",new OnlyLcIdReq(et_id.getText().toString())), new ReqCallBack<BasicResponseBody<Object>>() {
                     @Override
                     public void onReqSuccess(BasicResponseBody<Object> result) {
-                        GetVerCodeReq req = new GetVerCodeReq(new GetVerCodeReq.FormData(et_id.getText().toString()));
-                        new NetWork(RegisterActivity.this).getVerCode(req, new ReqCallBack<BasicResponseBody<Object>>() {
+                        new Member(RegisterActivity.this).GetObject(new BasicReq("checktel",new OnlyLcIdReq(et_id.getText().toString())), new ReqCallBack<BasicResponseBody<Object>>() {
                             @Override
                             public void onReqSuccess(BasicResponseBody<Object> result) {
                                 code = result.getData().toString();
@@ -298,9 +296,9 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
                     return;
                 }
                 showLoading();
-                RegisterReq.FormData formData = new RegisterReq.FormData(lc_id, lc_pwd, lc_pwd_confirm, mb_no, lc_name, lc_tel,
+                RegisterReq formData = new RegisterReq(lc_id, lc_pwd, lc_pwd_confirm, mb_no, lc_name, lc_tel,
                         lc_age, rb_male.isChecked() ? "1" : "0", lc_tall, lc_weight, lc_bmi, lc_fat, lc_target, lc_remark);
-                netWork.register(new RegisterReq(formData), new ReqCallBack<BasicResponseBody<Object>>() {
+                member.GetObject(new BasicReq("newlc",formData), new ReqCallBack<BasicResponseBody<Object>>() {
 
                     @Override
                     public void onReqSuccess(BasicResponseBody<Object> result) {
@@ -329,7 +327,7 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
                     return;
                 }
                 showLoading();
-                netWork.writeAnswer(new WriteAnswerReq(new WriteAnswerReq.FormData(lc_id, ans1, ans2, ans3, ans4, ans5, ans6)), new ReqCallBack<BasicResponseBody<Object>>() {
+                member.GetObject(new BasicReq("lifeans",new WriteAnswerReq(lc_id, ans1, ans2, ans3, ans4, ans5, ans6)), new ReqCallBack<BasicResponseBody<Object>>() {
                     @Override
                     public void onReqSuccess(BasicResponseBody<Object> result) {
                         showToast(isRegister ? getString(R.string.pls_login) : getString(R.string.add_cinch_success));
@@ -365,7 +363,7 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
         }
         String tall = et_height.getText().toString();
         String weight = et_weight.getText().toString();
-        netWork.getBmi(new GetBmiReq(new GetBmiReq.FormData(tall, weight)), new ReqCallBack<BasicResponseBody<Object>>() {
+        member.GetObject(new BasicReq("bmi",new GetBmiReq(tall, weight)), new ReqCallBack<BasicResponseBody<Object>>() {
             @Override
             public void onReqSuccess(BasicResponseBody<Object> result) {
                 tv_bmi.setText(result.getData().toString());

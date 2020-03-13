@@ -1,5 +1,7 @@
 package com.feibi.cinch.NetWork.respond;
 
+import java.util.ArrayList;
+
 import jh.app.android.basiclibrary.entity.BasicResponseBody;
 
 public class CinchData {
@@ -37,7 +39,7 @@ public class CinchData {
     String mon2_fat;        //預期第2個月體脂
     String mon3_fat;        //預期第3個月體脂
     String explanation;     //建議敘述
-    String suggest_prod;    //建議產品列表，產品以 | 符號分隔
+    ArrayList<String> suggest_prod;    //建議產品列表，產品以 | 符號分隔
 
 
     public String getLc_id() {
@@ -289,11 +291,11 @@ public class CinchData {
         this.explanation = explanation;
     }
 
-    public String getSuggest_prod() {
+    public ArrayList<String> getSuggest_prod() {
         return suggest_prod;
     }
 
-    public void setSuggest_prod(String suggest_prod) {
+    public void setSuggest_prod(ArrayList<String> suggest_prod) {
         this.suggest_prod = suggest_prod;
     }
 }

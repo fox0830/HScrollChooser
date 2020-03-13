@@ -1,11 +1,10 @@
 package com.feibi.cinch.UI.AddFriend;
 
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -18,7 +17,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.feibi.cinch.Adapter.FriendAdapter;
-import com.feibi.cinch.NetWork.module.NetWork;
+import com.feibi.cinch.NetWork.basic.BasicReq;
+import com.feibi.cinch.NetWork.module.Member;
 import com.feibi.cinch.NetWork.request.GetFriendListReq;
 import com.feibi.cinch.NetWork.respond.FriendData;
 import com.feibi.cinch.R;
@@ -27,6 +27,7 @@ import com.feibi.cinch.UI.Basic.BasicActivity;
 import com.feibi.cinch.UI.View.CustomDialog;
 import com.feibi.cinch.utils.Global;
 import com.feibi.cinch.utils.GsonUtil;
+import com.feibi.cinch.utils.PreferencesUtil;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -110,7 +111,8 @@ public class MyFriendActivity extends BasicActivity {
     }
 
     private void getFriends() {
-        new NetWork(this).GetFriendList(new GetFriendListReq(new GetFriendListReq.FormData("o", Global.MbNo)), new ReqCallBack<BasicResponseBody<ArrayList>>() {
+        Global.MbNo = PreferencesUtil.getMbNo(this);
+        new Member(this).GetArrayList(new BasicReq("listlc",new GetFriendListReq("o", Global.MbNo)), new ReqCallBack<BasicResponseBody<ArrayList>>() {
             @Override
             public void onReqSuccess(BasicResponseBody<ArrayList> result) {
                 oldFriendDataArrayList.clear();
@@ -133,7 +135,7 @@ public class MyFriendActivity extends BasicActivity {
                 showToast(result.getMsg());
             }
         });
-        new NetWork(this).GetFriendList(new GetFriendListReq(new GetFriendListReq.FormData("n", Global.MbNo)), new ReqCallBack<BasicResponseBody<ArrayList>>() {
+        new Member(this).GetArrayList(new BasicReq("listlc",new GetFriendListReq("n", Global.MbNo)), new ReqCallBack<BasicResponseBody<ArrayList>>() {
             @Override
             public void onReqSuccess(BasicResponseBody<ArrayList> result) {
                 newFriendDataArrayList.clear();
@@ -173,50 +175,41 @@ public class MyFriendActivity extends BasicActivity {
         }
     }
 
+    FriendAdapter.OnItemClickListener onItemClickListener = new FriendAdapter.OnItemClickListener() {
+        @Override
+        public void onClick(int pos, View view) {
+            PopupMenu popup = new PopupMenu(MyFriendActivity.this, view);
+            MenuInflater inflater = popup.getMenuInflater();
+            inflater.inflate(R.menu.control_friend, popup.getMenu());
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                public boolean onMenuItemClick(MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.see_friend:
+                            String CinchId = "";
+                            if(isOldFriend){
+                                CinchId = oldFriendAdapter.getItem(pos).getLc_id();
+                            }else {
+                                CinchId = newFriendAdapter.getItem(pos).getLc_id();
+                            }
+                            if(TextUtils.isEmpty(CinchId)){
+                                showToast(getString(R.string.get_useid_err));
+                            }else {
+                                startActivity(new Intent(MyFriendActivity.this, FriendDataActivity.class).putExtra("CinchId",CinchId));
+                            }
+                            break;
+                        case R.id.delete_friend:
+                            deleteDialog.show();
+                            break;
+                    }
+                    return true;
+                }
+            });
+            popup.show();
+        }
+    };
+
     private void initAdapter() {
-        oldFriendAdapter = new FriendAdapter(this, oldFriendDataArrayList, new FriendAdapter.OnItemClickListener() {
-            @Override
-            public void onClick(int pos, View view) {
-                PopupMenu popup = new PopupMenu(MyFriendActivity.this, view);
-                MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.control_friend, popup.getMenu());
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.see_friend:
-                                startActivity(new Intent(MyFriendActivity.this, FriendDataActivity.class));
-                                break;
-                            case R.id.delete_friend:
-                                deleteDialog.show();
-                                break;
-                        }
-                        return true;
-                    }
-                });
-                popup.show();
-            }
-        });
-        newFriendAdapter = new FriendAdapter(this, newFriendDataArrayList, new FriendAdapter.OnItemClickListener() {
-            @Override
-            public void onClick(int pos, View view) {
-                PopupMenu popup = new PopupMenu(MyFriendActivity.this, view);
-                MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.control_friend, popup.getMenu());
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.see_friend:
-                                startActivity(new Intent(MyFriendActivity.this, FriendDataActivity.class));
-                                break;
-                            case R.id.delete_friend:
-                                deleteDialog.show();
-                                break;
-                        }
-                        return true;
-                    }
-                });
-                popup.show();
-            }
-        });
+        oldFriendAdapter = new FriendAdapter(this, oldFriendDataArrayList, onItemClickListener);
+        newFriendAdapter = new FriendAdapter(this, newFriendDataArrayList, onItemClickListener);
     }
 }

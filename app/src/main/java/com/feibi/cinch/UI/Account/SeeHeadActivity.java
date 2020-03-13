@@ -6,11 +6,11 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.feibi.cinch.NetWork.module.NetWork;
+import com.feibi.cinch.NetWork.basic.BasicReq;
+import com.feibi.cinch.NetWork.module.Member;
 import com.feibi.cinch.NetWork.request.UploadRecordReq;
 import com.feibi.cinch.R;
 import com.feibi.cinch.UI.Basic.BasicActivity;
@@ -122,7 +122,7 @@ public class SeeHeadActivity extends BasicActivity {
 
     private void uploadPic(File file) {
         File[] lc_pic = {file};
-//        new NetWork(this).UploadPic(new UploadPicReq(new UploadPicReq.FormData(Global.cinchData.getLc_id(), lc_pic)), new ReqCallBack<BasicResponseBody<Object>>() {
+//        new Member(this).UploadPic(new UploadPicReq(new UploadPicReq.FormData(Global.cinchData.getLc_id(), lc_pic)), new ReqCallBack<BasicResponseBody<Object>>() {
 //            @Override
 //            public void onReqSuccess(BasicResponseBody<Object> result) {
 //                dismissLoading();
@@ -133,7 +133,7 @@ public class SeeHeadActivity extends BasicActivity {
 //                dismissLoading();
 //            }
 //        });
-        new NetWork(this).UploadRecordPic(new UploadRecordReq(new UploadRecordReq.FormData(Global.cinchData.getLc_id(), "2"), lc_pic), new ReqCallBack<BasicResponseBody<Object>>() {
+        new Member(this).GetObject(new BasicReq("lcupimg",new UploadRecordReq(Global.cinchData.getLc_id(), "2","filename")), new ReqCallBack<BasicResponseBody<Object>>() {
             @Override
             public void onReqSuccess(BasicResponseBody<Object> result) {
                 dismissLoading();

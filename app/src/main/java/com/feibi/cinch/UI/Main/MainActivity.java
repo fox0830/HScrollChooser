@@ -21,7 +21,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.feibi.cinch.NetWork.module.NetWork;
+import com.feibi.cinch.NetWork.basic.BasicReq;
+import com.feibi.cinch.NetWork.module.Member;
 import com.feibi.cinch.NetWork.request.SloganReq;
 import com.feibi.cinch.NetWork.respond.CinchData;
 import com.feibi.cinch.NetWork.respond.SloganData;
@@ -112,7 +113,7 @@ public class MainActivity extends BasicActivity implements View.OnClickListener 
     }
 
     public void getSlogan() {
-        new NetWork(this).getSlogan(new SloganReq(new SloganReq.FormData("1")), new ReqCallBack<BasicResponseBody<ArrayList>>() {
+        new Member(this).GetArrayList(new BasicReq("slogan",new SloganReq("1")), new ReqCallBack<BasicResponseBody<ArrayList>>() {
             @Override
             public void onReqSuccess(BasicResponseBody<ArrayList> result) {
                 ArrayList<SloganData> slogans = new ArrayList<>();

@@ -7,9 +7,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.feibi.cinch.NetWork.module.NetWork;
+import com.feibi.cinch.NetWork.basic.BasicReq;
+import com.feibi.cinch.NetWork.module.Member;
 import com.feibi.cinch.NetWork.request.ForgetPwdReq;
-import com.feibi.cinch.NetWork.request.GetVerCodeReq;
+import com.feibi.cinch.NetWork.request.OnlyLcIdReq;
 import com.feibi.cinch.R;
 import com.feibi.cinch.UI.Basic.BasicActivity;
 
@@ -47,8 +48,8 @@ public class ForgetPwdActivity extends BasicActivity {
                 break;
             case R.id.tv_get_ver_code:
                 showLoading();
-                GetVerCodeReq req = new GetVerCodeReq(new GetVerCodeReq.FormData(et_id.getText().toString()));
-                new NetWork(this).getVerCode(req, new ReqCallBack<BasicResponseBody<Object>>() {
+                BasicReq req = new BasicReq("checkTel",new OnlyLcIdReq(et_id.getText().toString()));
+                new Member(this).GetObject(req, new ReqCallBack<BasicResponseBody<Object>>() {
                     @Override
                     public void onReqSuccess(BasicResponseBody<Object> result) {
                         code = result.getData().toString();
@@ -81,7 +82,7 @@ public class ForgetPwdActivity extends BasicActivity {
                     return;
                 }
                 showLoading();
-                new NetWork(this).ForgetPwd(new ForgetPwdReq(new ForgetPwdReq.FormData(lc_id, lc_pwd, lc_pwd_confirm)), new ReqCallBack<BasicResponseBody<Object>>() {
+                new Member(this).GetObject(new BasicReq("forgotpwd",new ForgetPwdReq(lc_id, lc_pwd, lc_pwd_confirm)), new ReqCallBack<BasicResponseBody<Object>>() {
                     @Override
                     public void onReqSuccess(BasicResponseBody<Object> result) {
                         showToast(getResourcesString(R.string.pls_login2));
