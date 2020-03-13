@@ -124,6 +124,7 @@ public class MyFriendActivity extends BasicActivity {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.see_friend:
+                                startActivity(new Intent(MyFriendActivity.this,FriendDataActivity.class));
                                 break;
                             case R.id.delete_friend:
                                 deleteDialog.show();
