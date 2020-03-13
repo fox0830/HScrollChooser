@@ -21,7 +21,7 @@ import jh.app.android.basiclibrary.network.ReqCallBack;
 
 public class PersonalDataActivity extends BasicActivity {
 
-    ImageView iv_user_head;
+    ImageView iv_user_head,iv_sex;
 
     TextView tv_name, tv_age, tv_tel, tv_height, tv_weight, tv_fat, tv_bmi, tv_target, tv_remark;
 
@@ -36,6 +36,7 @@ public class PersonalDataActivity extends BasicActivity {
         findViewById(R.id.ll_task).setOnClickListener(this);
 
         iv_user_head = findViewById(R.id.iv_user_head);
+        iv_sex = findViewById(R.id.iv_sex);
         tv_name = findViewById(R.id.tv_name);
         tv_age = findViewById(R.id.tv_age);
         tv_tel = findViewById(R.id.tv_tel);
@@ -81,6 +82,8 @@ public class PersonalDataActivity extends BasicActivity {
         tv_bmi.setText(Global.cinchData.getLc_bmi());
         tv_target.setText(Global.cinchData.getLc_target());
         tv_remark.setText(Global.cinchData.getLc_remark());
+        tv_age.setBackground("1".equals(Global.cinchData.getLc_sex())?getDrawable(R.drawable.blue_btn):getDrawable(R.drawable.pink_btn));
+        iv_sex.setImageDrawable("1".equals(Global.cinchData.getLc_sex())?getDrawable(R.drawable.ic_male):getDrawable(R.drawable.ic_female));
     }
 
     @Override

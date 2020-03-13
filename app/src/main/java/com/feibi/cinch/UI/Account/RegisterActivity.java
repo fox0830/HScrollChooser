@@ -296,10 +296,10 @@ public class RegisterActivity extends BasicActivity implements TextWatcher {
                     return;
                 }
                 showLoading();
-                RegisterReq formData = new RegisterReq(lc_id, lc_pwd, lc_pwd_confirm, mb_no, lc_name, lc_tel,
-                        lc_age, rb_male.isChecked() ? "1" : "0", lc_tall, lc_weight, lc_bmi, lc_fat, lc_target, lc_remark);
-                member.GetObject(new BasicReq("newlc",formData), new ReqCallBack<BasicResponseBody<Object>>() {
-
+                RegisterReq formData = new RegisterReq(lc_id, lc_pwd, lc_pwd_confirm, mb_no, lc_name, lc_tel, lc_age,
+                        rb_male.isChecked() ? "1" : "0", lc_tall, lc_weight, lc_bmi, lc_fat, lc_target, lc_remark);
+                String addType = isRegister?"newlc":"joinlc";
+                member.GetObject(new BasicReq(addType,formData), new ReqCallBack<BasicResponseBody<Object>>() {
                     @Override
                     public void onReqSuccess(BasicResponseBody<Object> result) {
                         currentStep = 3;

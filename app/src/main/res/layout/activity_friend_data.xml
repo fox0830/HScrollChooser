@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -87,7 +88,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="@string/see_detail"
+                    android:text="@string/answer"
                     android:textColor="@color/b2"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -114,9 +115,11 @@
             </android.support.constraint.ConstraintLayout>
 
             <TextView
+                android:id="@+id/tv_answer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginHorizontal="16dp"
                 android:background="@drawable/f5_b_fb_c"
                 android:padding="18dp" />
 
@@ -126,51 +129,37 @@
                 android:background="@drawable/yellow_btn"
                 android:gravity="center"
                 android:text="@string/data_analysis"
+                android:layout_marginTop="16dp"
                 android:textColor="@color/white" />
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="parent">
-
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="@string/personal_suggest"
-                    android:textColor="@color/b2"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:layout_width="35dp"
-                    android:layout_height="0.5dp"
-                    android:background="@color/b2"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/textView7"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:layout_width="35dp"
-                    android:layout_height="0.5dp"
-                    android:background="@color/b2"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView7"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:background="@drawable/f5_b_fb_c"
+                android:layout_marginTop="24dp"
                 android:visibility="visible">
 
+                <com.feibi.cinch.UI.View.CircleProgressBar
+                    android:id="@+id/circle_progress_bar"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:circleColor="#f1f1f1"
+                    android:rotation="90"
+                    app:circleProgressColor="@android:color/white"
+                    app:textColor="@android:color/white"
+                    app:textIsDisplayable="true"
+                    app:roundWidth="22dp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/fb"
+                    app:layout_constraintBottom_toBottomOf="@+id/circle_progress_bar" />
                 <TextView
                     android:id="@+id/textView37"
                     android:layout_width="wrap_content"
@@ -223,7 +212,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
-                    android:text="@string/normal"
+                    android:text="@string/normal_value"
                     android:textColor="@color/color_d2"
                     app:layout_constraintBottom_toBottomOf="@+id/view10"
                     app:layout_constraintEnd_toStartOf="@+id/view10"
@@ -234,7 +223,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="@string/more_standard"
+                    android:text="@string/more_standard_value"
                     android:textColor="@color/color_d2"
                     app:layout_constraintBottom_toBottomOf="@+id/view10"
                     app:layout_constraintStart_toEndOf="@+id/view10"
@@ -517,6 +506,7 @@
 
             </android.support.constraint.ConstraintLayout>
 
+
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
@@ -525,11 +515,11 @@
                 app:layout_constraintTop_toBottomOf="parent">
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/textView7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="@string/usual_answer"
+                    android:text="@string/personal_suggest"
                     android:textColor="@color/b2"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -541,7 +531,7 @@
                     android:layout_height="0.5dp"
                     android:background="@color/b2"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/textView8"
+                    app:layout_constraintEnd_toStartOf="@+id/textView7"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <View
@@ -549,14 +539,16 @@
                     android:layout_height="0.5dp"
                     android:background="@color/b2"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView8"
+                    app:layout_constraintStart_toEndOf="@+id/textView7"
                     app:layout_constraintTop_toTopOf="parent" />
             </android.support.constraint.ConstraintLayout>
 
             <TextView
+                android:id="@+id/tv_suggest_prop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginHorizontal="16dp"
                 android:background="@drawable/f5_b_fb_c"
                 android:padding="18dp" />
 
@@ -596,6 +588,13 @@
                     app:layout_constraintStart_toEndOf="@+id/textView9"
                     app:layout_constraintTop_toTopOf="parent" />
             </android.support.constraint.ConstraintLayout>
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/lineChart"
+                android:layout_width="match_parent"
+                android:background="@color/fb"
+                android:layout_margin="16dp"
+                android:layout_height="230dp"
+                android:layout_centerInParent="true"/>
         </LinearLayout>
     </ScrollView>
 

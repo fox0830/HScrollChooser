@@ -18,12 +18,12 @@ import java.util.ArrayList;
 
 public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHolder> {
     Context context;
-    ArrayList<String> pictures = new ArrayList<>();
+    ArrayList<String> datas = new ArrayList<>();
     ArrayList<String> hasSelectPictures = new ArrayList<>();
 
-    public PictureAdapter(Context context, ArrayList<String> pictures, ArrayList<String> hasSelectPictures) {
+    public PictureAdapter(Context context, ArrayList<String> datas, ArrayList<String> hasSelectPictures) {
         this.context = context;
-        this.pictures = pictures;
+        this.datas = datas;
         this.hasSelectPictures = hasSelectPictures;
     }
 
@@ -37,12 +37,12 @@ public class PictureAdapter extends RecyclerView.Adapter<PictureAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull PictureAdapter.ViewHolder viewHolder, final int i) {
-//        Glide.with(context).load(pictures.get(i).getPath()).into(viewHolder.iv_pic);
+//        Glide.with(context).load(datas.get(i).getPath()).into(viewHolder.iv_pic);
     }
 
     @Override
     public int getItemCount() {
-        return pictures.size();
+        return datas.size();
     }
 
 

@@ -63,14 +63,14 @@ public class Member extends BasicModule {
     public void GetArrayList(BasicReq req, final ReqCallBack<BasicResponseBody<ArrayList>> reqCallBack) {
         get(mContext, "member.php", req, reqCallBack, ArrayList.class);
     }
+    public void GetObject(BasicReq req, final ReqCallBack<BasicResponseBody<Object>> reqCallBack) {
+        get(mContext, "member.php", req, reqCallBack, Object.class);
+    }
 
     public void GetCinchData(BasicReq req, final ReqCallBack<BasicResponseBody<CinchData>> reqCallBack) {
         get(mContext, "member.php", req, reqCallBack, CinchData.class);
     }
 
-    public void GetObject(BasicReq req, final ReqCallBack<BasicResponseBody<Object>> reqCallBack) {
-        get(mContext, "member.php", req, reqCallBack, Object.class);
-    }
 //    public void UploadPic(UploadPicReq req, final ReqCallBack<BasicResponseBody<Object>> reqCallBack) {
 //        fileUpload(mContext, "member.php",req, reqCallBack, Object.class);
 //    }

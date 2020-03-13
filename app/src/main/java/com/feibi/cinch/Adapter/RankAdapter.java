@@ -16,12 +16,12 @@ import java.util.ArrayList;
 
 public class RankAdapter extends RecyclerView.Adapter<RankAdapter.ViewHolder> {
     Context context;
-    ArrayList<String> pictures = new ArrayList<>();
+    ArrayList<String> datas = new ArrayList<>();
     RankAdapter.OnItemClickListener onItemClickListener;
     boolean isEdit = false;
-    public RankAdapter(Context context, ArrayList<String> pictures,boolean isEdit) {
+    public RankAdapter(Context context, ArrayList<String> datas,boolean isEdit) {
         this.context = context;
-        this.pictures = pictures;
+        this.datas = datas;
         this.isEdit = isEdit;
     }
 
@@ -61,7 +61,7 @@ public class RankAdapter extends RecyclerView.Adapter<RankAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return pictures.size();
+        return datas.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

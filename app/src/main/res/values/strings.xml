@@ -79,6 +79,7 @@
     <string name="often">常常</string>
     <string name="sometime">偶爾</string>
     <string name="little">很少</string>
+    <string name="no_answer">無數據</string>
     <string name="question1">1、一周超過3次超時工作或超過12點睡</string>
     <string name="question2">2、能搭車就不會走路,或每週至少吃2次以上甜點或喝含糖飮料</string>
     <string name="question3">3、一週超過3次需應酬吃大餐或喝酒,或餐餐一定要吃到飽</string>
@@ -103,7 +104,7 @@
 
     <!--    揪團瘦-->
     <string name="search_activity">搜尋想參加的揪團活動</string>
-    <string name="no_search_task">查無此任務</string>
+    <string name="no_search_task">查無任務</string>
     <string name="scan_to_join_task">掃碼加入任務</string>
     <string name="confirm_join_task">確認加入任務</string>
     <string name="task_list">任務列表</string>
@@ -177,6 +178,8 @@
     <string name="personal_suggest">個人專屬營養建議</string>
     <string name="more_standard">超標</string>
     <string name="normal">正常</string>
+    <string name="normal_value">正常\n&lt;24</string>
+    <string name="more_standard_value">超標\n≥24</string>
     <string name="standard">標準</string>
     <string name="fat_more_data">體脂肪超標數據</string>
     <string name="little30age">30歲以下</string>

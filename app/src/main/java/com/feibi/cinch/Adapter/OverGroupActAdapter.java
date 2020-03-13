@@ -16,12 +16,12 @@ import java.util.ArrayList;
 
 public class OverGroupActAdapter extends RecyclerView.Adapter<OverGroupActAdapter.ViewHolder> {
     Context context;
-    ArrayList<String> pictures = new ArrayList<>();
+    ArrayList<String> datas = new ArrayList<>();
     OverGroupActAdapter.OnItemClickListener onItemClickListener;
 
-    public OverGroupActAdapter(Context context, ArrayList<String> pictures) {
+    public OverGroupActAdapter(Context context, ArrayList<String> datas) {
         this.context = context;
-        this.pictures = pictures;
+        this.datas = datas;
     }
 
     @NonNull
@@ -58,7 +58,7 @@ public class OverGroupActAdapter extends RecyclerView.Adapter<OverGroupActAdapte
 
     @Override
     public int getItemCount() {
-        return pictures.size();
+        return datas.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -14,11 +14,11 @@ import java.util.ArrayList;
 
 public class JoinTaskAdapter   extends RecyclerView.Adapter<JoinTaskAdapter.ViewHolder> {
     Context context;
-    ArrayList<String> pictures = new ArrayList<>();
+    ArrayList<String> datas = new ArrayList<>();
     JoinTaskAdapter.OnItemClickListener onItemClickListener;
-    public JoinTaskAdapter(Context context, ArrayList<String> pictures, JoinTaskAdapter.OnItemClickListener onItemClickListener) {
+    public JoinTaskAdapter(Context context, ArrayList<String> datas, JoinTaskAdapter.OnItemClickListener onItemClickListener) {
         this.context = context;
-        this.pictures = pictures;
+        this.datas = datas;
         this.onItemClickListener=onItemClickListener;
     }
 
@@ -42,7 +42,7 @@ public class JoinTaskAdapter   extends RecyclerView.Adapter<JoinTaskAdapter.View
 
     @Override
     public int getItemCount() {
-        return pictures.size();
+        return datas.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

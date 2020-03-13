@@ -8,17 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.feibi.cinch.NetWork.respond.TaskData;
 import com.feibi.cinch.R;
 
 import java.util.ArrayList;
 
 public class GropActAdapter  extends RecyclerView.Adapter<GropActAdapter.ViewHolder> {
     Context context;
-    ArrayList<String> pictures = new ArrayList<>();
+    ArrayList<TaskData> datas = new ArrayList<>();
     OnItemClickListener onItemClickListener;
-    public GropActAdapter(Context context, ArrayList<String> pictures,OnItemClickListener onItemClickListener) {
+    public GropActAdapter(Context context, ArrayList<TaskData> datas,OnItemClickListener onItemClickListener) {
         this.context = context;
-        this.pictures = pictures;
+        this.datas = datas;
         this.onItemClickListener=onItemClickListener;
     }
 
@@ -38,11 +39,14 @@ public class GropActAdapter  extends RecyclerView.Adapter<GropActAdapter.ViewHol
                 onItemClickListener.onClick(i,view);
             }
         });
+        viewHolder.tv_time.setText(datas.get(i).getTask_update());
+        viewHolder.tv_time_area.setText(datas.get(i).getTask_date());
+        viewHolder.tv_activity_name.setText(datas.get(i).getTask_name());
     }
 
     @Override
     public int getItemCount() {
-        return pictures.size();
+        return datas.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

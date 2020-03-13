@@ -14,16 +14,26 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.feibi.cinch.Adapter.GropActAdapter;
+import com.feibi.cinch.NetWork.basic.BasicReq;
+import com.feibi.cinch.NetWork.module.Team;
+import com.feibi.cinch.NetWork.request.OnlyLcIdReq;
+import com.feibi.cinch.NetWork.respond.TaskData;
 import com.feibi.cinch.R;
 import com.feibi.cinch.UI.Basic.BasicActivity;
+import com.feibi.cinch.utils.Global;
+import com.feibi.cinch.utils.GsonUtil;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
+
+import jh.app.android.basiclibrary.entity.BasicResponseBody;
+import jh.app.android.basiclibrary.network.ReqCallBack;
 
 public class GroupThinActivity extends BasicActivity {
 
     RecyclerView rv_activity;
     GropActAdapter gropActAdapter;
-    ArrayList<String> data = new ArrayList<>();
+    ArrayList<TaskData> data = new ArrayList<>();
     EditText et_input;
     LinearLayout ll_no_result;
 
@@ -50,6 +60,7 @@ public class GroupThinActivity extends BasicActivity {
                 return false;
             }
         });
+        getGroupThin();
     }
 
     @Override
@@ -66,19 +77,35 @@ public class GroupThinActivity extends BasicActivity {
                 break;
         }
     }
+    public void getGroupThin(){
+        showLoading();
+        new Team(this).GetArrayList(new BasicReq("lctasklist", new OnlyLcIdReq(Global.cinchData.getLc_id())), new ReqCallBack<BasicResponseBody<ArrayList>>() {
+            @Override
+            public void onReqSuccess(BasicResponseBody<ArrayList> result) {
+                data.clear();
+                for (int i = 0; i < result.getData().size(); i++) {
+                    String json = new Gson().toJson(result.getData().get(i));
+                    try {
+                        TaskData taskData = (TaskData) GsonUtil.str2Obj(json, TaskData.class);
+                        data.add(taskData);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                gropActAdapter.notifyDataSetChanged();
+                dismissLoading();
+                ll_no_result.setVisibility(gropActAdapter.getItemCount()>0?View.VISIBLE:View.GONE);
+            }
+
+            @Override
+            public void onReqFailed(BasicResponseBody result) {
+                showToast(result.getMsg());
+                dismissLoading();
+            }
+        });
+    }
 
     private void initAdapter() {
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
         gropActAdapter = new GropActAdapter(this, data, new GropActAdapter.OnItemClickListener() {
             @Override
             public void onClick(int pos, View view) {

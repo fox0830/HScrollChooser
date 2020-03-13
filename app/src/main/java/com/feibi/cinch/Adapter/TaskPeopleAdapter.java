@@ -16,11 +16,11 @@ import java.util.ArrayList;
 
 public class TaskPeopleAdapter  extends RecyclerView.Adapter<TaskPeopleAdapter.ViewHolder> {
     Context context;
-    ArrayList<String> pictures = new ArrayList<>();
+    ArrayList<String> datas = new ArrayList<>();
     TaskPeopleAdapter.OnItemClickListener onItemClickListener;
-    public TaskPeopleAdapter(Context context, ArrayList<String> pictures,OnItemClickListener onItemClickListener) {
+    public TaskPeopleAdapter(Context context, ArrayList<String> datas,OnItemClickListener onItemClickListener) {
         this.context = context;
-        this.pictures = pictures;
+        this.datas = datas;
         this.onItemClickListener = onItemClickListener;
     }
 
@@ -46,7 +46,7 @@ public class TaskPeopleAdapter  extends RecyclerView.Adapter<TaskPeopleAdapter.V
 
     @Override
     public int getItemCount() {
-        return pictures.size();
+        return datas.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

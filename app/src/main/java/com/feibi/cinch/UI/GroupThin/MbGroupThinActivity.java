@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.feibi.cinch.Adapter.FriendAdapter;
 import com.feibi.cinch.Adapter.GropActAdapter;
 import com.feibi.cinch.Adapter.OverGroupActAdapter;
+import com.feibi.cinch.NetWork.respond.TaskData;
 import com.feibi.cinch.R;
 import com.feibi.cinch.UI.Account.RegisterActivity;
 import com.feibi.cinch.UI.AddFriend.MyFriendActivity;
@@ -34,7 +35,7 @@ public class MbGroupThinActivity extends BasicActivity {
     RecyclerView rv_over_group_thin;
     GropActAdapter gropActAdapter;
     OverGroupActAdapter overGroupActAdapter;
-    ArrayList<String> data = new ArrayList<>();
+    ArrayList<TaskData> data = new ArrayList<>();
     EditText et_input;
     LinearLayout ll_no_result;
     TextView tv_ing, tv_over;
@@ -118,17 +119,6 @@ public class MbGroupThinActivity extends BasicActivity {
     }
 
     private void initAdapter() {
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
-        data.add("1");
         gropActAdapter = new GropActAdapter(this, data, new GropActAdapter.OnItemClickListener() {
             @Override
             public void onClick(int pos, View view) {
@@ -151,6 +141,6 @@ public class MbGroupThinActivity extends BasicActivity {
                 popup.show();
             }
         });
-        overGroupActAdapter = new OverGroupActAdapter(this, data);
+        overGroupActAdapter = new OverGroupActAdapter(this, new ArrayList<String>());
     }
 }
