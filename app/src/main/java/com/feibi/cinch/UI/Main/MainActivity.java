@@ -33,6 +33,7 @@ import com.feibi.cinch.UI.AddFriend.MyFriendActivity;
 import com.feibi.cinch.UI.Basic.BasicActivity;
 import com.feibi.cinch.UI.GroupThin.GroupThinActivity;
 import com.feibi.cinch.UI.GroupThin.MbGroupThinActivity;
+import com.feibi.cinch.UI.View.MyDialog;
 import com.feibi.cinch.utils.Global;
 import com.feibi.cinch.utils.GsonUtil;
 import com.feibi.cinch.utils.PreferencesUtil;
@@ -59,6 +60,7 @@ public class MainActivity extends BasicActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        check = true;
         setContentView(R.layout.activity_main);
         checkPermission();
         banner = findViewById(R.id.banner);
@@ -97,15 +99,9 @@ public class MainActivity extends BasicActivity implements View.OnClickListener 
         findViewById(R.id.cl_group_thin).setOnClickListener(this);
         findViewById(R.id.cl_love_share).setOnClickListener(this);
 
-        Global.useType = PreferencesUtil.getUseType(this);
-        if(Global.MERCHANT.equals(Global.useType)||Global.CINCH.equals(Global.useType)){
-            cl_add_friend.setVisibility(Global.MERCHANT.equals(Global.useType) ? View.VISIBLE : View.GONE);
-            cl_personal_data.setVisibility(Global.MERCHANT.equals(Global.useType) ? View.GONE : View.VISIBLE);
-            ll_logout.setVisibility(Global.MERCHANT.equals(Global.useType) ? View.VISIBLE : View.GONE);
-        }else {
-            showToast(getString(R.string.local_data_err));
-            finish();
-        }
+        cl_add_friend.setVisibility(isMb() ? View.VISIBLE : View.GONE);
+        cl_personal_data.setVisibility(isMb() ? View.GONE : View.VISIBLE);
+        ll_logout.setVisibility(isMb() ? View.VISIBLE : View.GONE);
 
         tv_slogan = findViewById(R.id.tv_slogan);
         tv_slogan.setText(getString(R.string.slogan));
@@ -113,7 +109,7 @@ public class MainActivity extends BasicActivity implements View.OnClickListener 
     }
 
     public void getSlogan() {
-        new Member(this).GetArrayList(new BasicReq("slogan",new SloganReq("1")), new ReqCallBack<BasicResponseBody<ArrayList>>() {
+        new Member(this).GetArrayList(new BasicReq("slogan", new SloganReq("1")), new ReqCallBack<BasicResponseBody<ArrayList>>() {
             @Override
             public void onReqSuccess(BasicResponseBody<ArrayList> result) {
                 ArrayList<SloganData> slogans = new ArrayList<>();
@@ -231,10 +227,15 @@ public class MainActivity extends BasicActivity implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_logout:
-                PreferencesUtil.saveUseType(this, "");
-                PreferencesUtil.saveCinchData(this, "");
-                Global.cinchData = new CinchData();
-                startActivity(new Intent(this, LoginActivity.class));
+                new MyDialog(this).setTitle("確認登出？").setNegativeButton("確定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        PreferencesUtil.saveUseType(MainActivity.this, "");
+                        PreferencesUtil.saveCinchData(MainActivity.this, "");
+                        Global.cinchData = new CinchData();
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    }
+                }).setPositiveButton("取消", null).show();
                 break;
             case R.id.cl_add_friend:
                 startActivity(new Intent(this, MyFriendActivity.class));
@@ -243,9 +244,9 @@ public class MainActivity extends BasicActivity implements View.OnClickListener 
                 startActivity(new Intent(this, PersonalDataActivity.class));
                 break;
             case R.id.cl_group_thin:
-                if(Global.MERCHANT.equals(Global.useType)){
+                if (isMb()) {
                     startActivity(new Intent(this, MbGroupThinActivity.class));
-                }else {
+                } else {
                     startActivity(new Intent(this, GroupThinActivity.class));
                 }
                 break;

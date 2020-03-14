@@ -1,6 +1,7 @@
 package com.feibi.cinch.UI.Basic;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
@@ -15,8 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.feibi.cinch.NetWork.respond.CinchData;
 import com.feibi.cinch.R;
+import com.feibi.cinch.UI.Account.LoginActivity;
 import com.feibi.cinch.UI.View.LoadingDialog;
+import com.feibi.cinch.utils.Global;
+import com.feibi.cinch.utils.GsonUtil;
+import com.feibi.cinch.utils.PreferencesUtil;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -30,7 +36,7 @@ public abstract class BasicActivity extends AppCompatActivity implements View.On
     LoadingDialog loadingDialog;
     TextView tv_wait_tip;
     String tips = "";
-
+    protected boolean check = false;
     @Subscribe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +71,14 @@ public abstract class BasicActivity extends AppCompatActivity implements View.On
         ActivityUtils.addActivity(this);
         setBlackTextStatusBar(true);
         initLoadingDialog();
+        Global.useType = PreferencesUtil.getUseType(this);
+        Global.MbNo = PreferencesUtil.getMbNo(this);
+        try {
+            String jsonStr = PreferencesUtil.getCinchData(this);
+            Global.cinchData = (CinchData) GsonUtil.str2Obj(jsonStr, CinchData.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @TargetApi(19)
@@ -88,7 +102,11 @@ public abstract class BasicActivity extends AppCompatActivity implements View.On
     @Override
     protected void onResume() {
         super.onResume();
-
+        if (!Global.MERCHANT.equals(Global.useType) && !Global.CINCH.equals(Global.useType)&&check) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            showToast(getString(R.string.local_data_err));
+        }
     }
 
     @Override
@@ -113,6 +131,10 @@ public abstract class BasicActivity extends AppCompatActivity implements View.On
                 showToast(msg, Toast.LENGTH_SHORT);
             }
         });
+    }
+
+    public boolean isMb() {
+        return Global.MERCHANT.equals(Global.useType);
     }
 
     protected void setSystemBarHeight() {

@@ -19,7 +19,9 @@ import android.widget.TextView;
 import com.feibi.cinch.Adapter.FriendAdapter;
 import com.feibi.cinch.NetWork.basic.BasicReq;
 import com.feibi.cinch.NetWork.module.Member;
+import com.feibi.cinch.NetWork.request.ChangeDataReq;
 import com.feibi.cinch.NetWork.request.GetFriendListReq;
+import com.feibi.cinch.NetWork.request.MbLcReq;
 import com.feibi.cinch.NetWork.respond.FriendData;
 import com.feibi.cinch.R;
 import com.feibi.cinch.UI.Account.RegisterActivity;
@@ -49,11 +51,13 @@ public class MyFriendActivity extends BasicActivity {
     TextView tv_old_friend, tv_new_friend;
     boolean isOldFriend = true;
     CustomDialog deleteDialog;
+    String controlLcId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_friend);
+        check = true;
         findViewById(R.id.iv_back).setOnClickListener(this);
         findViewById(R.id.iv_clear_input).setOnClickListener(this);
         findViewById(R.id.iv_add_friend).setOnClickListener(this);
@@ -82,9 +86,37 @@ public class MyFriendActivity extends BasicActivity {
                 return false;
             }
         });
-        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_delete, null);
-        deleteDialog = new CustomDialog(this, dialogView);
         getFriends();
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_delete, null);
+        dialogView.findViewById(R.id.tv_confirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteDialog.dismiss();
+                if (!TextUtils.isEmpty(controlLcId)) {
+                    showLoading();
+                    new Member(MyFriendActivity.this).GetObject(new BasicReq("deletelc", new MbLcReq(Global.MbNo, controlLcId)), new ReqCallBack<BasicResponseBody<Object>>() {
+                        @Override
+                        public void onReqSuccess(BasicResponseBody<Object> result) {
+                            dismissLoading();
+                            getFriends();
+                        }
+
+                        @Override
+                        public void onReqFailed(BasicResponseBody result) {
+                            showToast(result.getMsg());
+                            dismissLoading();
+                        }
+                    });
+                }
+            }
+        });
+        dialogView.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteDialog.dismiss();
+            }
+        });
+        deleteDialog = new CustomDialog(this, dialogView);
     }
 
     @Override
@@ -111,8 +143,8 @@ public class MyFriendActivity extends BasicActivity {
     }
 
     private void getFriends() {
-        Global.MbNo = PreferencesUtil.getMbNo(this);
-        new Member(this).GetArrayList(new BasicReq("listlc",new GetFriendListReq("o", Global.MbNo)), new ReqCallBack<BasicResponseBody<ArrayList>>() {
+        showLoading();
+        new Member(this).GetArrayList(new BasicReq("listlc", new GetFriendListReq("o", Global.MbNo)), new ReqCallBack<BasicResponseBody<ArrayList>>() {
             @Override
             public void onReqSuccess(BasicResponseBody<ArrayList> result) {
                 oldFriendDataArrayList.clear();
@@ -127,15 +159,17 @@ public class MyFriendActivity extends BasicActivity {
                     }
                 }
                 oldFriendAdapter.notifyDataSetChanged();
+                dismissLoading();
                 refreshUI();
             }
 
             @Override
             public void onReqFailed(BasicResponseBody result) {
+                dismissLoading();
                 showToast(result.getMsg());
             }
         });
-        new Member(this).GetArrayList(new BasicReq("listlc",new GetFriendListReq("n", Global.MbNo)), new ReqCallBack<BasicResponseBody<ArrayList>>() {
+        new Member(this).GetArrayList(new BasicReq("listlc", new GetFriendListReq("n", Global.MbNo)), new ReqCallBack<BasicResponseBody<ArrayList>>() {
             @Override
             public void onReqSuccess(BasicResponseBody<ArrayList> result) {
                 newFriendDataArrayList.clear();
@@ -178,6 +212,16 @@ public class MyFriendActivity extends BasicActivity {
     FriendAdapter.OnItemClickListener onItemClickListener = new FriendAdapter.OnItemClickListener() {
         @Override
         public void onClick(int pos, View view) {
+            controlLcId = "";
+            if (isOldFriend) {
+                controlLcId = oldFriendAdapter.getItem(pos).getLc_id();
+            } else {
+                controlLcId = newFriendAdapter.getItem(pos).getLc_id();
+            }
+            if (TextUtils.isEmpty(controlLcId)) {
+                showToast(getString(R.string.get_useid_err));
+                return;
+            }
             PopupMenu popup = new PopupMenu(MyFriendActivity.this, view);
             MenuInflater inflater = popup.getMenuInflater();
             inflater.inflate(R.menu.control_friend, popup.getMenu());
@@ -185,17 +229,7 @@ public class MyFriendActivity extends BasicActivity {
                 public boolean onMenuItemClick(MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.see_friend:
-                            String CinchId = "";
-                            if(isOldFriend){
-                                CinchId = oldFriendAdapter.getItem(pos).getLc_id();
-                            }else {
-                                CinchId = newFriendAdapter.getItem(pos).getLc_id();
-                            }
-                            if(TextUtils.isEmpty(CinchId)){
-                                showToast(getString(R.string.get_useid_err));
-                            }else {
-                                startActivity(new Intent(MyFriendActivity.this, FriendDataActivity.class).putExtra("CinchId",CinchId));
-                            }
+                            startActivity(new Intent(MyFriendActivity.this, FriendDataActivity.class).putExtra("CinchId", controlLcId));
                             break;
                         case R.id.delete_friend:
                             deleteDialog.show();

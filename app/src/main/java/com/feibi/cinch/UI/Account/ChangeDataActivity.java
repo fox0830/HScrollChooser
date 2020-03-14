@@ -32,6 +32,7 @@ public class ChangeDataActivity extends BasicActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        check = true;
         setContentView(R.layout.activity_change_data);
         findViewById(R.id.ll_head).setOnClickListener(this);
         findViewById(R.id.iv_back).setOnClickListener(this);
@@ -70,15 +71,7 @@ public class ChangeDataActivity extends BasicActivity {
         /**
          * 判斷用戶類型
          */
-        Global.useType = PreferencesUtil.getUseType(this);
-        if (Global.MERCHANT.equals(Global.useType)) {
-            ll_suggest.setVisibility(View.GONE);
-        } else if (Global.CINCH.equals(Global.useType)) {
-            ll_suggest.setVisibility(View.VISIBLE);
-        } else {
-            showToast(getString(R.string.local_data_err));
-            finish();
-        }
+        ll_suggest.setVisibility(isMb() ? View.VISIBLE : View.GONE);
 
     }
 
@@ -113,7 +106,8 @@ public class ChangeDataActivity extends BasicActivity {
                 }
                 showLoading();
                 //自己修改自己，mb_no 傳空
-                new Member(this).GetObject(new BasicReq("modifylc",new ChangeDataReq("", Global.cinchData.getLc_id(),
+                String mb_no = isMb()?Global.MbNo:"";
+                new Member(this).GetObject(new BasicReq("modifylc", new ChangeDataReq(mb_no, Global.cinchData.getLc_id(),
                         lc_name, lc_tel, lc_age, lc_sex, lc_tall, lc_weight, lc_bmi, lc_fat, lc_target, lc_remark)), new ReqCallBack<BasicResponseBody<Object>>() {
                     @Override
                     public void onReqSuccess(BasicResponseBody<Object> result) {
@@ -128,6 +122,8 @@ public class ChangeDataActivity extends BasicActivity {
                         showToast(result.getMsg());
                     }
                 });
+
+                //todo 修改講義產品
                 break;
         }
     }

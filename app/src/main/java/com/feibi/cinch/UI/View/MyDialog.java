@@ -22,10 +22,18 @@ public class MyDialog {
     private Context context;
     private Dialog dialog;
     private LinearLayout lLayout_bg;
+    private LinearLayout ll_two_btn;
+    private ImageView iv_icon;
+    private TextView txt_title;
+    private TextView txt_msg;
+    private TextView btn_pos;
+    private TextView btn_neg;
     private Display display;
     private boolean showIcon = false;
     private boolean showTitle = false;
     private boolean showMsg = false;
+    private boolean showPosBtn = false;
+    private boolean showNegBtn = false;
 
     public MyDialog(Context context) {
         this.context = context;
@@ -39,23 +47,17 @@ public class MyDialog {
         View view = LayoutInflater.from(context).inflate(
                 R.layout.view_alert_dialog, null);
         lLayout_bg = (LinearLayout) view.findViewById(R.id.lLayout_bg);
+        ll_two_btn = (LinearLayout) view.findViewById(R.id.ll_two_btn);
+        iv_icon = (ImageView) view.findViewById(R.id.iv_icon);
+        txt_title = (TextView) view.findViewById(R.id.txt_title);
+        txt_msg = (TextView) view.findViewById(R.id.txt_msg);
+        btn_pos = view.findViewById(R.id.btn_pos);
+        btn_neg = view.findViewById(R.id.btn_neg);
         dialog = new Dialog(context, R.style.AlertDialogStyle);
         dialog.setContentView(view);
         lLayout_bg.setLayoutParams(new FrameLayout.LayoutParams((int) (display
-                .getWidth() * 0.6), ViewGroup.LayoutParams.WRAP_CONTENT));
+                .getWidth() * 0.7), ViewGroup.LayoutParams.WRAP_CONTENT));
         setGone();
-//        ll_close.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dismiss();
-//            }
-//        });
-//        ll_done.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dismiss();
-//            }
-//        });
         return this;
     }
 
@@ -66,13 +68,16 @@ public class MyDialog {
      */
     public MyDialog setGone() {
         if (lLayout_bg != null) {
-//            iv_icon.setVisibility(View.GONE);
-//            txt_title.setVisibility(View.GONE);
-//            txt_msg.setVisibility(View.GONE);
+            iv_icon.setVisibility(View.GONE);
+            txt_title.setVisibility(View.GONE);
+            txt_msg.setVisibility(View.GONE);
+            btn_pos.setVisibility(View.GONE);
         }
         showIcon = false;
         showTitle = false;
         showMsg = false;
+        showPosBtn = false;
+        showNegBtn = false;
         return this;
     }
 
@@ -83,11 +88,12 @@ public class MyDialog {
      */
     public MyDialog setIcon(Drawable drawable) {
         showIcon = true;
-        if (drawable!=null) {
-//            iv_icon.setImageDrawable(drawable);
+        if (drawable != null) {
+            iv_icon.setImageDrawable(drawable);
         }
         return this;
     }
+
     /**
      * 设置title
      *
@@ -97,9 +103,9 @@ public class MyDialog {
     public MyDialog setTitle(String title) {
         showTitle = true;
         if (TextUtils.isEmpty(title)) {
-//            txt_title.setText("提示");
+            txt_title.setText("提示");
         } else {
-//            txt_title.setText(title);
+            txt_title.setText(title);
         }
         return this;
     }
@@ -113,15 +119,16 @@ public class MyDialog {
     public MyDialog setMsg(String msg) {
         showMsg = true;
         if (TextUtils.isEmpty(msg)) {
-//            txt_msg.setText("");
+            txt_msg.setText("");
         } else {
-//            txt_msg.setText(msg);
+            txt_msg.setText(msg);
         }
         return this;
     }
 
     /**
      * 设置点击外部是否消失
+     *
      * @param cancel
      * @return
      */
@@ -131,37 +138,68 @@ public class MyDialog {
     }
 
     /**
+     * 右侧按钮
      *
+     * @param text
      * @param listener
      * @return
      */
-    public MyDialog setDoneButton(final View.OnClickListener listener) {
-//        ll_done.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (listener != null)
-//                    listener.onClick(v);
-//                dismiss();
-//            }
-//        });
+    public MyDialog setPositiveButton(String text,
+                                      final View.OnClickListener listener) {
+        return setPositiveButton(text, -1, listener);
+    }
+
+    public MyDialog setPositiveButton(String text, int color,
+                                      final View.OnClickListener listener) {
+        showPosBtn = true;
+        if (text == null) {
+            btn_pos.setText("");
+        } else {
+            btn_pos.setText(text);
+        }
+        if (color == -1) {
+            color = R.color.black;
+        }
+        btn_pos.setTextColor(ContextCompat.getColor(context, color));
+        btn_pos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null)
+                    listener.onClick(v);
+                dismiss();
+            }
+        });
         return this;
     }
 
-    /**
-     *
-     * @param listener
-     * @return
-     */
 
-    public MyDialog setCloseButton(final View.OnClickListener listener) {
-//        ll_close.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (listener != null)
-//                    listener.onClick(v);
-//                dismiss();
-//            }
-//        });
+    public MyDialog setNegativeButton(String text,
+                                      final View.OnClickListener listener) {
+
+        return setNegativeButton(text, -1, listener);
+    }
+
+    public MyDialog setNegativeButton(String text, int color,
+                                      final View.OnClickListener listener) {
+        showNegBtn = true;
+        if (text == null) {
+            btn_neg.setText("");
+        } else {
+            btn_neg.setText(text);
+        }
+        if (color == -1) {
+            color = R.color.black;
+        }
+        btn_neg.setTextColor(ContextCompat.getColor(context, color));
+
+        btn_neg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null)
+                    listener.onClick(v);
+                dismiss();
+            }
+        });
         return this;
     }
 
@@ -187,22 +225,34 @@ public class MyDialog {
      * 设置显示
      */
     private void setLayout() {
-//        if (!showTitle && !showMsg) {
-//            txt_title.setText("");
-//            txt_title.setVisibility(View.VISIBLE);
-//        }
-//
-//        if (showIcon) {
-//            iv_icon.setVisibility(View.VISIBLE);
-//        }
-//
-//        if (showTitle) {
-//            txt_title.setVisibility(View.VISIBLE);
-//        }
-//
-//        if (showMsg) {
-//            txt_msg.setVisibility(View.VISIBLE);
-//        }
+        if (!showTitle && !showMsg) {
+            txt_title.setText("");
+            txt_title.setVisibility(View.VISIBLE);
+        }
+
+        if (showIcon) {
+            iv_icon.setVisibility(View.VISIBLE);
+        }
+
+        if (showTitle) {
+            txt_title.setVisibility(View.VISIBLE);
+        }
+
+        if (showMsg) {
+            txt_msg.setVisibility(View.VISIBLE);
+        }
+
+        if (!showPosBtn && !showNegBtn) {
+            ll_two_btn.setVisibility(View.GONE);
+        }
+
+        if (showPosBtn && showNegBtn) {
+            btn_pos.setVisibility(View.VISIBLE);
+        }
+
+        if (showPosBtn && !showNegBtn) {
+            btn_pos.setVisibility(View.VISIBLE);
+        }
     }
 
     public void show() {
@@ -226,5 +276,3 @@ public class MyDialog {
         }
     }
 }
-
-

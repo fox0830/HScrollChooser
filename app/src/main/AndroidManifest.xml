@@ -66,7 +66,8 @@
         <activity android:name=".UI.Main.MainActivity" />
         <activity
             android:name=".UI.Account.LoginActivity"
-            android:hardwareAccelerated="false" />
+            android:hardwareAccelerated="false"
+            android:launchMode="singleTask" />
         <activity android:name=".UI.CutPicture.ClipImageActivity" />
 
         <uses-library

@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -16,6 +17,7 @@ import com.feibi.cinch.NetWork.module.Member;
 import com.feibi.cinch.NetWork.request.GetCinchUserDataReq;
 import com.feibi.cinch.NetWork.respond.CinchData;
 import com.feibi.cinch.R;
+import com.feibi.cinch.UI.Account.ChangeDataActivity;
 import com.feibi.cinch.UI.Account.JoinTaskActivity;
 import com.feibi.cinch.UI.Basic.BasicActivity;
 import com.feibi.cinch.UI.View.CircleProgressBar;
@@ -48,18 +50,33 @@ public class FriendDataActivity extends BasicActivity {
     String lc_id;
     ImageView iv_user_head, iv_sex;
     TextView tv_name, tv_age, tv_tel, tv_height, tv_weight, tv_fat, tv_bmi, tv_target, tv_remark;
+    TextView tv_bmi_value,
+            tv_bmi_status,
+            tv_fat_value,
+            tv_fat_status,
+            tv_explanation,
+            tv_suggest_data,
+            tv_fat_type,
+            tv_fat_type_info;
+    ImageView iv_fat_type;
     CinchData cinchData = new CinchData();
+    CinchData analysisData = new CinchData();
 
     TextView tv_answer, tv_suggest_prop;
     CircleProgressBar circle_progress_bar;
 
     LineChart lineChart;
+    LinearLayout ll_data_analysis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_data);
         findViewById(R.id.iv_back).setOnClickListener(this);
+        findViewById(R.id.tv_data_analysis).setOnClickListener(this);
+        findViewById(R.id.ll_change).setOnClickListener(this);
+        findViewById(R.id.ll_save).setOnClickListener(this);
+        findViewById(R.id.ll_share).setOnClickListener(this);
         lc_id = getIntent().getStringExtra("CinchId");
 
         iv_user_head = findViewById(R.id.iv_user_head);
@@ -80,10 +97,22 @@ public class FriendDataActivity extends BasicActivity {
         tv_suggest_prop = findViewById(R.id.tv_suggest_prop);
         circle_progress_bar = findViewById(R.id.circle_progress_bar);
         circle_progress_bar.setCricleProgressColor(getResources().getColor(R.color.red));
-        circle_progress_bar.setProgress(70);
+        circle_progress_bar.setMax(64);
         circle_progress_bar.setRoundWidth(6);
 
-        lineChart = (LineChart) findViewById(R.id.lineChart);
+        tv_bmi_value = findViewById(R.id.tv_bmi_value);
+        tv_bmi_status = findViewById(R.id.tv_bmi_status);
+        tv_fat_value = findViewById(R.id.tv_fat_value);
+        tv_fat_status = findViewById(R.id.tv_fat_status);
+        tv_explanation = findViewById(R.id.tv_explanation);
+        tv_suggest_data = findViewById(R.id.tv_suggest_data);
+        iv_fat_type = findViewById(R.id.iv_fat_type);
+        tv_fat_type = findViewById(R.id.tv_fat_type);
+        tv_fat_type_info = findViewById(R.id.tv_fat_type_info);
+
+        lineChart = findViewById(R.id.lineChart);
+        ll_data_analysis = findViewById(R.id.ll_data_analysis);
+        ll_data_analysis.setVisibility(View.GONE);
         getUserData();
     }
 
@@ -96,6 +125,16 @@ public class FriendDataActivity extends BasicActivity {
 
             case R.id.ll_task:
                 startActivity(new Intent(this, JoinTaskActivity.class));
+                break;
+            case R.id.tv_data_analysis:
+                getAnalysisData();
+                break;
+            case R.id.ll_change:
+                startActivity(new Intent(this, ChangeDataActivity.class));
+                break;
+            case R.id.ll_save:
+                break;
+            case R.id.ll_share:
                 break;
         }
     }
@@ -139,7 +178,7 @@ public class FriendDataActivity extends BasicActivity {
 
         List<Entry> entries2 = new ArrayList<>();
         for (int i = 0; i < weights.size(); i++) {
-            entries2.add(new Entry(i, weights.get(i) * 2));
+            entries2.add(new Entry(i, weights.get(i)));
         }
         //一个LineDataSet就是一条线
         LineDataSet weightSet = new LineDataSet(entries2, getString(R.string.weight) + "(kg)");
@@ -260,6 +299,25 @@ public class FriendDataActivity extends BasicActivity {
         });
     }
 
+    public void getAnalysisData() {
+        ll_data_analysis.setVisibility(View.GONE);
+        showLoading();
+        new Member(this).GetCinchData(new BasicReq("suggest", new GetCinchUserDataReq(Global.MbNo, lc_id)), new ReqCallBack<BasicResponseBody<CinchData>>() {
+            @Override
+            public void onReqSuccess(BasicResponseBody<CinchData> result) {
+                dismissLoading();
+                analysisData = result.getData();
+                refreshAnalysisDataUI();
+            }
+
+            @Override
+            public void onReqFailed(BasicResponseBody result) {
+                dismissLoading();
+                showToast(result.getMsg());
+            }
+        });
+    }
+
     protected void refreshDataUI() {
         if (cinchData == null) {
             return;
@@ -282,17 +340,109 @@ public class FriendDataActivity extends BasicActivity {
         String answer = "1、" + getAnswer(cinchData.getAns1()) + "    2、" + getAnswer(cinchData.getAns2()) + "    3、" + getAnswer(cinchData.getAns3())
                 + "    4、" + getAnswer(cinchData.getAns4()) + "    5、" + getAnswer(cinchData.getAns5()) + "    6、" + getAnswer(cinchData.getAns6());
         tv_answer.setText(answer);
+//        String suggestProp = "";
+//        for (String prop : cinchData.getSuggest_prod()) {
+//            suggestProp = suggestProp + (prop + "    ");
+//        }
+//        tv_suggest_prop.setText(suggestProp);
+//
+//        ArrayList<Float> fats = new ArrayList<>();
+//        String fat0 = cinchData.getMon1_fat().replace("%", ""); //開始
+//        String fat1 = cinchData.getMon1_fat().replace("%", "");
+//        String fat2 = cinchData.getMon2_fat().replace("%", "");
+//        String fat3 = cinchData.getMon3_fat().replace("%", "");
+//
+//        fats.add(TextUtils.isEmpty(fat0) ? 0f : Float.parseFloat(fat0));
+//        fats.add(TextUtils.isEmpty(fat1) ? 0f : Float.parseFloat(fat1));
+//        fats.add(TextUtils.isEmpty(fat2) ? 0f : Float.parseFloat(fat2));
+//        fats.add(TextUtils.isEmpty(fat3) ? 0f : Float.parseFloat(fat3));
+//
+//        ArrayList<Float> weights = new ArrayList<>();
+//        weights.add(TextUtils.isEmpty(cinchData.getMon1_w()) ? 0f : Float.parseFloat(cinchData.getMon1_w()));
+//        weights.add(TextUtils.isEmpty(cinchData.getMon1_w()) ? 0f : Float.parseFloat(cinchData.getMon1_w()));
+//        weights.add(TextUtils.isEmpty(cinchData.getMon2_w()) ? 0f : Float.parseFloat(cinchData.getMon2_w()));
+//        weights.add(TextUtils.isEmpty(cinchData.getMon3_w()) ? 0f : Float.parseFloat(cinchData.getMon3_w()));
+//        initLineChart(fats, weights);
+
+    }
+
+    protected void refreshAnalysisDataUI() {
+        if (analysisData == null) {
+            return;
+        }
+        ll_data_analysis.setVisibility(View.VISIBLE);
+
+        tv_bmi_value.setText(cinchData.getLc_bmi() + "kg/m²");
+        tv_bmi_status.setText(Integer.parseInt(cinchData.getLc_bmi()) < 24 ? getString(R.string.normal) : getString(R.string.more_standard));
+        tv_bmi_value.setTextColor(Integer.parseInt(cinchData.getLc_bmi()) < 24 ? getResources().getColor(R.color.high_green): getResources().getColor(R.color.red));
+        tv_bmi_status.setTextColor(Integer.parseInt(cinchData.getLc_bmi()) < 24 ? getResources().getColor(R.color.high_green): getResources().getColor(R.color.red));
+//        圓弧
+        circle_progress_bar.setProgress(Integer.parseInt(cinchData.getLc_bmi()));
+        circle_progress_bar.setCricleProgressColor(Integer.parseInt(cinchData.getLc_bmi()) < 24 ? getResources().getColor(R.color.high_green): getResources().getColor(R.color.red));
+
+        Float userFat = Float.parseFloat(cinchData.getLc_fat());
+        tv_fat_value.setText(userFat + "%");
+        if ("1".equals(cinchData.getLc_sex())) {  //男生
+            if (Integer.parseInt(cinchData.getLc_age()) >= 30) {  //有疑問
+                tv_fat_status.setText(userFat > 20 ? getString(R.string.more_standard) : getString(R.string.normal));
+                tv_fat_value.setTextColor(userFat > 20 ? getResources().getColor(R.color.red) : getResources().getColor(R.color.high_green) );
+                tv_fat_status.setTextColor(userFat > 20 ? getResources().getColor(R.color.red) : getResources().getColor(R.color.high_green) );
+            } else {
+                tv_fat_status.setText(userFat > 25 ? getString(R.string.more_standard) : getString(R.string.normal));
+                tv_fat_value.setTextColor(userFat > 25 ? getResources().getColor(R.color.red) : getResources().getColor(R.color.high_green) );
+                tv_fat_status.setTextColor(userFat > 25 ? getResources().getColor(R.color.red) : getResources().getColor(R.color.high_green) );
+            }
+        } else { //女生
+            if (Integer.parseInt(cinchData.getLc_age()) >= 30) {  //有疑問
+                tv_fat_status.setText(userFat > 25 ? getString(R.string.more_standard) : getString(R.string.normal));
+                tv_fat_value.setTextColor(userFat > 25 ? getResources().getColor(R.color.red) : getResources().getColor(R.color.high_green) );
+                tv_fat_status.setTextColor(userFat > 25 ? getResources().getColor(R.color.red) : getResources().getColor(R.color.high_green) );
+            } else {
+                tv_fat_status.setText(userFat > 30 ? getString(R.string.more_standard) : getString(R.string.normal));
+                tv_fat_value.setTextColor(userFat > 30 ? getResources().getColor(R.color.red) : getResources().getColor(R.color.high_green) );
+                tv_fat_status.setTextColor(userFat > 30 ? getResources().getColor(R.color.red) : getResources().getColor(R.color.high_green) );
+            }
+        }
+
+        tv_explanation.setText("此處數據來源有疑問");
+        tv_suggest_data.setText(getString(R.string.fat)+":"+analysisData.getSuggest_fat()+"\n"+getString(R.string.weight)+":"+analysisData.getSuggest_w());
+
+        tv_fat_type.setText(analysisData.getFat_kind_name());
+        tv_fat_type_info.setText(analysisData.getExplanation());
+        tv_fat_type.setTextColor(getResources().getColor(R.color.red));
+        if("健康族".equals(analysisData.getFat_kind_name())){
+            tv_fat_type.setTextColor(getResources().getColor(R.color.high_green));
+            iv_fat_type.setImageDrawable(getDrawable(R.mipmap.fat_jkz));
+//            tv_fat_type_info.setText(getString(R.string.fat1_info));
+        }else if("糖切族".equals(analysisData.getFat_kind_name())){
+            iv_fat_type.setImageDrawable(getDrawable(R.mipmap.fat_tqz));
+//            tv_fat_type_info.setText(getString(R.string.fat2_info));
+        }else if("油切族".equals(analysisData.getFat_kind_name())){
+            iv_fat_type.setImageDrawable(getDrawable(R.mipmap.fat_yqz));
+//            tv_fat_type_info.setText(getString(R.string.fat3_info));
+        }else if("代謝厭力族".equals(analysisData.getFat_kind_name())){
+            iv_fat_type.setImageDrawable(getDrawable(R.mipmap.fat_dxyl));
+//            tv_fat_type_info.setText(getString(R.string.fat4_info));
+        }else if("消化不良族".equals(analysisData.getFat_kind_name())){
+            iv_fat_type.setImageDrawable(getDrawable(R.mipmap.fat_xhbl));
+//            tv_fat_type_info.setText(getString(R.string.fat5_info));
+        }else if("特殊族群".equals(analysisData.getFat_kind_name())){
+            tv_fat_type.setTextColor(getResources().getColor(R.color.high_green));
+            iv_fat_type.setImageDrawable(getDrawable(R.mipmap.fat_tszq));
+//            tv_fat_type_info.setText(getString(R.string.fat6_info));
+        }
+
         String suggestProp = "";
-        for (String prop : cinchData.getSuggest_prod()) {
+        for (String prop : analysisData.getSuggest_prod()) {
             suggestProp = suggestProp + (prop + "    ");
         }
         tv_suggest_prop.setText(suggestProp);
 
         ArrayList<Float> fats = new ArrayList<>();
-        String fat0 = cinchData.getMon1_fat().replace("%", ""); //開始
-        String fat1 = cinchData.getMon1_fat().replace("%", "");
-        String fat2 = cinchData.getMon2_fat().replace("%", "");
-        String fat3 = cinchData.getMon3_fat().replace("%", "");
+        String fat0 = cinchData.getLc_fat().replace("%", ""); //開始
+        String fat1 = analysisData.getMon1_fat().replace("%", "");
+        String fat2 = analysisData.getMon2_fat().replace("%", "");
+        String fat3 = analysisData.getMon3_fat().replace("%", "");
 
         fats.add(TextUtils.isEmpty(fat0) ? 0f : Float.parseFloat(fat0));
         fats.add(TextUtils.isEmpty(fat1) ? 0f : Float.parseFloat(fat1));
@@ -300,10 +450,10 @@ public class FriendDataActivity extends BasicActivity {
         fats.add(TextUtils.isEmpty(fat3) ? 0f : Float.parseFloat(fat3));
 
         ArrayList<Float> weights = new ArrayList<>();
-        weights.add(TextUtils.isEmpty(cinchData.getMon1_w())?0f:Float.parseFloat(cinchData.getMon1_w()));
-        weights.add(TextUtils.isEmpty(cinchData.getMon1_w())?0f:Float.parseFloat(cinchData.getMon1_w()));
-        weights.add(TextUtils.isEmpty(cinchData.getMon2_w())?0f:Float.parseFloat(cinchData.getMon2_w()));
-        weights.add(TextUtils.isEmpty(cinchData.getMon3_w())?0f:Float.parseFloat(cinchData.getMon3_w()));
+        weights.add(TextUtils.isEmpty(cinchData.getLc_weight()) ? 0f : Float.parseFloat(cinchData.getLc_weight()));
+        weights.add(TextUtils.isEmpty(analysisData.getMon1_w()) ? 0f : Float.parseFloat(analysisData.getMon1_w()));
+        weights.add(TextUtils.isEmpty(analysisData.getMon2_w()) ? 0f : Float.parseFloat(analysisData.getMon2_w()));
+        weights.add(TextUtils.isEmpty(analysisData.getMon3_w()) ? 0f : Float.parseFloat(analysisData.getMon3_w()));
         initLineChart(fats, weights);
 
     }

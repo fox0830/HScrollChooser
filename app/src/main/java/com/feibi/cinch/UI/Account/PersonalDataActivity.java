@@ -13,6 +13,8 @@ import com.feibi.cinch.NetWork.request.GetCinchUserDataReq;
 import com.feibi.cinch.NetWork.respond.CinchData;
 import com.feibi.cinch.R;
 import com.feibi.cinch.UI.Basic.BasicActivity;
+import com.feibi.cinch.UI.Main.MainActivity;
+import com.feibi.cinch.UI.View.MyDialog;
 import com.feibi.cinch.utils.Global;
 import com.feibi.cinch.utils.PreferencesUtil;
 
@@ -96,10 +98,16 @@ public class PersonalDataActivity extends BasicActivity {
                 startActivity(new Intent(this, JoinTaskActivity.class));
                 break;
             case R.id.ll_logout:
-                PreferencesUtil.saveUseType(this, "");
-                PreferencesUtil.saveCinchData(this, "");
-                Global.cinchData = new CinchData();
-                startActivity(new Intent(this, LoginActivity.class));
+                new MyDialog(this).setTitle("確認登出？").setNegativeButton("確定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        PreferencesUtil.saveUseType(PersonalDataActivity.this, "");
+                        PreferencesUtil.saveCinchData(PersonalDataActivity.this, "");
+                        Global.cinchData = new CinchData();
+                        startActivity(new Intent(PersonalDataActivity.this, LoginActivity.class));
+                    }
+                }).setPositiveButton("取消",null).show();
+
                 break;
             case R.id.ll_change_pwd:
                 startActivity(new Intent(this, ChangePwdActivity.class));
