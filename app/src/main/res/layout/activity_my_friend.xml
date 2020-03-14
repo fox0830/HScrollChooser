@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:fitsSystemWindows="true"
-    tools:context=".UI.Account.ForgetPwdActivity">
+    tools:context=".UI.AddFriend.MyFriendActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/forget_psw"
+            android:text="@string/add_friend"
             android:textColor="@color/black"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/iv_back"

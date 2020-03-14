@@ -26,6 +26,10 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.ViewHolder
         this.onItemClickListener = onItemClickListener;
     }
 
+    public void setDatas(ArrayList<FriendData> datas){
+        this.datas = datas;
+    }
+
     @NonNull
     @Override
     public FriendAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {

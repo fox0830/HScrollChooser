@@ -119,6 +119,7 @@
 
     <!--    交朋友-->
     <string name="search_name">搜尋名字</string>
+    <string name="search">搜索</string>
     <string name="old_friend">老朋友</string>
     <string name="new_friend">新朋友</string>
     <string name="add_time">加入時間</string>

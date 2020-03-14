@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -86,6 +88,39 @@ public class MyFriendActivity extends BasicActivity {
                 return false;
             }
         });
+        et_input.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String searchKey = et_input.getText().toString();
+                ArrayList<FriendData> searchOldFriendDataArrayList = new ArrayList<>();
+                ArrayList<FriendData> searchNewFriendDataArrayList = new ArrayList<>();
+                for (FriendData friendData : oldFriendDataArrayList) {
+                    if (friendData.getLc_name() != null && friendData.getLc_name().contains(searchKey)) {
+                        searchOldFriendDataArrayList.add(friendData);
+                    }
+                }
+                for (FriendData friendData : newFriendDataArrayList) {
+                    if (friendData.getLc_name() != null && friendData.getLc_name().contains(searchKey)) {
+                        searchNewFriendDataArrayList.add(friendData);
+                    }
+                }
+                oldFriendAdapter.setDatas(searchOldFriendDataArrayList);
+                oldFriendAdapter.notifyDataSetChanged();
+                newFriendAdapter.setDatas(searchNewFriendDataArrayList);
+                newFriendAdapter.notifyDataSetChanged();
+            }
+        });
+
         getFriends();
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_delete, null);
         dialogView.findViewById(R.id.tv_confirm).setOnClickListener(new View.OnClickListener() {
@@ -126,11 +161,19 @@ public class MyFriendActivity extends BasicActivity {
                 finish();
                 break;
             case R.id.tv_old_friend:
+                if (isOldFriend) {
+                    return;
+                }
                 isOldFriend = true;
+                et_input.setText("");
                 refreshUI();
                 break;
             case R.id.tv_new_friend:
+                if (!isOldFriend) {
+                    return;
+                }
                 isOldFriend = false;
+                et_input.setText("");
                 refreshUI();
                 break;
             case R.id.iv_clear_input:
