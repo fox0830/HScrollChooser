@@ -1,41 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.feibi.cinch">
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- 改變wifi狀態權限 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 网络状态改变的权限 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission
-        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- 極光推送權限 -->
-    <permission
-        android:name="com.feibi.cinch.permission.JPUSH_MESSAGE"
-        android:protectionLevel="signature" /> <!-- Required  一些系统要求的权限，如访问网络等 -->
-    <uses-permission android:name="com.feibi.honeywell.permission.JPUSH_MESSAGE" />
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
-    <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> -->
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" /> <!-- <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" /> -->
-    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> -->
-    <!-- <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> -->
-    <!-- Optional for location -->
-    <!-- <uses-permission android:name="android.permission.VIBRATE" /> -->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- 用于开启 debug 版本的应用在6.0 系统上 层叠窗口权限 -->
-    <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
-    <!-- <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> -->
-    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" /> <!-- <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> -->
-    <uses-permission android:name="android.permission.GET_TASKS" />
+    package="com.fox.hscrollchooser">
 
     <application
         android:allowBackup="true"
@@ -45,36 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".UI.AddFriend.FriendDataActivity"></activity>
-        <activity android:name=".UI.GroupThin.PersonalTaskDetailActivity" />
-        <activity android:name=".UI.GroupThin.GroupDetailActivity" />
-        <activity android:name=".UI.GroupThin.AddGroupThinActivity" />
-        <activity android:name=".UI.GroupThin.MbGroupThinActivity" />
-        <activity android:name=".UI.AddFriend.MyFriendActivity" />
-        <activity android:name=".UI.GroupThin.ScanTaskResultActivity" />
-        <activity android:name=".UI.Account.JoinTaskActivity" />
-        <activity android:name=".UI.Account.SeeHeadActivity" />
-        <activity android:name=".UI.Account.ChangeDataActivity" />
-        <activity android:name=".UI.GroupThin.ScanQRActivity" />
-        <activity android:name=".UI.GroupThin.GroupThinActivity" />
-        <activity android:name=".UI.Account.ChangePwdActivity" />
-        <activity android:name=".UI.Account.PersonalDataActivity" />
-        <activity android:name=".UI.Account.ForgetPwdActivity" />
-        <activity
-            android:name=".UI.Account.RegisterActivity"
-            android:hardwareAccelerated="false" />
-        <activity android:name=".UI.Main.MainActivity" />
-        <activity
-            android:name=".UI.Account.LoginActivity"
-            android:hardwareAccelerated="false"
-            android:launchMode="singleTask" />
-        <activity android:name=".UI.CutPicture.ClipImageActivity" />
 
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <activity android:name=".UI.SplashActivity">
+        <activity android:name=".UI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

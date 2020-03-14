@@ -1,8 +1,0 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/see_task"
-        android:title="@string/see_task_data"/>
-    <item
-        android:id="@+id/delete_task"
-        android:title="@string/delete_data"/>
-</menu>
